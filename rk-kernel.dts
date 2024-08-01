@@ -4225,7 +4225,8 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		pinctrl-0 = <0x3f>;
 		interrupts = <0x00 0x96 0x04 0x00>;
 	};
-
+	
+	/**
 	reserved-memory {
 		#address-cells = <0x02>;
 		#size-cells = <0x02>;
@@ -4244,6 +4245,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			phandle = <0xbc>;
 		};
 	};
+	*/
 
 	rockchip-key {
 		compatible = "rockchip,key";
