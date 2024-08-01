@@ -515,14 +515,12 @@
 				endpoint@0 {
 					reg = <0x00>;
 					remote-endpoint = <0x2a>;
-					status = "disabled";
 					phandle = <0xa6>;
 				};
 
 				endpoint@1 {
 					reg = <0x01>;
 					remote-endpoint = <0x2b>;
-					status = "disabled";
 					phandle = <0x9f>;
 				};
 			};
@@ -2377,7 +2375,6 @@
 				endpoint@1 {
 					reg = <0x01>;
 					remote-endpoint = <0xae>;
-					status = "okay";
 					phandle = <0x9e>;
 				};
 			};
@@ -2396,7 +2393,7 @@
 		rockchip,grf = <0x15>;
 		#address-cells = <0x01>;
 		#size-cells = <0x00>;
-		status = "disabled";
+		status = "okay";
 		reset-gpios = <0x83 0x0c 0x01>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0xaf>;
@@ -2410,7 +2407,6 @@
 				endpoint@0 {
 					reg = <0x00>;
 					remote-endpoint = <0xb0>;
-					status = "disabled";
 					phandle = <0xa4>;
 				};
 
@@ -2480,14 +2476,12 @@
 				endpoint@0 {
 					reg = <0x00>;
 					remote-endpoint = <0xb4>;
-					status = "disabled";
 					phandle = <0xa7>;
 				};
 
 				endpoint@1 {
 					reg = <0x01>;
 					remote-endpoint = <0xb5>;
-					status = "disabled";
 					phandle = <0xa0>;
 				};
 			};
@@ -2520,14 +2514,12 @@
 				endpoint@0 {
 					reg = <0x00>;
 					remote-endpoint = <0xb7>;
-					status = "disabled";
 					phandle = <0xa3>;
 				};
 
 				endpoint@1 {
 					reg = <0x01>;
 					remote-endpoint = <0xb8>;
-					status = "disabled";
 					phandle = <0x9d>;
 				};
 			};
@@ -2556,7 +2548,7 @@
 		route {
 
 			route-hdmi {
-				status = "okay";
+				status = "disabled";
 				logo,uboot = "logo.bmp";
 				logo,kernel = "logo_kernel.bmp";
 				logo,mode = "center";
@@ -2565,7 +2557,7 @@
 			};
 
 			route-dsi {
-				status = "disabled";
+				status = "okay";
 				logo,uboot = "logo.bmp";
 				logo,kernel = "logo_kernel.bmp";
 				logo,mode = "center";
