@@ -148,6 +148,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0b>;
 			sched-energy-costs = <0x0c 0x0d>;
 			cpu-supply = <0x0e>;
+			next-level-cache = <&l2_cache_l>;
 			phandle = <0x02>;
 		};
 
@@ -163,6 +164,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0b>;
 			sched-energy-costs = <0x0c 0x0d>;
 			cpu-supply = <0x0e>;
+			next-level-cache = <&l2_cache_l>;
 			phandle = <0x03>;
 		};
 
@@ -178,6 +180,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0b>;
 			sched-energy-costs = <0x0c 0x0d>;
 			cpu-supply = <0x0e>;
+			next-level-cache = <&l2_cache_l>;
 			phandle = <0x04>;
 		};
 
@@ -193,6 +196,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0b>;
 			sched-energy-costs = <0x0c 0x0d>;
 			cpu-supply = <0x0e>;
+			next-level-cache = <&l2_cache_l>;
 			phandle = <0x05>;
 		};
 
@@ -208,6 +212,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0f>;
 			sched-energy-costs = <0x10 0x11>;
 			cpu-supply = <0x12>;
+			next-level-cache = <&l2_cache_b>;
 			phandle = <0x06>;
 			thermal-idle {
 				#cooling-cells = <2>;
@@ -228,12 +233,31 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			operating-points-v2 = <0x0f>;
 			sched-energy-costs = <0x10 0x11>;
 			cpu-supply = <0x12>;
+			next-level-cache = <&l2_cache_b>;
 			phandle = <0x07>;
 			thermal-idle {
 				#cooling-cells = <2>;
 				duration-us = <10000>;
 				exit-latency-us = <500>;
 			};
+		};
+
+		l2_cache_l: l2-cache-cluster0 {
+			compatible = "cache";
+			cache-level = <2>;
+			cache-unified;
+			cache-size = <0x80000>;
+			cache-line-size = <64>;
+			cache-sets = <512>;
+		};
+
+		l2_cache_b: l2-cache-cluster1 {
+			compatible = "cache";
+			cache-level = <2>;
+			cache-unified;
+			cache-size = <0x100000>;
+			cache-line-size = <64>;
+			cache-sets = <1024>;
 		};
 
 		idle-states {
@@ -2215,7 +2239,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		compatible = "rockchip,rk3399-vop-big";
 		reg = <0x0 0xff900000 0x0 0x2000>, <0x0 0xff902000 0x0 0x1000>;
 		interrupts = <0x00 0x76 0x04 0x00>;
-		clocks = <0x08 0xd9 0x08 0xb4 0x08 0x1d9 0x08 0xb6>;
+		clocks = <0x08 0xd9 0x08 0xb4 0x08 0x1d9>;
 		clock-names = "aclk_vop\0dclk_vop\0hclk_vop";
 		assigned-clocks = <0x08 0xd9 0x08 0x1d9>;
 		assigned-clock-rates = <0x17d78400 0x5f5e100>;
@@ -4031,7 +4055,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	};
 
 	hdmi-sound {
-		status = "disabled";
+		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <0x100>;
