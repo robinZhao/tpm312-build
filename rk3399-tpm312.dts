@@ -304,12 +304,12 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		compatible = "arm,armv8-timer";
 		interrupts = <0x01 0x0d 0x08 0x00 0x01 0x0e 0x08 0x00 0x01 0x0b 0x08 0x00 0x01 0x0a 0x08 0x00>;
 	};
-
-	xin24m {
+	
+	xin24m: xin24m {
 		compatible = "fixed-clock";
-		clock-frequency = <0x16e3600>;
+		clock-frequency = <24000000>;
 		clock-output-names = "xin24m";
-		#clock-cells = <0x00>;
+		#clock-cells = <0>;
 	};
 
 	dummy_cpll {
@@ -937,10 +937,15 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			reg = <0x10>;
 			clocks = <0x08 0x59>;
 			clock-names = "mclk";
-			pinctrl-names = "default";
-			pinctrl-0 = <0x36>;
+			//pinctrl-names = "default";
+			//pinctrl-0 = <0x36>;
 			spk-con-gpio = <0x37 0x19 0x00>;
 			phandle = <0xd5>;
+			port {
+				es8316_p0_0: endpoint {
+					remote-endpoint = <&i2s0_p0_0>;
+				};
+        	};
 		};
 	};
 
@@ -957,7 +962,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		status = "disabled";
 	};
 
-	i2c@ff130000 {
+	i2c3:i2c@ff130000 {
 		compatible = "rockchip,rk3399-i2c";
 		reg = <0x00 0xff130000 0x00 0x1000>;
 		clocks = <0x08 0x43 0x08 0x157>;
@@ -967,7 +972,9 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		pinctrl-0 = <0x39>;
 		#address-cells = <0x01>;
 		#size-cells = <0x00>;
-		status = "disabled";
+		i2c-scl-rising-time-ns = <450>;
+		i2c-scl-falling-time-ns = <15>;
+		status = "okay";
 	};
 
 	i2c@ff140000 {
@@ -1092,7 +1099,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		status = "okay";
 		max-freq = <0x2dc6c00>;
 
-		spi_wk2xxx@00 {
+		spi_wk2xxx@0 {
 			status = "okay";
 			compatible = "wesine,wk2124spi","wkmic,wk2124spi";
 			reg = <0x00>;
@@ -1761,7 +1768,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		phandle = <0x8a>;
 	};
 
-	dmc {
+	memory-controller {
 		compatible = "rockchip,rk3399-dmc";
 		devfreq-events = <0x8a>;
 		interrupts = <0x00 0x01 0x04 0x00>;
@@ -1778,8 +1785,14 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		operating-points-v2 = <0x8c>;
 		phandle = <0xa9>;
 	};
+	mpp_srv:mpp-srv {
+		compatible = "rockchip,mpp-service";
+		rockchip,taskqueue-count = <0x02>;
+		rockchip,resetgroup-count = <0x02>;
+		status = "disabled";
+	};
 
-	vpu_service@ff650000 {
+	video-codec@ff650000 {
 		compatible = "rockchip,rk3399-vpu","rockchip,vpu_service";
 		rockchip,grf = <0x15>;
 		iommus = <0x8d>;
@@ -1809,7 +1822,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		phandle = <0x8d>;
 	};
 
-	rkvdec@ff660000 {
+	video-codec@ff660000 {
 		compatible = "rockchip,rk3399-vdec","rockchip,rkvdec";
 		rockchip,grf = <0x15>;
 		iommus = <0x8e>;
@@ -1825,6 +1838,24 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		dev_mode = <0x02>;
 		allocator = <0x01>;
 		status = "okay";
+	};
+
+	rkvdec:rkvdec@ff660000 {
+		compatible = "rockchip,rkv-decoder-rk3399";
+		reg = <0x00 0xff660000 0x00 0x400>;
+		interrupts = <0x00 0x74 0x04 0x00>;
+		interrupt-names = "irq_dec";
+		clocks = <0x08 0xed 0x08 0x1ec 0x08 0x9f 0x08 0x9e>;
+		clock-names = "aclk_vcodec\0hclk_vcodec\0clk_cabac\0clk_core";
+		resets = <0x08 0x5b 0x08 0x59 0x08 0x5a 0x08 0x58 0x08 0x5d 0x08 0x5c>;
+		reset-names = "video_h\0video_a\0niu_h\0niu_a\0video_cabac\0video_core";
+		iommus = <0x8e>;
+		iommu_enabled = <0x01>;
+		rockchip,srv = <&mpp_srv>;
+		rockchip,taskqueue-node = <0x01>;
+		rockchip,resetgroup-node = <0x01>;
+		power-domains = <0x16 0x20>;
+		status = "disabled";
 	};
 
 	iommu@ff660480 {
@@ -1933,7 +1964,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		#clock-cells = <0x01>;
 		#reset-cells = <0x01>;
 		clock-names =  "xin24m";
-     	clocks =  <0x85>;
+     	clocks =  <&xin24m>;
 		assigned-clocks = <0x2c 0x01 0x2c 0x2c>;
 		assigned-clock-rates = <0x284af100 0x5c81a40>;
 		rockchip,grf =  <0x89>;
@@ -1946,7 +1977,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		#clock-cells = <0x01>;
 		#reset-cells = <0x01>;
 		clock-names =  "xin24m";
-    	clocks =  <0x85>;
+    	clocks =  <&xin24m>;
 		assigned-clock-rates =  <0x2367b880 0x2faf0800 0x3b9aca00 0x8f0d180 0x47868c0 0x23c3460 0x5f5e100 0x5f5e100 0x2faf080 0x23c34600 0x5f5e100 0x2faf080 0x17d78400 0x17d78400 0xbebc200 0xbebc200 0x17d78400>;
      	assigned-clocks =  <0x08 0x05 0x08 0x04 0x08 0x06 0x08 0xc0 0x08 0x1c0 0x08 0x140 0x08 0xc2 0x08 0x1c1 0x08 0x142 0x08 0xc9 0x08 0x1c2 0x08 0x143 0x08 0xe3 0x08 0xde 0x08 0x106 0x08 0x178 0x08 0xed>;
 		rockchip,grf =  <0x15>;
@@ -2040,6 +2071,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		};
 
 		mipi_dphy_rx0:mipi-dphy-rx0 {
+			#phy-cells = <0x00>;
 			compatible = "rockchip,rk3399-mipi-dphy";
 			clocks = <0x08 0x77 0x08 0xa5 0x08 0x16f>;
 			clock-names = "dphy-ref\0dphy-cfg\0grf";
@@ -2122,7 +2154,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	};
 
 	watchdog@ff848000 {
-		compatible = "snps,dw-wdt";
+		compatible = "rockchip,rk3399-wdt","snps,dw-wdt";
 		reg = <0x00 0xff848000 0x00 0x100>;
 		clocks = <0x08 0x17c>;
 		interrupts = <0x00 0x78 0x04 0x00>;
@@ -2162,17 +2194,26 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		clock-names = "i2s_clk\0i2s_hclk";
 		clocks = <0x08 0x56 0x08 0x1d4>;
 		pinctrl-names = "bclk_on", "bclk_off";
-		pinctrl-0 = <0x97>;
-		pinctrl-1 = <&i2s0_my_bus_off>;
+		//pinctrl-0 = <0x97>;
+		//pinctrl-1 = <&i2s0_my_bus_off>;
+		pinctrl-0 = <&i2s0_2ch_bus>;
+		pinctrl-1 = <&i2s0_2ch_bus_bclk_off>;
 		power-domains = <0x16 0x1c>;
 		status = "okay";
 		rockchip,i2s-broken-burst-len;
-		rockchip,playback-channels = <0x08>;
-		rockchip,capture-channels = <0x08>;
+		rockchip,playback-channels = <0x02>;
+		rockchip,capture-channels = <0x02>;
 		#sound-dai-cells = <0x00>;
-		assigned-clocks = <0x08 0xae>;
-		assigned-clock-parents = <0x08 0x05>;
+		//assigned-clocks = <0x08 0xae>;
+		//assigned-clock-parents = <0x08 0x05>;
 		phandle = <0xd4>;
+		i2s0_p0: port {
+			i2s0_p0_0: endpoint {
+				dai-format = "i2s";
+				mclk-fs = <256>;
+				remote-endpoint = <&es8316_p0_0>;
+			};
+		};
 	};
 
 	i2s@ff890000 {
@@ -2187,11 +2228,11 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		pinctrl-0 = <0x98>;
 		power-domains = <0x16 0x1c>;
 		status = "disabled";
-		assigned-clocks = <0x08 0xaf>;
-		assigned-clock-parents = <0x08 0x05>;
+		//assigned-clocks = <0x08 0xaf>;
+		//assigned-clock-parents = <0x08 0x05>;
 	};
 
-
+	
 
 	i2s@ff8a0000 {
 		compatible = "rockchip,rk3399-i2s\0rockchip,rk3066-i2s";
@@ -2204,8 +2245,8 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		power-domains = <0x16 0x1c>;
 		status = "okay";
 		#sound-dai-cells = <0x00>;
-		assigned-clocks = <0x08 0xb0>;
-		assigned-clock-parents = <0x08 0x05>;
+		//assigned-clocks = <0x08 0xb0>;
+		//assigned-clock-parents = <0x08 0x05>;
 		rockchip,bclk-fs = <0x80>;
 		phandle = <0xca>;
 	};
@@ -2479,8 +2520,8 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		reg = <0x00 0xff940000 0x00 0x20000>;
 		reg-io-width = <0x04>;
 		rockchip,grf = <0x15>;
-		pinctrl-names = "default";
-		pinctrl-0 = <0xac>;
+		//pinctrl-names = "default";
+		//pinctrl-0 = <0xac>;
 		power-domains = <0x16 0x15>;
 		interrupts = <0x00 0x17 0x04 0x00>;
 		clocks = <0x08 0x174 0x08 0x71 0x08 0x07 0x08 0x16f 0x08 0x70>;
@@ -2488,8 +2529,13 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		status = "okay";
 		#address-cells = <0x01>;
 		#size-cells = <0x00>;
-		ddc-i2c-scl-high-time-ns = <0x2599>;
-		ddc-i2c-scl-low-time-ns = <0x2710>;
+		
+		ddc-i2c-bus = <&i2c3>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&hdmi_cec>;
+
+		//ddc-i2c-scl-high-time-ns = <0x2599>;
+		//ddc-i2c-scl-low-time-ns = <0x2710>;
 		phandle = <0xcb>;
 
 		ports {
@@ -2922,11 +2968,11 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 				gpios = <0x18 0x00>;
 				output-high;
 			};
-			es8316 {
+/* 			es8316 {
 				gpio-hog;
 				gpios = <0x19 0x00>;
 				output-low;
-			};
+			}; */
 		};
 
 		pcfg-pull-up {
@@ -3106,15 +3152,15 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 
 			i2s-8ch-mclk {
 				rockchip,pins = <0x04 0x00 0x01 0xbf>;
-				phandle = <0x36>;
+				//phandle = <0x36>;
 			};
 
-			i2s0-my-bus {
-				rockchip,pins = <0x03 0x18 0x01 0xbf 0x03 0x19 0x01 0xbf 0x03 0x1a 0x01 0xbf 0x03 0x1b 0x01 0xbf 0x03 0x1f 0x01 0xbf>;
-				phandle = <0x97>;
+			i2s0_2ch_bus:i2s0-2ch-bus {
+				rockchip,pins = <0x03 0x18 0x01 0xbf 0x03 0x19 0x01 0xbf 0x03 0x1a 0x01 0xbf 0x03 0x1b 0x01 0xbf 0x03 0x1f 0x01 0xbf 0x04 0x00 0x01 0xbf>;
+				//phandle = <0x97>;
 			};
-			i2s0_my_bus_off:i2s0-my-bus-off {
-				rockchip,pins = <0x03 0x18 0x00 0xbf 0x03 0x19 0x01 0xbf 0x03 0x1a 0x01 0xbf 0x03 0x1b 0x01 0xbf 0x03 0x1f 0x01 0xbf>;
+			i2s0_2ch_bus_bclk_off:i2s0-2ch-bus-bclk-off {
+				rockchip,pins = <0x03 0x18 0x00 0xbf 0x03 0x19 0x01 0xbf 0x03 0x1a 0x01 0xbf 0x03 0x1b 0x01 0xbf 0x03 0x1f 0x01 0xbf 0x04 0x00 0x01 0xbf>;
 			};
 		};
 
@@ -3506,10 +3552,10 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 				phandle = <0xac>;
 			};
 
-			hdmi-cec {
+			hdmi_cec:hdmi-cec {
 				rockchip,pins = <0x04 0x17 0x01 0xbf>;
 			};
-		};
+		};	
 
 		pcie {
 
@@ -4059,7 +4105,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <0x100>;
-		simple-audio-card,name = "rockchip,hdmi";
+		simple-audio-card,name = "hdmi";
 
 		simple-audio-card,cpu {
 			sound-dai = <0xca>;
@@ -4201,21 +4247,11 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	};
 
 	es8316-sound {
-		compatible = "simple-audio-card";
-		simple-audio-card,format = "i2s";
-		simple-audio-card,name = "rockchip,es8316-codec";
-		simple-audio-card,mclk-fs = <0x100>;
-		simple-audio-card,widgets = "Microphone\0Mic Jack\0Headphone\0Headphone Jack";
-		simple-audio-card,routing = "Mic Jack\0MICBIAS1\0IN1P\0Mic Jack\0Headphone Jack\0HPOL\0Headphone Jack\0HPOR";
-
-		simple-audio-card,cpu {
-			sound-dai = <0xd4>;
-		};
-
-		simple-audio-card,codec {
-			sound-dai = <0xd5>;
-		};
-	};
+        compatible = "audio-graph-card";
+        label = "es8316";
+        dais = <&i2s0_p0>;
+        status="okay";
+    };
 
 	chosen {
 		bootargs = "earlycon=uart8250,mmio32,0xff1a0000 swiotlb=1 coherent_pool=1m";
@@ -4385,5 +4421,37 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 
 	test-power {
 		status = "okay";
+	};
+	
+	rng@ff8b8000 {
+		compatible = "rockchip,cryptov1-rng";
+		reg = <0x0 0xff8b8000 0x0 0x1000>;
+		clocks = <0x08 134>, <0x08 467>;
+		clock-names = "clk_crypto", "hclk_crypto";
+		assigned-clocks = <0x08 134>, <0x08 467>;
+		assigned-clock-rates = <150000000>, <100000000>;
+		status = "okay";
+	};
+
+	crypto0: crypto@ff8b0000 {
+		compatible = "rockchip,rk3399-crypto";
+		reg = <0x0 0xff8b0000 0x0 0x4000>;
+		interrupts = <0 0 4 0>;
+		clocks = <0x08 464>, <0x08 466>, <0x08 133>;
+		clock-names = "hclk_master", "hclk_slave", "sclk";
+		resets = <0x08 181>, <0x08 174>, <0x08 175>;
+		reset-names = "master", "slave", "crypto-rst";
+		status = "disabled";
+	};
+
+	crypto1: crypto@ff8b8000 {
+		compatible = "rockchip,rk3399-crypto";
+		reg = <0x0 0xff8b8000 0x0 0x4000>;
+		interrupts = <0 135 4 0>;
+		clocks = <0x08 465>, <0x08 467>, <0x08 134>;
+		clock-names = "hclk_master", "hclk_slave", "sclk";
+		resets = <0x08 186>, <0x08 184>, <0x08 185>;
+		reset-names = "master", "slave", "crypto-rst";
+		status = "disabled";
 	};
 };
