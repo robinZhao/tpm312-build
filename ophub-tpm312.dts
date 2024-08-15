@@ -200,23 +200,31 @@
 		regulator-boot-on;
 	};
 
-    sound {
-        compatible = "audio-graph-card";
-        label = "Analog";
-        dais = <&i2s0_p0>;
-        status="okay";
-    };
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "rockchip,es8316-codec";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <256>;
 
-    rng: rng@ff8b8000 {
-		compatible = "rockchip,cryptov1-rng";
-		reg = <0x0 0xff8b8000 0x0 0x1000>;
-		clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
-		clock-names = "clk_crypto", "hclk_crypto";
-		assigned-clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
-		assigned-clock-rates = <150000000>, <100000000>;
-		status = "okay";
+		simple-audio-card,widgets =
+			"Microphone", "Mic Jack",
+			"Headphone", "Headphones";
+		simple-audio-card,routing =
+			"MIC1", "Mic Jack",
+			"Headphones", "HPOL",
+			"Headphones", "HPOR";
+
+		//simple-audio-card,hp-det-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
+		//simple-audio-card,pin-switches = "Speaker";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&es8316>;
+		};
 	};
-
 };
 
 &cpu_l0 {
@@ -263,10 +271,6 @@
 	status = "okay";
 };
 
-&gpu {
-	status = "okay";
-	mali-supply = <&vdd_gpu>;
-};
 
 &i2c0 {
 	status = "okay";
@@ -334,7 +338,7 @@
 		vcc10-supply = <&vcc5v0_sys>;
 		vcc11-supply = <&vcc5v0_sys>;
 		vcc12-supply = <&vcc3v3_sys>;
-		vddio-supply = <&vcc_1v8>;
+		vddio-supply = <&vcc_3v0>;
 
 		regulators {
 			vdd_center: DCDC_REG1 {
@@ -514,11 +518,6 @@
         //pinctrl-names = "default";
 		//pinctrl-0 = <&i2s_8ch_mclk>;
         spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
-        port {
-            es8316_p0_0: endpoint {
-                remote-endpoint = <&i2s0_p0_0>;
-            };
-        };
     };
 };
 
@@ -572,15 +571,9 @@
 	rockchip,playback-channels = <2>;
 	rockchip,capture-channels = <2>;
 	status = "okay";
-    pinctrl-0 = <&i2s0_2ch_bus>;
+	pinctrl-0 = <&i2s0_2ch_bus>;
 	pinctrl-1 = <&i2s0_2ch_bus_bclk_off>;
-	i2s0_p0: port {
-		i2s0_p0_0: endpoint {
-			dai-format = "i2s";
-			mclk-fs = <256>;
-			remote-endpoint = <&es8316_p0_0>;
-		};
-	};
+	pinctrl-names = "bclk_on","bclk_off";
 };
 
 &i2s2{
@@ -682,7 +675,31 @@
 			rockchip,pins = <1 RK_PC7 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
-		
+
+	i2s0 {
+		i2s0_2ch_bus: i2s0-2ch-bus {
+			rockchip,pins =
+				<3 RK_PD0 1 &pcfg_pull_none>,
+				<3 RK_PD1 1 &pcfg_pull_none>,
+				<3 RK_PD2 1 &pcfg_pull_none>,
+				<3 RK_PD3 1 &pcfg_pull_none>,
+				<3 RK_PD7 1 &pcfg_pull_none>,
+				<4 RK_PA0 1 &pcfg_pull_none>;
+		};
+
+		i2s0_2ch_bus_bclk_off: i2s0-2ch-bus-bclk-off {
+			rockchip,pins =
+				<3 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>,
+				<3 RK_PD1 1 &pcfg_pull_none>,
+				<3 RK_PD2 1 &pcfg_pull_none>,
+				<3 RK_PD3 1 &pcfg_pull_none>,
+				<3 RK_PD7 1 &pcfg_pull_none>,
+				<4 RK_PA0 1 &pcfg_pull_none>;
+		};
+		i2s_8ch_mclk: i2s-8ch-mclk {
+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
+		};
+	};
 
 };
 
@@ -718,7 +735,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc_clk &sdmmc_cmd &sdmmc_cd &sdmmc_bus4>;
 	card-detect-delay = <800>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdhci {
@@ -791,19 +808,10 @@
 };
 
 &uart0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
 	status = "okay";
 };
 
-&uart1 {
-	pinctrl-0 = <&uart1_xfer>;
-	status = "disabled";
-};
-
 &uart2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart2c_xfer>;
 	status = "okay";
 };
 
@@ -841,21 +849,22 @@
 	status = "okay";
 };
 
-&vopl {
-    status = "okay";
-    rockchip,grf = <&grf>;
-};
 &vopb {
     status = "okay";
     rockchip,grf = <&grf>;
 };
-&vopl_mmu {
-    status = "okay";
-    interrupt-names = "vopl_mmu";
+
+&vopl {
+    status = "disabled";
+    rockchip,grf = <&grf>;
 };
+
 &vopb_mmu {
     status = "okay";
-    interrupt-names = "vopb_mmu";
+};
+
+&vopl_mmu {
+    status = "disabled";
 };
 
 &hdmi {
@@ -874,10 +883,67 @@
     status="disabled";
 };
 &gpu{
-    ower-off-delay-ms = <0xc8>;
+	mali-supply = <&vdd_gpu>;
+    power-off-delay-ms = <200>;
     status = "okay";
 };
 &saradc {
 	status = "okay";
 	vref-supply = <&vcc_1v8>;
+};
+
+&rga {
+	compatible = "rockchip,rk3399-rga","rockchip,rga2";
+	status = "okay";
+	dev_mode = <1>;
+	dma-coherent;
+};
+
+&gpio1 {
+	usb2_en {
+		gpio-hog;
+		gpios = <3 0>;
+		output-high;
+	};
+	usb6_en {
+		gpio-hog;
+		gpios = <2 0>;
+		output-high;
+	};
+	gprs_rst {
+		gpio-hog;
+		gpios = <4 1>;
+		output-low;
+	};
+};
+
+&gpio2 {
+	wk2_rst {
+		gpio-hog;
+		gpios = <0x12 0x01>;
+		output-low;
+	};
+};
+
+&gpio4 {
+	usb1_en {
+		gpio-hog;
+		gpios = <0x1c 0x00>;
+		output-high;
+	};
+	usb3_en {
+		gpio-hog;
+		gpios = <0x1e 0x00>;
+		output-high;
+	};
+	usb4_en {
+		gpio-hog;
+		gpios = <0x15 0x00>;
+		output-high;
+	};
+	usb5_en {
+		gpio-hog;
+		gpios = <0x18 0x00>;
+		output-high;
+	};
 };
