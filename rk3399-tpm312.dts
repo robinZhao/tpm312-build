@@ -1785,14 +1785,8 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		operating-points-v2 = <0x8c>;
 		phandle = <0xa9>;
 	};
-	mpp_srv:mpp-srv {
-		compatible = "rockchip,mpp-service";
-		rockchip,taskqueue-count = <0x02>;
-		rockchip,resetgroup-count = <0x02>;
-		status = "disabled";
-	};
 
-	video-codec@ff650000 {
+	vpu_service@ff650000 {
 		compatible = "rockchip,rk3399-vpu","rockchip,vpu_service";
 		rockchip,grf = <0x15>;
 		iommus = <0x8d>;
@@ -1822,41 +1816,45 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		phandle = <0x8d>;
 	};
 
-	video-codec@ff660000 {
+
+	vdec: video-codec@ff660000 {
 		compatible = "rockchip,rk3399-vdec","rockchip,rkvdec";
-		rockchip,grf = <0x15>;
-		iommus = <0x8e>;
-		iommu_enabled = <0x01>;
-		reg = <0x00 0xff660000 0x00 0x400>;
+		reg = <0x0 0xff660000 0x0 0x400>;
 		interrupts = <0x00 0x74 0x04 0x00>;
-		interrupt-names = "irq_dec";
 		clocks = <0x08 237 0x08 492 0x08 0x9f 0x08 0x9e>;
 		clock-names = "axi", "ahb", "cabac", "core";
-		resets = <0x08 0x5b 0x08 0x59 0x08 0x5c 0x08 0x5d 0x08 0x58 0x08 0x5a>;
-		reset-names = "video_h\0video_a\0video_core\0video_cabac\0niu_a\0niu_h";
-		power-domains = <0x16 0x20>;
-		dev_mode = <0x02>;
-		allocator = <0x01>;
-		status = "okay";
-	};
-
-	rkvdec:rkvdec@ff660000 {
-		compatible = "rockchip,rkv-decoder-rk3399";
-		reg = <0x00 0xff660000 0x00 0x400>;
-		interrupts = <0x00 0x74 0x04 0x00>;
-		interrupt-names = "irq_dec";
-		clocks = <0x08 0xed 0x08 0x1ec 0x08 0x9f 0x08 0x9e>;
-		clock-names = "aclk_vcodec\0hclk_vcodec\0clk_cabac\0clk_core";
-		resets = <0x08 0x5b 0x08 0x59 0x08 0x5a 0x08 0x58 0x08 0x5d 0x08 0x5c>;
-		reset-names = "video_h\0video_a\0niu_h\0niu_a\0video_cabac\0video_core";
 		iommus = <0x8e>;
 		iommu_enabled = <0x01>;
-		rockchip,srv = <&mpp_srv>;
-		rockchip,taskqueue-node = <0x01>;
-		rockchip,resetgroup-node = <0x01>;
 		power-domains = <0x16 0x20>;
 		status = "disabled";
 	};
+
+	mpp_srv:mpp-srv {
+		compatible = "rockchip,mpp-service";
+		rockchip,taskqueue-count = <0x02>;
+		rockchip,resetgroup-count = <0x02>;
+		status = "disabled";
+	};
+
+	rkvdec: rkvdec@ff660000 {
+		compatible = "rockchip,rkv-decoder-rk3399";
+		reg = <0x0 0xff660000 0x0 0x400>;
+		interrupts = <0x00 0x74 0x04 0x00>;
+		interrupt-names = "irq_dec";
+		clocks = <0x08 237 0x08 492 0x08 0x9f 0x08 0x9e>;
+		clock-names = "aclk_vcodec", "hclk_vcodec",
+			      "clk_cabac", "clk_core";
+		resets = <0x08 0x5b>,<0x08 0x59>,<0x08 0x5a>,<0x08 0x58>,<0x08 0x5d>,<0x08 0x5c>;
+		reset-names = "video_h", "video_a", "niu_h", "niu_a",
+			"video_cabac", "video_core";
+		iommus = <0x8e>;
+		rockchip,srv = <&mpp_srv>;
+		rockchip,taskqueue-node = <1>;
+		rockchip,resetgroup-node = <1>;
+		power-domains = <0x16 0x20>;
+		status = "disabled";
+	};
+
 
 	iommu@ff660480 {
 		compatible = "rockchip,iommu";
