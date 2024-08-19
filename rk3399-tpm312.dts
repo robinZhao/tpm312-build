@@ -1848,6 +1848,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 		reset-names = "video_h", "video_a", "niu_h", "niu_a",
 			"video_cabac", "video_core";
 		iommus = <0x8e>;
+		iommu_enabled = <0x01>;
 		rockchip,srv = <&mpp_srv>;
 		rockchip,taskqueue-node = <1>;
 		rockchip,resetgroup-node = <1>;
