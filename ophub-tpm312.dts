@@ -515,8 +515,8 @@
         clocks = <&cru SCLK_I2S_8CH_OUT>;
         clock-names = "mclk";
         #sound-dai-cells = <0>;
-        //pinctrl-names = "default";
-		//pinctrl-0 = <&i2s_8ch_mclk>;
+        pinctrl-names = "default";
+		pinctrl-0 = <&i2s_8ch_mclk>;
         spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
     };
 };
