@@ -18,7 +18,6 @@
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <1800000>;
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
 	};
 
 	vcc_sys: vcc-sys {
@@ -43,7 +42,6 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vcc5v0_host0: vcc5v0-host0-regulator {
@@ -54,7 +52,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vcc5v0_host1: vcc5v0-host1-regulator {
@@ -65,7 +62,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vcc5v0_otg0: vcc5v0-otg0-regulator {
@@ -76,7 +72,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vcc5v0_otg1: vcc5v0-otg1-regulator {
@@ -87,21 +82,18 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vdd_log: vdd-log {
 		compatible = "pwm-regulator";
 		pwms = <&pwm3 0 25000 1>;
-		rockchip,pwm_voltage = <900000>;
-		pwm-supply = <&vcc_sys>;
 		regulator-name = "vdd_log";
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1400000>;
 		regulator-always-on;
 		regulator-boot-on;
-		rockchip,pwm_id= <3>;
-		vin-supply = <&vcc_sys>;
+		rockchip,pwm_id = <3>;
+		rockchip,pwm_voltage = <900000>;
 	};
 
 
@@ -120,11 +112,12 @@
 		simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphones";
+			"Headphone", "Headphones Jack";
 		simple-audio-card,routing =
-			"MIC1", "Mic Jack",
-			"Headphones", "HPOL",
-			"Headphones", "HPOR";
+			"Mic Jack","MICBIAS1",
+			"IN1P", "Mic Jack",
+			"Headphone Jack", "HPOL",
+			"Headphone Jack", "HPOR";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
@@ -190,7 +183,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc_sys>;
 	};
 
 	vcc-4g {
@@ -202,7 +194,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
 	};
 
 	vcc-wifi {
@@ -213,7 +204,6 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
 	};
 
 
@@ -265,6 +255,10 @@
 	status = "okay";
 };
 
+&sdio0 {
+	status = "disabled";
+};
+
 &sdhci {
 	bus-width = <8>;
 	mmc-hs400-1_8v;
@@ -282,6 +276,9 @@
 	rockchip,capture-channels = <2>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2s0_2ch_bus>;
+	assigned-clocks = <&cru SCLK_I2S0_DIV>;
+	assigned-clock-parents = <&cru PLL_GPLL>;
+	#sound-dai-cells = <0>;
 };
 
 &i2s2{
@@ -318,6 +315,7 @@
 	vdd_gpu: syr828@41 {
 		compatible = "silergy,syr828";
 		reg = <0x41>;
+		vin-supply = <&vcc3v3_sys>;
 		regulator-compatible = "fan53555-reg";
 		pinctrl-0 = <&vsel2_gpio>;
 		vsel-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
@@ -328,8 +326,7 @@
 		fcs,suspend-voltage-selector = <1>;
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
-		regulator-initial-mode = <1>;
+		regulator-initial-state = <3>;
 		regulator-state-mem {
 			regulator-off-in-suspend;
 		};
@@ -538,7 +535,7 @@
 &i2c3 {
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
-	status = "okay";
+	status = "disabled";
 };
 
 &i2c4 {
@@ -634,12 +631,12 @@
 	status = "okay";
 
 	u2phy0_otg: otg-port {
-		phy-supply = <&vcc5v0_otg0>;
+		vbus-supply = <&vcc5v0_otg0>;
 		status = "okay";
 	};
 
 	u2phy0_host: host-port {
-		phy-supply = <&vcc5v0_host0>;
+		vbus-supply = <&host0_vbus_drv>;
 		status = "okay";
 	};
 };
@@ -648,12 +645,12 @@
 	status = "okay";
 
 	u2phy1_otg: otg-port {
-		phy-supply = <&vcc5v0_otg1>;
+		vbus-supply = <&vcc5v0_otg1>;
 		status = "okay";
 	};
 
 	u2phy1_host: host-port {
-		phy-supply = <&vcc5v0_host1>;
+		vbus-supply = <&host1_vbus_drv>;
 		status = "okay";
 	};
 };
@@ -670,6 +667,8 @@
 
 &uart2 {
 	status = "okay";
+	assigned-clocks = <&cru SCLK_UART_SRC>;
+	assigned-clock-parents = <&cru PLL_GPLL>;
 };
 
 
@@ -855,7 +854,13 @@
 
 &spi1 {
 	status = "okay";
-    //max-freq = <48000000>
+	interrupts = <0x00 0x35 0x04 0x00>;
+	dmas = <0x43 0x0c 0x43 0x0d>;
+	dma-names = "tx\0rx";
+	interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH 0>;
+	dmas = <&dmac_peri 12>, <&dmac_peri 13>;
+	dma-names = "tx", "rx";
+    max-freq = <48000000>;
     spi_wk2xxx@0 {
         status = "okay";
         compatible = "wesine,wk2124spi","wkmic,wk2124spi";
@@ -884,17 +889,37 @@
 };
 
 &rockchip_suspend {
-	compatible = "rockchip,pm-rk3399";
 	status = "okay";
 	rockchip,sleep-debug-en = <1>;
 	rockchip,virtual-poweroff = <0>;
-	rockchip,sleep-mode-config = <0xde>;
-	rockchip,wakeup-config = <0x804>;
-	rockchip,pwm-regulator-config = <0x08>;
+	rockchip,sleep-mode-config = <
+		(0
+		| RKPM_SLP_ARMPD
+		| RKPM_SLP_PERILPPD
+		| RKPM_SLP_DDR_RET
+		| RKPM_SLP_PLLPD
+		| RKPM_SLP_CENTER_PD
+		| RKPM_SLP_AP_PWROFF
+		)
+	>;
+	rockchip,wakeup-config = <
+		(0
+		| RKPM_GPIO_WKUP_EN
+		| RKPM_PWM_WKUP_EN
+		| RKPM_USB_WKUP_EN
+		| RKPM_USB_LINESTATE_WKUP_EN
+		)
+	>;
+	rockchip,pwm-regulator-config = <
+		(0
+		| PWM2_REGULATOR_EN
+		)
+	>;
 	rockchip,power-ctrl =
-	<&gpio1 17 GPIO_ACTIVE_HIGH>,
-	<&gpio1 14 GPIO_ACTIVE_HIGH>;
+		<&gpio1 17 GPIO_ACTIVE_HIGH>,
+		<&gpio1 14 GPIO_ACTIVE_HIGH>;
 };
+
 &vopb {
 	assigned-clocks = <&cru DCLK_VOP0_DIV>;
 	assigned-clock-parents = <&cru PLL_VPLL>;
@@ -908,8 +933,6 @@
     status = "disabled";
     rockchip,grf = <&grf>;
 };
-
-
 
 &hdmi_in_vopb{
     status = "okay";
@@ -925,53 +948,4 @@
 
 &tcphy1 {
 	status = "okay";
-};
-
-&gpio1 {
-	usb2_en {
-		gpio-hog;
-		gpios = <3 0>;
-		output-high;
-	};
-	usb6_en {
-		gpio-hog;
-		gpios = <2 0>;
-		output-high;
-	};
-	gprs_rst {
-		gpio-hog;
-		gpios = <4 1>;
-		output-low;
-	};
-};
-
-&gpio2 {
-	wk2_rst {
-		gpio-hog;
-		gpios = <0x12 0x01>;
-		output-low;
-	};
-};
-
-&gpio4 {
-	usb1_en {
-		gpio-hog;
-		gpios = <0x1c 0x00>;
-		output-high;
-	};
-	usb3_en {
-		gpio-hog;
-		gpios = <0x1e 0x00>;
-		output-high;
-	};
-	usb4_en {
-		gpio-hog;
-		gpios = <0x15 0x00>;
-		output-high;
-	};
-	usb5_en {
-		gpio-hog;
-		gpios = <0x18 0x00>;
-		output-high;
-	};
 };
