@@ -1,3 +1,6 @@
+/**
+可用于rockpi-4b-hdmi-rk3399_all-android7.1.2-20190719_1211_0e0b28a
+*/
 /dts-v1/;
 
 #include <dt-bindings/pwm/pwm.h>
