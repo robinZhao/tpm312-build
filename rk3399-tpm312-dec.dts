@@ -2741,7 +2741,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 				logo,kernel = "logo_kernel.bmp";
 				logo,mode = "center";
 				charge_logo,mode = "center";
-				connect = <0xae>;
+				connect = <0xad>;
 			};
 
 			route-dsi {
