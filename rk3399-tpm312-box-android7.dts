@@ -29,7 +29,6 @@
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
-
 	};
 
 	vcc_phy: vcc-phy-regulator {
@@ -71,24 +70,20 @@
 		pinctrl-0 = <&otg0_vbus_drv>;
 		gpio = <&gpio1 RK_PA0 GPIO_ACTIVE_HIGH>;
 		regulator-name = "vcc5v0_otg0";
+		enable-active-high;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		enable-active-high;
-		//regulator-always-on;
+		regulator-always-on;
 	};
 
 	vcc5v0_otg1: vcc5v0-otg1-regulator {
 		pinctrl-0 = <&otg1_vbus_drv>;
 		gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		regulator-name = "vcc5v0_otg1";
+		enable-active-high;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		enable-active-high;
-		//regulator-always-on;
+		regulator-always-on;
 	};
 
 	vdd_log: vdd-log {
@@ -101,6 +96,7 @@
 		regulator-boot-on;
 		rockchip,pwm_id = <3>;
 		rockchip,pwm_voltage = <900000>;
+		//pwm-supply = <&vcc_sys>;
 	};
 
 
@@ -158,7 +154,7 @@
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-		simple-audio-card,name = "rockchiphdmi";
+		simple-audio-card,name = "HDMI-CODEC";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s2>;
@@ -645,7 +641,7 @@
 	};
 
 	u2phy0_host: host-port {
-		phy-supply = <&vcc5v0_host0>;
+		vbus-supply = <&host0_vbus_drv>;
 		status = "okay";
 	};
 };
@@ -659,7 +655,7 @@
 	};
 
 	u2phy1_host: host-port {
-		phy-supply = <&vcc5v0_host1>;
+		vbus-supply = <&host1_vbus_drv>;
 		status = "okay";
 	};
 };
@@ -889,7 +885,7 @@
 };
 
 &pmu_pvtm {
-	status = "okay";
+	status = "disabled";
 };
 
 &pmu_io_domains {
@@ -901,16 +897,7 @@
 	status = "okay";
 	rockchip,sleep-debug-en = <1>;
 	rockchip,virtual-poweroff = <0>;
-	rockchip,sleep-mode-config = <
-		(0
-		| RKPM_SLP_ARMPD
-		| RKPM_SLP_PERILPPD
-		| RKPM_SLP_DDR_RET
-		| RKPM_SLP_PLLPD
-		| RKPM_SLP_CENTER_PD
-		| RKPM_SLP_AP_PWROFF
-		)
-	>;
+	rockchip,sleep-mode-config = <0xde>;
 	rockchip,wakeup-config = <
 		(0
 		| RKPM_GPIO_WKUP_EN
@@ -941,4 +928,13 @@
 	assigned-clock-parents = <&cru PLL_CPLL>;
     status = "disabled";
     rockchip,grf = <&grf>;
+};
+
+
+&tcphy0 {
+	status = "okay";
+};
+
+&tcphy1 {
+	status = "okay";
 };

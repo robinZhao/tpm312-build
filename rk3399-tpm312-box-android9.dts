@@ -914,7 +914,7 @@
 };
 
 &pmu_pvtm {
-	status = "okay";
+	status = "disabled";
 };
 
 &pmu_io_domains {
@@ -926,16 +926,7 @@
 	status = "okay";
 	rockchip,sleep-debug-en = <1>;
 	rockchip,virtual-poweroff = <0>;
-	rockchip,sleep-mode-config = <
-		(0
-		| RKPM_SLP_ARMPD
-		| RKPM_SLP_PERILPPD
-		| RKPM_SLP_DDR_RET
-		| RKPM_SLP_PLLPD
-		| RKPM_SLP_CENTER_PD
-		| RKPM_SLP_AP_PWROFF
-		)
-	>;
+	rockchip,sleep-mode-config = <0xde>;
 	rockchip,wakeup-config = <
 		(0
 		| RKPM_GPIO_WKUP_EN
@@ -966,4 +957,12 @@
 	assigned-clock-parents = <&cru PLL_CPLL>;
     status = "disabled";
     rockchip,grf = <&grf>;
+};
+
+&tcphy0 {
+	status = "okay";
+};
+
+&tcphy1 {
+	status = "okay";
 };
