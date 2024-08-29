@@ -8,7 +8,7 @@ apt-get install libncurses5:i386
 apt-get install libncurses5-dev  libncurses5
 apt-get remove libfdt-dev
 
-apt-get update -y && apt-get install -y openjdk-8-jdk python git-core gnupg flex bison gperf build-essential \
+apt-get update -y && apt-get install -y openjdk-8-jdk python2 git-core gnupg flex bison gperf build-essential \
           zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
           x11proto-core-dev libx11-dev lib32z-dev ccache \
           libgl1-mesa-dev libxml2-utils xsltproc unzip mtools u-boot-tools \
