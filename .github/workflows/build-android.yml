@@ -7,4 +7,7 @@ jobs:
     steps:
       # 拉取仓库代码
       - uses: actions/checkout@v3
-      - run: chmod +x ./build-android.sh ; ./build-android.sh
+
+      - name: build
+        working-directory: ~/
+        run: sudo -S chmod +x ./build-android.sh ; sudo -S ./build-android.sh
