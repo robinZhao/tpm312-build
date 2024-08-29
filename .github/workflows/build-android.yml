@@ -1,0 +1,10 @@
+name: "build-android"
+on:
+  workflow_dispatch:
+jobs:
+  build-armbian:
+    runs-on: ubuntu-22.04
+    steps:
+      # 拉取仓库代码
+      - uses: actions/checkout@v3
+      - run: ./build-android.sh
