@@ -14,12 +14,12 @@ repo init -u https://github.com/radxa/manifests -b rk3399-all-7.1 -m rk3399_n_al
 repo sync -d --no-tags -j4
 
 cd u-boot
-./make.sh rock-pi-4b-rk3399
+./make.sh tpm312-rk3399
 cd ..
 
 cd kernel
 make rockchip_defconfig
-make rk3399-rockpi-4b-hdmi.img -j$(nproc)
+make rk3399-tpm312.img -j$(nproc)
 cd ..
 
 source build/envsetup.sh

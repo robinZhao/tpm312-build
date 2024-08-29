@@ -1,0 +1,110 @@
+
+diff --git a/drivers/net/wireless/rockchip_wlan/Kconfig b/drivers/net/wireless/rockchip_wlan/Kconfig
+index 316555a1ee4f..2a059da844b1 100644
+--- a/drivers/net/wireless/rockchip_wlan/Kconfig
++++ b/drivers/net/wireless/rockchip_wlan/Kconfig
+@@ -37,6 +37,7 @@ source "drivers/net/wireless/rockchip_wlan/rtl8723bu/Kconfig"
+ source "drivers/net/wireless/rockchip_wlan/rtl8723cs/Kconfig"
+ source "drivers/net/wireless/rockchip_wlan/rtl8723ds/Kconfig"
+ source "drivers/net/wireless/rockchip_wlan/rtl8822be/Kconfig"
++source "drivers/net/wireless/rockchip_wlan/rtl8821cu/Kconfig"
+ source "drivers/net/wireless/rockchip_wlan/mvl88w8977/Kconfig"
+
+ endif # WL_ROCKCHIP
+diff --git a/drivers/net/wireless/rockchip_wlan/Makefile b/drivers/net/wireless/rockchip_wlan/Makefile
+index d1aebf7d6bf3..6bcd17f3828b 100644
+--- a/drivers/net/wireless/rockchip_wlan/Makefile
++++ b/drivers/net/wireless/rockchip_wlan/Makefile
+@@ -9,6 +9,7 @@ obj-$(CONFIG_RTL8723BU) += rtl8723bu/
+ obj-$(CONFIG_RTL8723CS)        += rtl8723cs/
+ obj-$(CONFIG_RTL8723DS) += rtl8723ds/
+ obj-$(CONFIG_RTL8822BE)        += rtl8822be/
++obj-$(CONFIG_RTL8822BE) += rtl8821cu/
+ obj-$(CONFIG_MVL88W8977)       += mvl88w8977/
+ obj-$(CONFIG_WL_ROCKCHIP)      += wifi_sys/rkwifi_sys_iface.o
+ obj-$(CONFIG_WL_ROCKCHIP)      += rkwifi/rk_wifi_config.o
+
+project hardware/libhardware_legacy/
+diff --git a/wifi/rk_wifi_ctrl.c b/wifi/rk_wifi_ctrl.c
+index 5810138..c4e53e9 100755
+--- a/wifi/rk_wifi_ctrl.c
++++ b/wifi/rk_wifi_ctrl.c
+@@ -72,6 +72,7 @@ static wifi_device supported_wifi_devices[] = {
+        {"RTL8188EU",   "0bda:8179"},
+        {"RTL8188EU",   "0bda:0179"},
+        {"RTL8723BU",   "0bda:b720"},
++       {"RTL8821CU",   "0bda:c820"},
+        {"RTL8723BS",   "024c:b723"},
+        {"RTL8822BS",   "024c:b822"},
+        {"RTL8723CS",   "024c:b703"},
+diff --git a/wifi/wifi.c b/wifi/wifi.c
+index 04da01c..d81cf08 100755
+--- a/wifi/wifi.c
++++ b/wifi/wifi.c
+@@ -83,6 +83,7 @@ extern int ifc_down(const char *name);
+ // sockets is in
+ #define RTL8188EU_DRIVER_MODULE_PATH "/system/lib/modules/8188eu.ko"
+ #define RTL8723BU_DRIVER_MODULE_PATH "/system/lib/modules/8723bu.ko"
++#define RTL8821CU_DRIVER_MODULE_PATH "/system/lib/modules/8821cu.ko"
+ #define RTL8723BS_DRIVER_MODULE_PATH "/system/lib/modules/8723bs.ko"
+ #define RTL8723BS_VQ0_DRIVER_MODULE_PATH "/system/lib/modules/8723bs-vq0.ko"
+ #define RTL8723CS_DRIVER_MODULE_PATH "/system/lib/modules/8723cs.ko"
+@@ -105,6 +106,7 @@ extern int ifc_down(const char *name);
+ #define RTL8723DS_DRIVER_MODULE_NAME "8723ds"
+ #define RTL8188EU_DRIVER_MODULE_NAME "8188eu"
+ #define RTL8723BU_DRIVER_MODULE_NAME "8723bu"
++#define RTL8821CU_DRIVER_MODULE_NAME "8821cu"
+ #define RTL8723BS_DRIVER_MODULE_NAME "8723bs"
+ #define RTL8723BS_VQ0_DRIVER_MODULE_NAME "8723bs_vq0"
+ #define RTL8188FU_DRIVER_MODULE_NAME "8188fu"
+
+
+project device/rockchip/rk3399/
+diff --git a/rk3399.mk b/rk3399.mk
+index a328810..95f3b22 100755
+--- a/rk3399.mk
++++ b/rk3399.mk
+@@ -34,8 +34,8 @@ PRODUCT_PACKAGES += \
+         rild \
+         Launcher3
+
+-PRODUCT_NAME := rk3399
+-PRODUCT_DEVICE := rk3399
++PRODUCT_NAME := rk3399_all
++PRODUCT_DEVICE := rk3399_all
+ PRODUCT_BRAND := Android
+ PRODUCT_MODEL := rk3399
+ PRODUCT_MANUFACTURER := rockchip
+diff --git a/rk3399_all.mk b/rk3399_all.mk
+index 9663afd..a8f1177 100755
+--- a/rk3399_all.mk
++++ b/rk3399_all.mk
+@@ -67,11 +67,11 @@ BOARD_HAS_GPS := false
+ BOARD_HAVE_DONGLE := false
+
+
+-BOARD_GRAVITY_SENSOR_SUPPORT := true
+-BOARD_COMPASS_SENSOR_SUPPORT := true
+-BOARD_GYROSCOPE_SENSOR_SUPPORT := true
++BOARD_GRAVITY_SENSOR_SUPPORT := false
++BOARD_COMPASS_SENSOR_SUPPORT := false
++BOARD_GYROSCOPE_SENSOR_SUPPORT := false
+ BOARD_PROXIMITY_SENSOR_SUPPORT := false
+-BOARD_LIGHT_SENSOR_SUPPORT := true
++BOARD_LIGHT_SENSOR_SUPPORT := false
+ BOARD_PRESSURE_SENSOR_SUPPORT := false
+ BOARD_TEMPERATURE_SENSOR_SUPPORT := false
+ BOARD_USB_HOST_SUPPORT := true
+@@ -81,10 +81,13 @@ TARGET_ROCKCHIP_PCBATEST := false
+ #for ddr var support
+ BOARD_DDR_VAR_ENABLED := true
+
++PRODUCT_COPY_FILES := device/rockchip/rk3399/rk3399_all/init.tablet.rc:root/init.tablet.rc \
++                     ${PRODUCT_COPY_FILES}
++
+ PRODUCT_COPY_FILES += \
+    device/rockchip/rk3399/rk3399_all/ddr_config.xml:system/etc/ddr_config.xml \
+    device/rockchip/rk3399/rk3399_all/video_status:system/etc/video_status \
+    device/rockchip/common/resolution_white.xml:/system/usr/share/resolution_white.xml
+
+
