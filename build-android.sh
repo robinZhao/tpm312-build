@@ -1,26 +1,15 @@
-wget 'https://storage.googleapis.com/git-repo-downloads/repo' -P /tmp/
-sudo cp /tmp/repo /usr/local/bin/repo
-sudo chmod +x /usr/local/bin/repo
-
-sudo dpkg --add-architecture i386
-sudo apt-get update
-apt-get install libncurses5:i386 
-apt-get install libncurses5-dev  libncurses5
-apt-get remove libfdt-dev
-
-apt-get update -y && apt-get install -y openjdk-8-jdk python2 git-core gnupg flex bison gperf build-essential \
-          zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
-          x11proto-core-dev libx11-dev lib32z-dev ccache \
-          libgl1-mesa-dev libxml2-utils xsltproc unzip mtools u-boot-tools \
-          htop iotop sysstat iftop pigz bc device-tree-compiler lunzip \
-          dosfstools vim-common parted udev
-
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 
+wget 'https://storage.googleapis.com/git-repo-downloads/repo' -P /tmp/
+sudo cp /tmp/repo /usr/local/bin/repo
+sudo chmod +x /usr/local/bin/repo
+
 mkdir rockpi4-android7
 cd rockpi4-android7
+git config --global user.email "zhaoruibin@aliyun.com"
+git config --global user.name "zhaoruibin"
 repo init -u https://github.com/radxa/manifests -b rk3399-all-7.1 -m rk3399_n_all_release.xml
 repo sync -d --no-tags -j4
 
