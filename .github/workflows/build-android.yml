@@ -18,11 +18,8 @@ jobs:
             libgl1-mesa-dev libxml2-utils xsltproc unzip mtools u-boot-tools \
             htop iotop sysstat iftop pigz bc device-tree-compiler lunzip \
             dosfstools vim-common parted udev
-          sudo -E apt-get -qq autoremove --purge
           sudo -E apt-get -qq clean
-          sudo timedatectl set-timezone "$TZ"
-          sudo mkdir -p /workdir
-          sudo chown $USER:$GROUPS /workdir
+          sudo timedatectl set-timezone "Asia/Shanghai"
       # 拉取仓库代码
       - uses: actions/checkout@v4
 
@@ -30,5 +27,9 @@ jobs:
       #  uses: mxschmitt/action-tmate@v3
 
 
+      - name: prebuild
+        run: chmod +x ./build-android.sh
+        
       - name: build
-        run: sudo -S chmod +x ./build-android.sh ; sudo -S ./build-android.sh
+        run: ./build-android.sh
+
