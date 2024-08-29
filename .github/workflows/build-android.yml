@@ -26,8 +26,8 @@ jobs:
       # 拉取仓库代码
       - uses: actions/checkout@v4
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
 
       - name: build
