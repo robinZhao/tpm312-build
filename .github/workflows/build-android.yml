@@ -2,7 +2,7 @@ name: "build-android"
 on:
   workflow_dispatch:
 jobs:
-  build-armbian:
+  build-android:
     runs-on: ubuntu-22.04
     steps:
       - name: Initialization environment
@@ -29,7 +29,7 @@ jobs:
 
       - name: prebuild
         run: chmod +x ./build-android.sh
-        
+
       - name: build
         run: ./build-android.sh
 
