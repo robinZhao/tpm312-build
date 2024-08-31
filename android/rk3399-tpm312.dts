@@ -15,6 +15,11 @@
 	model = "RK3399 TPM312";
 	compatible = "rk3399,tpm312", "rockchip,rk3399";
 
+	
+        chosen {
+                stdout-path = &uart2;
+                u-boot,spl-boot-order = &sdhci, &sdmmc;
+        };
 
 	vcc1v8_s0: vcc1v8-s0 {
 		compatible = "regulator-fixed";
