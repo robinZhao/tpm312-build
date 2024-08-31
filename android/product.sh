@@ -23,8 +23,7 @@ sed 's/MODULE_NAME := wlan/MODULE_NAME := 8821cu'  rtl8821cu/Makefile
 合并wifi.patch
 
 #wifi自启
-cp /home/dcm360/rockpi/device/rockchip/rk3399/init.tablet.rc  /home/dcm360/rockpi/device/rockchip/rk3399/rk3399_all/init.tablet.rc
-sed -i "/ioprio rt 4/a\    insmod /system/lib/modules/8821cu.ko"  /home/dcm360/rockpi/device/rockchip/rk3399/rk3399_all/init.tablet.rc
+cp init-tpm312.rc  /home/dcm360/rockpi/device/rockchip/rk3399/rk3399_all/init-tpm312.rc
 
 #uboot
 cp u-boot/configs/rock-pi-4b-rk3399_defconfig u-boot/configs/tpm312-rk3399_defconfig
