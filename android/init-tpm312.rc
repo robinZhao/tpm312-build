@@ -1,0 +1,22 @@
+on boot
+    #enable usb
+    write  sys/class/gpio/export 34
+    write  sys/class/gpio/export 152
+    write  sys/class/gpio/export 149
+    write  sys/class/gpio/export 158
+    write  sys/class/gpio/export 35
+    write  sys/class/gpio/export 156
+    write  sys/class/gpio/gpio34/direction out
+    write  sys/class/gpio/gpio152/direction out
+    write  sys/class/gpio/gpio149/direction out
+    write  sys/class/gpio/gpio158/direction out
+    write  sys/class/gpio/gpio35/direction out
+    write  sys/class/gpio/gpio156/direction out
+    write  sys/class/gpio/gpio34/value 1
+    write  sys/class/gpio/gpio152/value 1
+    write  sys/class/gpio/gpio149/value 1
+    write  sys/class/gpio/gpio158/value 1
+    write  sys/class/gpio/gpio35/value 1
+    write  sys/class/gpio/gpio156/value 1
+    #enable wifi
+    insmod /system/lib/modules/8821cu.ko
