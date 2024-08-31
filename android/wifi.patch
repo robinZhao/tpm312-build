@@ -99,12 +99,13 @@ index 9663afd..a8f1177 100755
  #for ddr var support
  BOARD_DDR_VAR_ENABLED := true
 
-+PRODUCT_COPY_FILES := device/rockchip/rk3399/rk3399_all/init.tablet.rc:root/init.tablet.rc \
-+                     ${PRODUCT_COPY_FILES}
-+
  PRODUCT_COPY_FILES += \
     device/rockchip/rk3399/rk3399_all/ddr_config.xml:system/etc/ddr_config.xml \
     device/rockchip/rk3399/rk3399_all/video_status:system/etc/video_status \
-    device/rockchip/common/resolution_white.xml:/system/usr/share/resolution_white.xml
+   -device/rockchip/common/resolution_white.xml:/system/usr/share/resolution_white.xml 
+   +device/rockchip/common/resolution_white.xml:/system/usr/share/resolution_white.xml \
+   +device/rockchip/rk3399/rk3399_all/init-tpm312.rc:/system/etc/init/init-tpm312.rc
+
+    
 
 
