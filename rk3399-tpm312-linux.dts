@@ -920,7 +920,7 @@
 &gpio2 {
 	wk2_rst {
 		gpio-hog;
-		gpios = <0x12 0x01>;
+		gpios = <18 1>;
 		output-low;
 	};
 };
@@ -928,22 +928,22 @@
 &gpio4 {
 	usb1_en {
 		gpio-hog;
-		gpios = <0x1c 0x00>;
+		gpios = <28 0>;
 		output-high;
 	};
 	usb3_en {
 		gpio-hog;
-		gpios = <0x1e 0x00>;
+		gpios = <30 0>;
 		output-high;
 	};
 	usb4_en {
 		gpio-hog;
-		gpios = <0x15 0x00>;
+		gpios = <21 0>;
 		output-high;
 	};
 	usb5_en {
 		gpio-hog;
-		gpios = <0x18 0x00>;
+		gpios = <24 0>;
 		output-high;
 	};
 };
