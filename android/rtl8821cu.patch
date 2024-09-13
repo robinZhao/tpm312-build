@@ -35,3 +35,5 @@ index 20984ca..c5bdf79 100755
 +KSRC := /home/dcm360/rockpi/kernel
 +MODULE_NAME := 8821cu
  endif
+ 
+ ifeq ($(CONFIG_PLATFORM_ARM_RK3066), y)
