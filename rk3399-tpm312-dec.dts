@@ -1108,7 +1108,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 			poll_mode = <0x00>;
 			type = <0x00>;
 			enable_dma = <0x00>;
-			irq_gpio = <0x18 0x1c 0x04>;
+			irq-gpio = <0x18 0x1c 0x04>;
 			pinctrl-names = "default";
 			pinctrl-0 = <0x4c>;
 		};
