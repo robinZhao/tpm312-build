@@ -759,7 +759,7 @@
         poll_mode = <0x00>;
         type = <0x00>;
         enable_dma = <0x00>;
-        irq_gpio = <&gpio3 RK_PD4 4>;
+        irq-gpio = <&gpio3 RK_PD4 4>;
         pinctrl-names = "default";
         pinctrl-0 = <&wk2_irq>;
     };
