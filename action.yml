@@ -12,6 +12,11 @@ inputs:
     required: false
     default: ""
 
+  build_type:
+    descriptions: "build type nightly/stable"
+    required: false
+    default: "nightly"
+
   armbian_artifacts:
     descriptions: "Upload PATH"
     required: false
@@ -137,7 +142,7 @@ runs:
       run: |
 
         # read version from upstream Armbian OS
-        cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+        cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
         [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
 
         # copy os userpatches and custom
