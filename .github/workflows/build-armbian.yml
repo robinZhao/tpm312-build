@@ -13,4 +13,4 @@ jobs:
           armbian_board:     "tpm312"                   # build target
           armbian_ui: "xfce"
           armbian_kernel_branch: "current"
-          armbian_version: "24.8.1"
+          armbian_version: "v24.11.0-trunk.109"
