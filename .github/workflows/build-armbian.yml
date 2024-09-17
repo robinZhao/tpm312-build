@@ -26,6 +26,8 @@ on:
         default: "xfce"
         type: choice
         options:
+          - minimal
+          - server
           - xfce
           - gnome
       set_kernel_branch:
@@ -44,7 +46,10 @@ on:
         options:
           - main
           - 24.8.1
-          - 24.11.0
+      set_armbian_version:
+        description: "Set different version"
+        required: false
+        default: "24.8.1"
       builder_name:
         description: "Set Armbian builder signature."
         required: false
@@ -66,4 +71,4 @@ jobs:
           armbian_ui: "${{inputs.set_ui}}"
           armbian_kernel_branch: "${{inputs.set_kernel_branch}}"
           armbian_branch: "${{inputs.set_armbian_branch}}"
-          armbian_version: "${{inputs.set_armbian_branch}}"
+          armbian_version: "${{inputs.set_armbian_version}}"
