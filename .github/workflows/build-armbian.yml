@@ -64,8 +64,9 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./action
+      - uses: robinZhao/tpm312-build@main
         with:
+          armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release:   "${{inputs.set_release}}"                        # userspace
           armbian_target:   "${{inputs.set_target}}"                        # build=image, kernel=kernel
           armbian_board:     ""${{inputs.set_target}}"                   # build target
