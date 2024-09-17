@@ -189,6 +189,11 @@ runs:
         SHARE_LOG="yes" \
         EXPERT="yes"
 
+    - name: debs
+      shell: bash
+      run: |
+        tar -cvf ${{armbian_artifacts}}debs.tar build/output/debs
+
     - name: Sign
       shell: bash
       if: ${{ inputs.armbian_pgp_password != '' }}
