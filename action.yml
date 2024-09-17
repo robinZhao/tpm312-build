@@ -192,7 +192,7 @@ runs:
     - name: debs
       shell: bash
       run: |
-        tar -cvf ${{armbian_artifacts}}debs.tar build/output/debs
+        tar -cvf ${{inputs.armbian_artifacts}}debs.tar build/output/debs
 
     - name: Sign
       shell: bash
