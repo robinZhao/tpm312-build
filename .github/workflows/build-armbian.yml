@@ -1,5 +1,6 @@
 name: "build-armbian"
 on:
+  repository_dispatch:
   workflow_dispatch:
     inputs:
       set_release:
