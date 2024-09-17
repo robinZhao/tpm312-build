@@ -1,17 +1,68 @@
 name: "build-armbian"
 on:
+  repository_dispatch:
   workflow_dispatch:
+    inputs:
+      set_release:
+        description: "Select OS Release."
+        required: false
+        default: "jammy"
+        type: choice
+        options:
+          - jammy
+          - noble
+          - bullseye
+          - bookworm
+      set_target:
+        description: "Select build target."
+        required: false
+        default: "build"
+        type: choice
+        options:
+          - build
+          - kernel
+      set_ui:
+        description: "Select ui."
+        required: false
+        default: "xfce"
+        type: choice
+        options:
+          - minimal
+          - server
+          - xfce
+          - gnome
+      set_kernel_branch:
+        description: "Select kernel branch."
+        required: false
+        default: "current"
+        type: choice
+        options:
+          - current
+          - edge
+      set_armbian_branch:
+        description: "Select Armbian branch."
+        required: false
+        default: "24.8.1"
+        type: choice
+        options:
+          - main
+          - 24.8.1
+      set_armbian_version:
+        description: "Set different version"
+        required: false
+        default: "24.8.1"
+
 jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./action
+      - uses: robinZhao/tpm312-build@main
         with:
-          armbian_token:     "${{ secrets.SECTOKEN }}"  # GitHub token
-          armbian_release:   "jammy"                        # userspace
-          armbian_target:    "build"                        # build=image, kernel=kernel
-          armbian_board:     "tpm312"                   # build target
-          armbian_branch:     "24.8.1"  
-          armbian_ui: "xfce"
-          armbian_kernel_branch: "current"
-          armbian_version: "24.8.1"
+          armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
+          armbian_release: "${{inputs.set_release}}"                        # userspace
+          armbian_target: "${{inputs.set_target}}"                        # build=image, kernel=kernel
+          armbian_board: "${{inputs.set_target}}"                   # build target
+          armbian_ui: "${{inputs.set_ui}}"
+          armbian_kernel_branch: "${{inputs.set_kernel_branch}}"
+          armbian_branch: "${{inputs.set_armbian_branch}}"
+          armbian_version: "${{inputs.set_armbian_version}}"
