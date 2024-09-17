@@ -61,7 +61,7 @@ jobs:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release: "${{inputs.set_release}}"                        # userspace
           armbian_target: "${{inputs.set_target}}"                        # build=image, kernel=kernel
-          armbian_board: "${{inputs.set_target}}"                   # build target
+          armbian_board: "tpm312"                   # build target
           armbian_ui: "${{inputs.set_ui}}"
           armbian_kernel_branch: "${{inputs.set_kernel_branch}}"
           armbian_branch: "${{inputs.set_armbian_branch}}"
