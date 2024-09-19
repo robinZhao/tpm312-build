@@ -190,7 +190,7 @@ runs:
         ARMBIAN_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/armbian" \
         EXTERNAL_NEW = "prebuilt" \
         SHARE_LOG="yes" \
-        EXPERT="yes"
+        EXPERT="no"
 
     - name: debs
       shell: bash
