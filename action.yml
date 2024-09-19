@@ -166,6 +166,7 @@ runs:
           DESKTOP_ENVIRONMENT="${{ inputs.armbian_ui }}"
           DESKTOP_APPGROUPS_SELECTED=""
           DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"
+          DESKTOP_APPGROUPS_SELECTED="browsers"
         fi
 
         # go to build folder and checkout
