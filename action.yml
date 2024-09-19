@@ -164,7 +164,7 @@ runs:
           BUILD_DESKTOP="yes"
           BUILD_MINIMAL="no"
           DESKTOP_ENVIRONMENT="${{ inputs.armbian_ui }}"
-          DESKTOP_APPGROUPS_SELECTED="browsers multimedia"
+          DESKTOP_APPGROUPS_SELECTED="browsers multimedia remote_desktop"
           DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"
         fi
 
