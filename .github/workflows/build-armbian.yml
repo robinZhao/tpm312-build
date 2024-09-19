@@ -46,11 +46,11 @@ on:
         type: choice
         options:
           - main
-          - v24.8.1
+          - v24.08
       set_armbian_version:
         description: "Set different version"
         required: false
-        default: "24.8.1"
+        default: "24.08"
 
 jobs:
   build-armbian:
