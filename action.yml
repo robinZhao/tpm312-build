@@ -188,6 +188,7 @@ runs:
         COMPRESS_OUTPUTIMAGE="${{ inputs.armbian_compress }}" \
         DOWNLOAD_MIRROR="china" \
         ARMBIAN_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/armbian" \
+        EXTERNAL_NEW = "prebuilt" \
         SHARE_LOG="yes" \
         EXPERT="yes"
 
