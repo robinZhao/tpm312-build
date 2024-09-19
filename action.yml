@@ -186,6 +186,7 @@ runs:
         DESKTOP_ENVIRONMENT_CONFIG_NAME="${DESKTOP_ENVIRONMENT_CONFIG_NAME}" \
         ENABLE_EXTENSIONS="${{ inputs.armbian_extensions }}" \
         COMPRESS_OUTPUTIMAGE="${{ inputs.armbian_compress }}" \
+        DOWNLOAD_MIRROR="china" \
         SHARE_LOG="yes" \
         EXPERT="yes"
 
