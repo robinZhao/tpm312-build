@@ -50,7 +50,7 @@ inputs:
   armbian_board:
     description: "Select hardware platform"
     required: false
-    default: "uefi-x86"
+    default: "tpm312"
 
   armbian_ui:
     description: "Armbian user interface"
@@ -164,9 +164,8 @@ runs:
           BUILD_DESKTOP="yes"
           BUILD_MINIMAL="no"
           DESKTOP_ENVIRONMENT="${{ inputs.armbian_ui }}"
-          DESKTOP_APPGROUPS_SELECTED=""
+          DESKTOP_APPGROUPS_SELECTED="browsers multimedia"
           DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"
-          DESKTOP_APPGROUPS_SELECTED="browsers"
         fi
 
         # go to build folder and checkout
