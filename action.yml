@@ -188,6 +188,7 @@ runs:
         ENABLE_EXTENSIONS="${{ inputs.armbian_extensions }}" \
         COMPRESS_OUTPUTIMAGE="${{ inputs.armbian_compress }}" \
         DOWNLOAD_MIRROR="china" \
+        ARMBIAN_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/armbian" \
         SHARE_LOG="yes" \
         EXPERT="yes"
 
