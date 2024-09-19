@@ -140,7 +140,7 @@ runs:
 
     - shell: bash
       run: |
-
+        cd build ; git apply ../aptutils.patch;cd - 
         # read version from upstream Armbian OS
         cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
         [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
