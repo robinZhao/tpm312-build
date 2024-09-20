@@ -1,5 +1,7 @@
 name: "build-armbian"
 on:
+  schedule:
+    - cron: '0 17 * * *'
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -42,7 +44,7 @@ on:
       set_armbian_branch:
         description: "Select Armbian branch."
         required: false
-        default: "v24.08"
+        default: "main"
         type: choice
         options:
           - main
@@ -50,7 +52,11 @@ on:
       set_armbian_version:
         description: "Set different version"
         required: false
-        default: "24.08"
+
+      set_armbian_version_suffix:
+        description: "Set version suffix"
+        required: false
+        default: "robin"
 
 jobs:
   build-armbian:
@@ -66,3 +72,4 @@ jobs:
           armbian_kernel_branch: "${{inputs.set_kernel_branch}}"
           armbian_branch: "${{inputs.set_armbian_branch}}"
           armbian_version: "${{inputs.set_armbian_version}}"
+          armbian_version_suffix: "${{inputs.set_armbian_version_suffix}}"

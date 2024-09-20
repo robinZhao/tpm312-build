@@ -142,6 +142,7 @@ runs:
       run: |
         cd build ; git apply ../custom/aptutils.patch;cd - 
         # read version from upstream Armbian OS
+        cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION_REAL=/' >> $GITHUB_ENV
         cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
         [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
 
@@ -170,11 +171,19 @@ runs:
 
         # go to build folder and checkout
         cd build
-        git checkout ${{ inputs.armbian_branch }}
-
+        if [[ "${{ inputs.armbian_branch }}" != '' ]];then
+          git checkout ${{ inputs.armbian_branch }}
+        elseif [[ "${{ inputs.build_type }}" == 'stable' ]];then
+        #get stable branch
+          ver_arr=($(echo ${{ env.ARMBIAN_VERSION_REAL }} | tr "." "\n"))
+          git checkout v${my_array[0]}.$(printf "%02d" ${my_array[1]})
+        else
+          git checkout main
+        fi
+        
         # execute build command
         ./compile.sh "${{ inputs.armbian_target }}" \
-        REVISION="${{ env.ARMBIAN_VERSION }}" \
+        REVISION="${{ env.ARMBIAN_VERSION }}${{ inputs.armbian_version_suffix }}" \
         BOARD="${{ inputs.armbian_board }}" \
         BRANCH="${{ inputs.armbian_kernel_branch }}" \
         RELEASE="${{ inputs.armbian_release }}" \
