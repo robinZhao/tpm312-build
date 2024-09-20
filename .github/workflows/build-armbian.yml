@@ -9,6 +9,7 @@ on:
         descriptions: "build type nightly/stable"
         required: false
         default: "nightly"
+        type: choice
         options:
           - nightly
           - stable
