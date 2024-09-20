@@ -179,7 +179,7 @@ runs:
         elseif [[ "${{ inputs.build_type }}" == 'stable' ]];then
         #get stable branch
           ver_arr=($(echo ${{ env.ARMBIAN_VERSION_REAL }} | tr "." "\n"))
-          git checkout v${my_array[0]}.$(printf "%02d" ${my_array[1]})
+          git checkout v${ver_arr[0]}.$(printf "%02d" ${ver_arr[1]})
         else
           git checkout main
         fi
