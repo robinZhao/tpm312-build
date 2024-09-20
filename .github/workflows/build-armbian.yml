@@ -42,7 +42,7 @@ on:
       set_armbian_branch:
         description: "Select Armbian branch."
         required: false
-        default: "v24.8.1"
+        default: "v24.08"
         type: choice
         options:
           - main
