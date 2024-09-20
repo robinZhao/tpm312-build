@@ -141,7 +141,8 @@ runs:
         clean: false
         path: custom
 
-    - shell: bash
+    - name: merge patches
+      shell: bash
       run: |
         cd build ; git apply ../custom/aptutils.patch;cd - 
         # read version from upstream Armbian OS
@@ -153,8 +154,9 @@ runs:
         mkdir -pv build/userpatches
         rsync -av os/userpatches/. build/userpatches/
         [[ -d custom/userpatches ]] && rsync -av custom/userpatches/. build/userpatches/
-
-    - shell: bash
+    
+    - name: execute compile armbian
+      shell: bash
       run: |
 
         # userspace decode
@@ -217,7 +219,8 @@ runs:
         gpg --passphrase-fd 0 --armor --detach-sign --pinentry-mode loopback --batch --yes \
         build/output/images/*.img*.xz
 
-    - uses: ncipollo/release-action@v1
+    - name: replaces Artifacts
+      uses: ncipollo/release-action@v1
       with:
         tag: "${{ env.ARMBIAN_VERSION }}"
         name: "${{ inputs.armbian_release_tittle }}"
