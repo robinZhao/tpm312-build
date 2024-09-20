@@ -5,6 +5,10 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      set_build_type:
+        descriptions: "build type nightly/stable"
+        required: false
+        default: "nightly"
       set_release:
         description: "Select OS Release."
         required: false
@@ -56,7 +60,7 @@ on:
       set_armbian_version_suffix:
         description: "Set version suffix"
         required: false
-        default: "robin"
+        default: "-robin"
 
 jobs:
   build-armbian:
@@ -73,3 +77,4 @@ jobs:
           armbian_branch: "${{inputs.set_armbian_branch}}"
           armbian_version: "${{inputs.set_armbian_version}}"
           armbian_version_suffix: "${{inputs.set_armbian_version_suffix}}"
+          build_type: "${{inputs.set_build_type}}"
