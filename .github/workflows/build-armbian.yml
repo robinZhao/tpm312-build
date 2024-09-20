@@ -9,6 +9,9 @@ on:
         descriptions: "build type nightly/stable"
         required: false
         default: "nightly"
+        options:
+          - nightly
+          - stable
       set_release:
         description: "Select OS Release."
         required: false
