@@ -174,9 +174,9 @@ runs:
 
         # go to build folder and checkout
         cd build
-        if [[ "${{ inputs.armbian_branch }}" != '' ]];then
+        if [[ "${{ inputs.armbian_branch }}" != '' ]]; then
           git checkout ${{ inputs.armbian_branch }}
-        elseif [[ "${{ inputs.build_type }}" == 'stable' ]];then
+        elif [[ "${{ inputs.build_type }}" == 'stable' ]]; then
         #get stable branch
           ver_arr=($(echo ${{ env.ARMBIAN_VERSION_REAL }} | tr "." "\n"))
           git checkout v${ver_arr[0]}.$(printf "%02d" ${ver_arr[1]})
