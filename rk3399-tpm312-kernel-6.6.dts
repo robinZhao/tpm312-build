@@ -210,7 +210,7 @@
 			"Microphone", "Mic Jack",
 			"Headphone", "Headphones";
 		simple-audio-card,routing =
-			//"MIC1", "Mic Jack",
+			"MIC1", "Mic Jack",
 			"Headphones", "HPOL",
 			"Headphones", "HPOR";
 
@@ -327,16 +327,16 @@
 		#clock-cells = <1>;
 		clock-output-names = "xin32k", "rk808-clkout2";
 
-		vcc1-supply = <&vcc3v3_sys>;
-		vcc2-supply = <&vcc3v3_sys>;
-		vcc3-supply = <&vcc3v3_sys>;
-		vcc4-supply = <&vcc3v3_sys>;
-		vcc6-supply = <&vcc3v3_sys>;
-		vcc7-supply = <&vcc3v3_sys>;
+		vcc1-supply = <&vcc5v0_sys>;
+		vcc2-supply = <&vcc5v0_sys>;
+		vcc3-supply = <&vcc5v0_sys>;
+		vcc4-supply = <&vcc5v0_sys>;
+		vcc6-supply = <&vcc5v0_sys>;
+		vcc7-supply = <&vcc5v0_sys>;
 		vcc8-supply = <&vcc3v3_sys>;
-		vcc9-supply = <&vcc3v3_sys>;
-		vcc10-supply = <&vcc3v3_sys>;
-		vcc11-supply = <&vcc3v3_sys>;
+		vcc9-supply = <&vcc5v0_sys>;
+		vcc10-supply = <&vcc5v0_sys>;
+		vcc11-supply = <&vcc5v0_sys>;
 		vcc12-supply = <&vcc3v3_sys>;
 		vddio-supply = <&vcc_3v0>;
 
@@ -515,8 +515,8 @@
         clocks = <&cru SCLK_I2S_8CH_OUT>;
         clock-names = "mclk";
         #sound-dai-cells = <0>;
-//        pinctrl-names = "default";
-//		pinctrl-0 = <&i2s_8ch_mclk>;
+        //pinctrl-names = "default";
+		//pinctrl-0 = <&i2s_8ch_mclk>;
         spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
     };
 };
@@ -696,9 +696,9 @@
 				<3 RK_PD7 1 &pcfg_pull_none>,
 				<4 RK_PA0 1 &pcfg_pull_none>;
 		};
-//		i2s_8ch_mclk: i2s-8ch-mclk {
-//			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
-//		};
+		i2s_8ch_mclk: i2s-8ch-mclk {
+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
+		};
 	};
 
 };
@@ -759,7 +759,7 @@
         poll_mode = <0x00>;
         type = <0x00>;
         enable_dma = <0x00>;
-        irq-gpio = <&gpio3 RK_PD4 4>;
+        irq_gpio = <&gpio3 RK_PD4 4>;
         pinctrl-names = "default";
         pinctrl-0 = <&wk2_irq>;
     };
@@ -920,7 +920,7 @@
 &gpio2 {
 	wk2_rst {
 		gpio-hog;
-		gpios = <18 1>;
+		gpios = <0x12 0x01>;
 		output-low;
 	};
 };
@@ -928,23 +928,22 @@
 &gpio4 {
 	usb1_en {
 		gpio-hog;
-		gpios = <28 0>;
+		gpios = <0x1c 0x00>;
 		output-high;
 	};
 	usb3_en {
 		gpio-hog;
-		gpios = <30 0>;
+		gpios = <0x1e 0x00>;
 		output-high;
 	};
 	usb4_en {
 		gpio-hog;
-		gpios = <21 0>;
+		gpios = <0x15 0x00>;
 		output-high;
 	};
 	usb5_en {
 		gpio-hog;
-		gpios = <24 0>;
+		gpios = <0x18 0x00>;
 		output-high;
 	};
 };
-

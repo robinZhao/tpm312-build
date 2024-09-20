@@ -1,9 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: John Doe <john.doe@somewhere.on.planet>
+Date: Fri, 20 Sep 2024 12:31:41 +0000
+Subject: Patching kernel rockchip64 files
+ arch/arm64/boot/dts/rockchip/rk3399-tpm312.dts
+
+Signed-off-by: John Doe <john.doe@somewhere.on.planet>
+---
+ arch/arm64/boot/dts/rockchip/rk3399-tpm312.dts | 950 ++++++++++
+ 1 file changed, 950 insertions(+)
+
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399-tpm312.dts b/arch/arm64/boot/dts/rockchip/rk3399-tpm312.dts
 new file mode 100644
-index 0000000..ad2a64e
+index 000000000..ef784d89f
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-tpm312.dts
-@@ -0,0 +1,949 @@
+@@ -0,0 +1,950 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 + /*
 +  * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
@@ -216,7 +227,7 @@ index 0000000..ad2a64e
 +			"Microphone", "Mic Jack",
 +			"Headphone", "Headphones";
 +		simple-audio-card,routing =
-+			"MIC1", "Mic Jack",
++			//"MIC1", "Mic Jack",
 +			"Headphones", "HPOL",
 +			"Headphones", "HPOR";
 +
@@ -333,16 +344,16 @@ index 0000000..ad2a64e
 +		#clock-cells = <1>;
 +		clock-output-names = "xin32k", "rk808-clkout2";
 +
-+		vcc1-supply = <&vcc5v0_sys>;
-+		vcc2-supply = <&vcc5v0_sys>;
-+		vcc3-supply = <&vcc5v0_sys>;
-+		vcc4-supply = <&vcc5v0_sys>;
-+		vcc6-supply = <&vcc5v0_sys>;
-+		vcc7-supply = <&vcc5v0_sys>;
++		vcc1-supply = <&vcc3v3_sys>;
++		vcc2-supply = <&vcc3v3_sys>;
++		vcc3-supply = <&vcc3v3_sys>;
++		vcc4-supply = <&vcc3v3_sys>;
++		vcc6-supply = <&vcc3v3_sys>;
++		vcc7-supply = <&vcc3v3_sys>;
 +		vcc8-supply = <&vcc3v3_sys>;
-+		vcc9-supply = <&vcc5v0_sys>;
-+		vcc10-supply = <&vcc5v0_sys>;
-+		vcc11-supply = <&vcc5v0_sys>;
++		vcc9-supply = <&vcc3v3_sys>;
++		vcc10-supply = <&vcc3v3_sys>;
++		vcc11-supply = <&vcc3v3_sys>;
 +		vcc12-supply = <&vcc3v3_sys>;
 +		vddio-supply = <&vcc_3v0>;
 +
@@ -521,8 +532,8 @@ index 0000000..ad2a64e
 +        clocks = <&cru SCLK_I2S_8CH_OUT>;
 +        clock-names = "mclk";
 +        #sound-dai-cells = <0>;
-+        //pinctrl-names = "default";
-+		//pinctrl-0 = <&i2s_8ch_mclk>;
++//        pinctrl-names = "default";
++//		pinctrl-0 = <&i2s_8ch_mclk>;
 +        spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
 +    };
 +};
@@ -702,9 +713,9 @@ index 0000000..ad2a64e
 +				<3 RK_PD7 1 &pcfg_pull_none>,
 +				<4 RK_PA0 1 &pcfg_pull_none>;
 +		};
-+		i2s_8ch_mclk: i2s-8ch-mclk {
-+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
-+		};
++//		i2s_8ch_mclk: i2s-8ch-mclk {
++//			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
++//		};
 +	};
 +
 +};
@@ -926,7 +937,7 @@ index 0000000..ad2a64e
 +&gpio2 {
 +	wk2_rst {
 +		gpio-hog;
-+		gpios = <0x12 0x01>;
++		gpios = <18 1>;
 +		output-low;
 +	};
 +};
@@ -934,22 +945,26 @@ index 0000000..ad2a64e
 +&gpio4 {
 +	usb1_en {
 +		gpio-hog;
-+		gpios = <0x1c 0x00>;
++		gpios = <28 0>;
 +		output-high;
 +	};
 +	usb3_en {
 +		gpio-hog;
-+		gpios = <0x1e 0x00>;
++		gpios = <30 0>;
 +		output-high;
 +	};
 +	usb4_en {
 +		gpio-hog;
-+		gpios = <0x15 0x00>;
++		gpios = <21 0>;
 +		output-high;
 +	};
 +	usb5_en {
 +		gpio-hog;
-+		gpios = <0x18 0x00>;
++		gpios = <24 0>;
 +		output-high;
 +	};
 +};
++
+-- 
+Created with Armbian build tools https://github.com/armbian/build
+

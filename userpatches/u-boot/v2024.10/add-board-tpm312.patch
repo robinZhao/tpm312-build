@@ -1,272 +1,19 @@
-diff --git a/arch/arm/dts/rk3399-tpm312-u-boot.dtsi b/arch/arm/dts/rk3399-tpm312-u-boot.dtsi
-new file mode 100644
-index 00000000..f7f26d58
---- /dev/null
-+++ b/arch/arm/dts/rk3399-tpm312-u-boot.dtsi
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2019 Jagan Teki <jagan@amarulasolutions.com>
-+ */
-+
-+#include "rk3399-u-boot.dtsi"
-+#include "rk3399-sdram-lpddr4-100.dtsi"
-+
-+&vdd_log {
-+	regulator-init-microvolt = <950000>;
-+};
-diff --git a/board/rockchip/tpm312_rk3399/Kconfig b/board/rockchip/tpm312_rk3399/Kconfig
-new file mode 100644
-index 00000000..37a32691
---- /dev/null
-+++ b/board/rockchip/tpm312_rk3399/Kconfig
-@@ -0,0 +1,12 @@
-+if TARGET_TPM312_RK3399
-+
-+config SYS_BOARD
-+	default "tpm312_rk3399"
-+
-+config SYS_VENDOR
-+	default "rockchip"
-+
-+config SYS_CONFIG_NAME
-+	default "tpm312_rk3399"
-+
-+endif
-diff --git a/board/rockchip/tpm312_rk3399/MAINTAINERS b/board/rockchip/tpm312_rk3399/MAINTAINERS
-new file mode 100644
-index 00000000..a3e18124
---- /dev/null
-+++ b/board/rockchip/tpm312_rk3399/MAINTAINERS
-@@ -0,0 +1,97 @@
-+EVB-RK3399
-+M:      Kever Yang <kever.yang@rock-chips.com>
-+S:      Maintained
-+F:      board/rockchip/evb_rk3399
-+F:      include/configs/evb_rk3399.h
-+F:      configs/evb-rk3399_defconfig
-+F:      arch/arm/dts/rk3399-evb*
-+F:      configs/firefly-rk3399_defconfig
-+F:      arch/arm/dts/rk3399-firefly*
-+
-+EAIDK-610
-+M:      Andy Yan <andy.yan@rock-chips.com>
-+S:      Maintained
-+F:	configs/eaidk-610-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-eaidk-610*
-+
-+KHADAS-EDGE
-+M:	Nick Xie <nick@khadas.com>
-+S:	Maintained
-+F:	configs/khadas-edge-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-khadas-edge.dts
-+F:	arch/arm/dts/rk3399-khadas-edge.dtsi
-+F:	arch/arm/dts/rk3399-khadas-edge-u-boot.dtsi
-+
-+KHADAS-EDGE-CAPTAIN
-+M:	Nick Xie <nick@khadas.com>
-+S:	Maintained
-+F:	configs/khadas-edge-captain-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-khadas-edge-captain*
-+
-+KHADAS-EDGE-V
-+M:	Nick Xie <nick@khadas.com>
-+S:	Maintained
-+F:	configs/khadas-edge-v-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-khadas-edge-v*
-+
-+LEEZ-P710
-+M:	Andy Yan <andy.yan@rock-chips.com>
-+S:      Maintained
-+F:	arch/arm/dts/rk3399-leez-p710*
-+F:	configs/leez-rk3399_defconfig
-+
-+NANOPC-T4
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+S:	Maintained
-+F:	configs/nanopc-t4-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopc-t4*
-+
-+NANOPI-M4
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+S:	Maintained
-+F:	configs/nanopi-m4-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopi-m4.dts
-+F:	arch/arm/dts/rk3399-nanopi-m4-u-boot.dtsi
-+
-+NANOPI-M4-2GB
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+M:	Deepak Das <deepakdas.linux@gmail.com>
-+S:	Maintained
-+F:	configs/nanopi-m4-2gb-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopi-m4-2gb*
-+
-+NANOPI-M4B
-+M:	Alexandre Vicenzi <linux@alxd.me>
-+S:	Maintained
-+F:	configs/nanopi-m4b-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopi-m4b*
-+
-+NANOPI-NEO4
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+S:	Maintained
-+F:	configs/nanopi-neo4-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopi-neo4*
-+
-+NANOPI-R4S
-+M:	Xiaobo Tian <peterwillcn@gmail.com>
-+S:	Maintained
-+F:	configs/nanopi-r4s-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-nanopi-r4s*
-+
-+ORANGEPI-RK3399
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+S:	Maintained
-+F:	configs/orangepi-rk3399_defconfig
-+F:	arch/arm/dts/rk3399-orangepi*
-+
-+ROCK-PI-N10
-+M:	Jagan Teki <jagan@amarulasolutions.com>
-+S:	Maintained
-+F:	configs/rock-pi-n10-rk3399pro_defconfig
-+F:	arch/arm/dts/rk3399pro-rock-pi-n10*
-+
-+TPM312-RK3399
-+M:      ZhaoRuibin <zhaoruibin@aliyun.com>
-+S:      Maintained
-+F:      configs/tpm312-rk3399_defconfig
-+F:      arch/arm/dts/rk3399-tpm312*
-diff --git a/board/rockchip/tpm312_rk3399/README b/board/rockchip/tpm312_rk3399/README
-new file mode 100644
-index 00000000..c6f58203
---- /dev/null
-+++ b/board/rockchip/tpm312_rk3399/README
-@@ -0,0 +1,122 @@
-+Introduction
-+============
-+
-+RK3399 key features we might use in U-Boot:
-+* CPU: ARMv8 64bit Big-Little architecture,
-+*      Big: dual-core Cortex-A72
-+*      Little: quad-core Cortex-A53
-+* IRAM: 200KB
-+* DRAM: 4GB-128MB dual-channel
-+* eMMC: support eMMC 5.0/5.1, suport HS400, HS200, DDR50
-+* SD/MMC: support SD 3.0, MMC 4.51
-+* USB: USB3.0 type-C port *2 with dwc3 controller
-+*      USB2.0 EHCI host port *2
-+* Display: RGB/HDMI/DP/MIPI/EDP
-+
-+evb key features:
-+* regulator: pwm regulator for CPU B/L
-+* PMIC: rk808
-+* debug console: UART2
-+
-+In order to support Arm Trust Firmware(ATF), we can use either SPL or
-+miniloader from rockchip to do:
-+* do DRAM init
-+* load and verify ATF image
-+* load and verify U-Boot image
-+
-+Here is the step-by-step to boot to U-Boot on rk3399.
-+
-+Get the Source and prebuild binary
-+==================================
-+
-+  > mkdir ~/evb_rk3399
-+  > cd ~/evb_rk3399
-+  > git clone https://github.com/ARM-software/arm-trusted-firmware.git
-+  > git clone https://github.com/rockchip-linux/rkbin.git
-+  > git clone https://github.com/rockchip-linux/rkdeveloptool.git
-+
-+
-+Compile ATF
-+===========
-+
-+  > cd arm-trusted-firmware
-+  > make realclean
-+  > make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3399 bl31
-+
-+  Get bl31.elf in this step, copy it to U-Boot root dir:
-+  > cp build/rk3399/release/bl31/bl31.elf ../u-boot/
-+
-+  Or you can get the bl31.elf directly from Rockchip:
-+  > cp rkbin/rk33/rk3399_bl31_v1.00.elf ../u-boot/bl31.elf
-+
-+
-+Compile U-Boot
-+==============
-+
-+  > cd ../u-boot
-+  > export CROSS_COMPILE=aarch64-linux-gnu-
-+  > make evb-rk3399_defconfig
-+  for firefly-rk3399, use below instead:
-+  > make firefly-rk3399_defconfig
-+  > make
-+  > make u-boot.itb
-+
-+  Get spl/u-boot-spl.bin and u-boot.itb in this step.
-+
-+Compile rkdeveloptool
-+=====================
-+
-+Get rkdeveloptool installed on your Host in this step.
-+
-+Follow instructions in latest README, example:
-+  > cd ../rkdeveloptool
-+  > autoreconf -i
-+  > ./configure
-+  > make
-+  > sudo make install
-+
-+Both origin binaries and Tool are ready now, choose either option 1 or
-+option 2 to deploy U-Boot.
-+
-+Package the image
-+=================
-+
-+Package the image for U-Boot SPL(option 1)
-+--------------------------------
-+  > cd ..
-+  > tools/mkimage -n rk3399 -T rksd -d spl/u-boot-spl.bin idbspl.img
-+
-+  Get idbspl.img in this step.
-+
-+Package the image for Rockchip miniloader(option 2)
-+------------------------------------------
-+  > cd ..
-+  > cp arm-trusted-firmware/build/rk3399/release/bl31.elf rkbin/rk33
-+  > ./rkbin/tools/trust_merger rkbin/tools/RK3399TRUST.ini
-+  > ./rkbin/tools/loaderimage --pack --uboot u-boot/u-boot-dtb.bin uboot.img
-+
-+  Get trust.img and uboot.img in this step.
-+
-+Flash the image to eMMC
-+=======================
-+
-+Flash the image with U-Boot SPL(option 1)
-+-------------------------------
-+Power on(or reset with RESET KEY) with MASKROM KEY preesed, and then:
-+  > rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
-+  > rkdeveloptool wl 64 u-boot/idbspl.img
-+  > rkdeveloptool wl 0x4000 u-boot/u-boot.itb
-+  > rkdeveloptool rd
-+
-+Flash the image with Rockchip miniloader(option 2)
-+----------------------------------------
-+Power on(or reset with RESET KEY) with MASKROM KEY preesed, and then:
-+  > rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
-+  > rkdeveloptool ul rkbin/rk33/rk3399_loader_v1.08.106.bin
-+  > rkdeveloptool wl 0x4000 u-boot/uboot.img
-+  > rkdeveloptool wl 0x6000 u-boot/trust.img
-+  > rkdeveloptool rd
-+
-+You should be able to get U-Boot log in console/UART2(baurdrate 1500000)
-+For more detail, please reference to:
-+http://opensource.rock-chips.com/wiki_Boot_option
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: John Doe <john.doe@somewhere.on.planet>
+Date: Fri, 20 Sep 2024 12:20:07 +0000
+Subject: Patching u-boot rockchip64 files configs/tpm312-rk3399_defconfig
+ dts/upstream/src/arm64/rockchip/rk3399-tpm312.dts trust.ini
+
+Signed-off-by: John Doe <john.doe@somewhere.on.planet>
+---
+ configs/tpm312-rk3399_defconfig                   |  73 +
+ dts/upstream/src/arm64/rockchip/rk3399-tpm312.dts | 950 ++++++++++
+ trust.ini                                         |  15 +
+ 3 files changed, 1038 insertions(+)
+
 diff --git a/configs/tpm312-rk3399_defconfig b/configs/tpm312-rk3399_defconfig
 new file mode 100644
-index 00000000..aaf1fcf1
+index 0000000000..aaf1fcf1f7
 --- /dev/null
 +++ b/configs/tpm312-rk3399_defconfig
 @@ -0,0 +1,73 @@
@@ -345,10 +92,10 @@ index 00000000..aaf1fcf1
 +CONFIG_ERRNO_STR=y
 diff --git a/dts/upstream/src/arm64/rockchip/rk3399-tpm312.dts b/dts/upstream/src/arm64/rockchip/rk3399-tpm312.dts
 new file mode 100644
-index 00000000..7e7fbb76
+index 0000000000..0c5e2d1b27
 --- /dev/null
 +++ b/dts/upstream/src/arm64/rockchip/rk3399-tpm312.dts
-@@ -0,0 +1,940 @@
+@@ -0,0 +1,950 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 + /*
 +  * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
@@ -561,7 +308,7 @@ index 00000000..7e7fbb76
 +			"Microphone", "Mic Jack",
 +			"Headphone", "Headphones";
 +		simple-audio-card,routing =
-+			"MIC1", "Mic Jack",
++			//"MIC1", "Mic Jack",
 +			"Headphones", "HPOL",
 +			"Headphones", "HPOR";
 +
@@ -575,16 +322,6 @@ index 00000000..7e7fbb76
 +		simple-audio-card,codec {
 +			sound-dai = <&es8316>;
 +		};
-+	};
-+
-+    rng: rng@ff8b8000 {
-+		compatible = "rockchip,cryptov1-rng";
-+		reg = <0x0 0xff8b8000 0x0 0x1000>;
-+		clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
-+		clock-names = "clk_crypto", "hclk_crypto";
-+		assigned-clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
-+		assigned-clock-rates = <150000000>, <100000000>;
-+		status = "okay";
 +	};
 +};
 +
@@ -688,16 +425,16 @@ index 00000000..7e7fbb76
 +		#clock-cells = <1>;
 +		clock-output-names = "xin32k", "rk808-clkout2";
 +
-+		vcc1-supply = <&vcc5v0_sys>;
-+		vcc2-supply = <&vcc5v0_sys>;
-+		vcc3-supply = <&vcc5v0_sys>;
-+		vcc4-supply = <&vcc5v0_sys>;
-+		vcc6-supply = <&vcc5v0_sys>;
-+		vcc7-supply = <&vcc5v0_sys>;
++		vcc1-supply = <&vcc3v3_sys>;
++		vcc2-supply = <&vcc3v3_sys>;
++		vcc3-supply = <&vcc3v3_sys>;
++		vcc4-supply = <&vcc3v3_sys>;
++		vcc6-supply = <&vcc3v3_sys>;
++		vcc7-supply = <&vcc3v3_sys>;
 +		vcc8-supply = <&vcc3v3_sys>;
-+		vcc9-supply = <&vcc5v0_sys>;
-+		vcc10-supply = <&vcc5v0_sys>;
-+		vcc11-supply = <&vcc5v0_sys>;
++		vcc9-supply = <&vcc3v3_sys>;
++		vcc10-supply = <&vcc3v3_sys>;
++		vcc11-supply = <&vcc3v3_sys>;
 +		vcc12-supply = <&vcc3v3_sys>;
 +		vddio-supply = <&vcc_3v0>;
 +
@@ -876,8 +613,8 @@ index 00000000..7e7fbb76
 +        clocks = <&cru SCLK_I2S_8CH_OUT>;
 +        clock-names = "mclk";
 +        #sound-dai-cells = <0>;
-+        //pinctrl-names = "default";
-+		//pinctrl-0 = <&i2s_8ch_mclk>;
++//        pinctrl-names = "default";
++//		pinctrl-0 = <&i2s_8ch_mclk>;
 +        spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
 +    };
 +};
@@ -1038,12 +775,29 @@ index 00000000..7e7fbb76
 +	};
 +
 +	i2s0 {
-+		i2s_8ch_mclk: i2s-8ch-mclk {
-+			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
++		i2s0_2ch_bus: i2s0-2ch-bus {
++			rockchip,pins =
++				<3 RK_PD0 1 &pcfg_pull_none>,
++				<3 RK_PD1 1 &pcfg_pull_none>,
++				<3 RK_PD2 1 &pcfg_pull_none>,
++				<3 RK_PD3 1 &pcfg_pull_none>,
++				<3 RK_PD7 1 &pcfg_pull_none>,
++				<4 RK_PA0 1 &pcfg_pull_none>;
 +		};
-+	};
 +
-+		
++		i2s0_2ch_bus_bclk_off: i2s0-2ch-bus-bclk-off {
++			rockchip,pins =
++				<3 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>,
++				<3 RK_PD1 1 &pcfg_pull_none>,
++				<3 RK_PD2 1 &pcfg_pull_none>,
++				<3 RK_PD3 1 &pcfg_pull_none>,
++				<3 RK_PD7 1 &pcfg_pull_none>,
++				<4 RK_PA0 1 &pcfg_pull_none>;
++		};
++//		i2s_8ch_mclk: i2s-8ch-mclk {
++//			rockchip,pins = <4 RK_PA0 1 &pcfg_pull_none>;
++//		};
++	};
 +
 +};
 +
@@ -1079,7 +833,7 @@ index 00000000..7e7fbb76
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&sdmmc_clk &sdmmc_cmd &sdmmc_cd &sdmmc_bus4>;
 +	card-detect-delay = <800>;
-+	status = "okay";
++	status = "disabled";
 +};
 +
 +&sdhci {
@@ -1103,7 +857,7 @@ index 00000000..7e7fbb76
 +        poll_mode = <0x00>;
 +        type = <0x00>;
 +        enable_dma = <0x00>;
-+        irq_gpio = <&gpio3 RK_PD4 4>;
++        irq-gpio = <&gpio3 RK_PD4 4>;
 +        pinctrl-names = "default";
 +        pinctrl-0 = <&wk2_irq>;
 +    };
@@ -1193,21 +947,22 @@ index 00000000..7e7fbb76
 +	status = "okay";
 +};
 +
-+&vopl {
-+    status = "okay";
-+    rockchip,grf = <&grf>;
-+};
 +&vopb {
 +    status = "okay";
 +    rockchip,grf = <&grf>;
 +};
-+&vopl_mmu {
-+    status = "okay";
-+    interrupt-names = "vopl_mmu";
++
++&vopl {
++    status = "disabled";
++    rockchip,grf = <&grf>;
 +};
++
 +&vopb_mmu {
 +    status = "okay";
-+    interrupt-names = "vopb_mmu";
++};
++
++&vopl_mmu {
++    status = "disabled";
 +};
 +
 +&hdmi {
@@ -1227,7 +982,7 @@ index 00000000..7e7fbb76
 +};
 +&gpu{
 +	mali-supply = <&vdd_gpu>;
-+    ower-off-delay-ms = <200>;
++    power-off-delay-ms = <200>;
 +    status = "okay";
 +};
 +&saradc {
@@ -1241,6 +996,7 @@ index 00000000..7e7fbb76
 +	dev_mode = <1>;
 +	dma-coherent;
 +};
++
 +&gpio1 {
 +	usb2_en {
 +		gpio-hog;
@@ -1262,7 +1018,7 @@ index 00000000..7e7fbb76
 +&gpio2 {
 +	wk2_rst {
 +		gpio-hog;
-+		gpios = <0x12 0x01>;
++		gpios = <18 1>;
 +		output-low;
 +	};
 +};
@@ -1270,22 +1026,47 @@ index 00000000..7e7fbb76
 +&gpio4 {
 +	usb1_en {
 +		gpio-hog;
-+		gpios = <0x1c 0x00>;
++		gpios = <28 0>;
 +		output-high;
 +	};
 +	usb3_en {
 +		gpio-hog;
-+		gpios = <0x1e 0x00>;
++		gpios = <30 0>;
 +		output-high;
 +	};
 +	usb4_en {
 +		gpio-hog;
-+		gpios = <0x15 0x00>;
++		gpios = <21 0>;
 +		output-high;
 +	};
 +	usb5_en {
 +		gpio-hog;
-+		gpios = <0x18 0x00>;
++		gpios = <24 0>;
 +		output-high;
 +	};
 +};
++
+diff --git a/trust.ini b/trust.ini
+new file mode 100644
+index 0000000000..8cd7b97683
+--- /dev/null
++++ b/trust.ini
+@@ -0,0 +1,15 @@
++[VERSION]
++MAJOR=1
++MINOR=0
++[BL30_OPTION]
++SEC=0
++[BL31_OPTION]
++SEC=1
++PATH=bl31.elf
++ADDR=0x10000
++[BL32_OPTION]
++SEC=0
++[BL33_OPTION]
++SEC=0
++[OUTPUT]
++PATH=trust.bin
+-- 
+Created with Armbian build tools https://github.com/armbian/build
+
