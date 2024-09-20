@@ -46,6 +46,10 @@ inputs:
     description: "Set different version"
     required: false
     default: ""
+  armbian_version_suffix:
+    description: "Set version suffix"
+    required: false
+    default: ""
 
   armbian_board:
     description: "Select hardware platform"
