@@ -42,7 +42,7 @@ on:
       set_armbian_branch:
         description: "Select Armbian branch."
         required: false
-        default: "v24.8.1"
+        default: "main"
         type: choice
         options:
           - main
@@ -50,7 +50,7 @@ on:
       set_armbian_version:
         description: "Set different version"
         required: false
-        default: "24.08"
+        default: "24.11.0"
 
 jobs:
   build-armbian:
