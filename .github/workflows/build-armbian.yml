@@ -52,11 +52,7 @@ on:
       set_armbian_branch:
         description: "Select Armbian branch."
         required: false
-        default: "main"
-        type: choice
-        options:
-          - main
-          - v24.08
+
       set_armbian_version:
         description: "Set different version"
         required: false

@@ -30,7 +30,6 @@ inputs:
   armbian_branch:
     description: "Choose framework branch"
     required: false
-    default: "main"
 
   armbian_kernel_branch:
     description: "Choose kernel branch"
