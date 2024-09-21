@@ -34,7 +34,7 @@ on:
       set_ui:
         description: "Select ui."
         required: false
-        default: "xfce"
+        default: "gnome"
         type: choice
         options:
           - minimal
@@ -60,7 +60,7 @@ on:
       set_armbian_version_suffix:
         description: "Set version suffix"
         required: false
-        default: "-robin"
+        default: ""
 
 
 env:
