@@ -929,7 +929,7 @@ index 000000000..ef784d89f
 +	};
 +	gprs_rst {
 +		gpio-hog;
-+		gpios = <4 1>;
++		gpios = <4 0>;
 +		output-low;
 +	};
 +};
@@ -937,7 +937,7 @@ index 000000000..ef784d89f
 +&gpio2 {
 +	wk2_rst {
 +		gpio-hog;
-+		gpios = <18 1>;
++		gpios = <18 0>;
 +		output-low;
 +	};
 +};
