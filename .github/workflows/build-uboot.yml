@@ -11,7 +11,7 @@ env:
   PREFER_DOCKER: no
 jobs:
   build-armbian:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: robinZhao/tpm312-build@main
         with:
