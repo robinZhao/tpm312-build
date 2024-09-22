@@ -1,0 +1,22 @@
+name: "build-armbian"
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+
+
+
+env:
+  TZ: Asia/Shanghai
+jobs:
+  build-armbian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: robinZhao/tpm312-build@main
+        with:
+          armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token               # userspace
+          armbian_target: "uboot"                        # build=image, kernel=kernel
+          armbian_board: "tpm312"                   # build target
+          build_type: "stable"
+          armbian_branch: "main"
+          armbian_artifacts: "build/output/debs/"

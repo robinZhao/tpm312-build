@@ -1,0 +1,53 @@
+name: "build-armbian"
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      set_build_type:
+        descriptions: "build type nightly/stable"
+        required: false
+        default: "nightly"
+        type: choice
+        options:
+          - nightly
+          - stable
+      set_kernel_branch:
+        description: "Select kernel branch."
+        required: false
+        default: "current"
+        type: choice
+        options:
+          - current
+          - edge
+      set_armbian_branch:
+        description: "Select Armbian branch."
+        required: false
+
+      set_armbian_version:
+        description: "Set different version"
+        required: false
+
+      set_armbian_version_suffix:
+        description: "Set version suffix"
+        required: false
+        default: ""
+
+
+
+env:
+  TZ: Asia/Shanghai
+jobs:
+  build-armbian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: robinZhao/tpm312-build@main
+        with:
+          armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token               # userspace
+          armbian_target: "kernel"                        # build=image, kernel=kernel
+          armbian_board: "tpm312"                   # build target
+          armbian_kernel_branch: "${{inputs.set_kernel_branch}}"
+          armbian_branch: "${{inputs.set_armbian_branch}}"
+          armbian_version: "${{inputs.set_armbian_version}}"
+          armbian_version_suffix: "${{inputs.set_armbian_version_suffix}}"
+          build_type: "${{inputs.set_build_type}}"
+          armbian_artifacts: "build/output/debs/"
