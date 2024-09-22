@@ -1,4 +1,4 @@
-name: "build-armbian"
+name: "build-kernel"
 on:
   repository_dispatch:
   workflow_dispatch:
