@@ -222,8 +222,8 @@ runs:
     - name: replaces Artifacts
       uses: ncipollo/release-action@v1
       with:
-        tag: "${{ env.ARMBIAN_VERSION }}"
-        name: "${{ inputs.armbian_release_tittle }}"
+        tag: "${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}"
+        name: "${{ inputs.armbian_release_tittle }} ${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}"
         artifacts: "${{ inputs.armbian_artifacts }}*"
         allowUpdates: true
         removeArtifacts: false
