@@ -11,8 +11,8 @@ Signed-off-by: John Doe <john.doe@somewhere.on.planet>
  arch/arm/dts/rk3399-tpm312-linux.dts   | 950 ++++++++++
  arch/arm/dts/rk3399-tpm312-u-boot.dtsi |  11 +
  arch/arm/dts/rk3399-tpm312.dts         | 950 ++++++++++
- configs/tpm312-rk3399_defconfig        |  70 +
- 5 files changed, 1982 insertions(+)
+ configs/tpm312-rk3399_defconfig        |  82 +
+ 5 files changed, 1994 insertions(+)
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
 index 11dcac8fea..4515a3ed5d 100644
@@ -1964,7 +1964,7 @@ new file mode 100644
 index 0000000000..cf67df6251
 --- /dev/null
 +++ b/configs/tpm312-rk3399_defconfig
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,82 @@
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
 +CONFIG_ARCH_ROCKCHIP=y
@@ -2004,7 +2004,8 @@ index 0000000000..cf67df6251
 +CONFIG_DM_ETH=y
 +CONFIG_ETH_DESIGNWARE=y
 +CONFIG_GMAC_ROCKCHIP=y
-+# CONFIG_PHY_ROCKCHIP_TYPEC=y
++CONFIG_PHY_ROCKCHIP_INNO_USB2=y
++CONFIG_PHY_ROCKCHIP_TYPEC=y
 +CONFIG_PMIC_RK8XX=y
 +CONFIG_REGULATOR_PWM=y
 +CONFIG_REGULATOR_RK8XX=y
@@ -2017,8 +2018,17 @@ index 0000000000..cf67df6251
 +CONFIG_USB=y
 +CONFIG_USB_XHCI_HCD=y
 +CONFIG_USB_XHCI_DWC3=y
++# CONFIG_USB_XHCI_DWC3_OF_SIMPLE=y
 +CONFIG_USB_EHCI_HCD=y
 +CONFIG_USB_EHCI_GENERIC=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_OHCI_GENERIC=y
++CONFIG_USB_STORAGE=y
++CONFIG_USB_GADGET=y
++CONFIG_USB_GADGET_DOWNLOAD=y
++CONFIG_USB_GADGET_MANUFACTURER="Rockchip"
++CONFIG_USB_GADGET_VENDOR_NUM=0x2207
++CONFIG_USB_GADGET_PRODUCT_NUM=0x330a
 +CONFIG_USB_KEYBOARD=y
 +CONFIG_USB_DWC3=y
 +CONFIG_USB_DWC3_GENERIC=y
@@ -2030,11 +2040,13 @@ index 0000000000..cf67df6251
 +CONFIG_USB_ETHER_SMSC95XX=y
 +CONFIG_USB_FUNCTION_ROCKUSB=y
 +CONFIG_DM_VIDEO=y
++CONFIG_DM_USB=y
 +CONFIG_DISPLAY=y
 +CONFIG_VIDEO_ROCKCHIP=y
 +CONFIG_DISPLAY_ROCKCHIP_HDMI=y
 +CONFIG_SPL_TINY_MEMSET=y
 +CONFIG_ERRNO_STR=y
++CONFIG_BOOTDELAY=3
 -- 
 Created with Armbian build tools https://github.com/armbian/build
 
