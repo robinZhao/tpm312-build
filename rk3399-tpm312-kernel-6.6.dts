@@ -912,7 +912,7 @@
 	};
 	gprs_rst {
 		gpio-hog;
-		gpios = <4 1>;
+		gpios = <4 0>;
 		output-low;
 	};
 };
@@ -920,7 +920,7 @@
 &gpio2 {
 	wk2_rst {
 		gpio-hog;
-		gpios = <0x12 0x01>;
+		gpios = <0x12 0x00>;
 		output-low;
 	};
 };
