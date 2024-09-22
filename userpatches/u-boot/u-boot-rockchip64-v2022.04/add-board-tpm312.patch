@@ -2,13 +2,12 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: John Doe <john.doe@somewhere.on.planet>
 Date: Fri, 20 Sep 2024 11:56:29 +0000
 Subject: Patching u-boot rockchip64 files arch/arm/dts/Makefile
- arch/arm/dts/rk3399-tpm312-linux.dts arch/arm/dts/rk3399-tpm312-u-boot.dtsi
+ arch/arm/dts/rk3399-tpm312-u-boot.dtsi
  arch/arm/dts/rk3399-tpm312.dts configs/tpm312-rk3399_defconfig
 
 Signed-off-by: John Doe <john.doe@somewhere.on.planet>
 ---
  arch/arm/dts/Makefile                  |   1 +
- arch/arm/dts/rk3399-tpm312-linux.dts   | 950 ++++++++++
  arch/arm/dts/rk3399-tpm312-u-boot.dtsi |  11 +
  arch/arm/dts/rk3399-tpm312.dts         | 950 ++++++++++
  configs/tpm312-rk3399_defconfig        |  82 +
