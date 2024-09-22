@@ -8,6 +8,7 @@ on:
 
 env:
   TZ: Asia/Shanghai
+  PREFER_DOCKER: no
 jobs:
   build-armbian:
     runs-on: ubuntu-latest
