@@ -555,8 +555,10 @@ static int es8316_set_dai_sysclk(struct snd_soc_dai *codec_dai,
 {
 	struct snd_soc_component *codec = codec_dai->component;
 	struct es8316_priv *es8316 = snd_soc_component_get_drvdata(codec);
-
+	
 	switch (freq) {
+	case 0:
+		return 0;
 	case 11289600:
 	case 18432000:
 	case 22579200:
