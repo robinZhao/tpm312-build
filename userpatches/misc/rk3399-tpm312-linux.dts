@@ -915,12 +915,13 @@
 
 &spi1 {
 	status = "okay";
-    //max-freq = <48000000>
+	max-freq = <48000000>;
+	dev-port = <0>;
     spi_wk2xxx@0 {
         status = "okay";
         compatible = "wesine,wk2124spi","wkmic,wk2124spi";
         reg = <0x00>;
-        spi-max-frequency = <0x989680>;
+        spi-max-frequency = <10000000>;
         poll_mode = <0x00>;
         type = <0x00>;
         enable_dma = <0x00>;
