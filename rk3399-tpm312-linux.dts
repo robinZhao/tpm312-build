@@ -120,6 +120,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
+/**
 	vcc_gprs_rst: vcc-gprs-rst {
 		regulator-boot-on;
 		pinctrl-0 = <&gprs_rst_pin>;
@@ -131,7 +132,7 @@
 		regulator-always-on;
 		vin-supply = <&vcc3v3_sys>;
 	};
-
+*/
 
     leds: leds {
 		compatible = "gpio-leds";
