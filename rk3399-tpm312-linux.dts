@@ -84,17 +84,17 @@
 	};
 
 	vcc5v0_sys: vcc-sys {
-		regulator-boot-on;
+		compatible = "regulator-fixed";
+		enable-active-high;
+		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_sys_pin>;
 		gpio = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
-		regulator-name = "vcc5v0_en_pin";
-		enable-active-high;
-		compatible = "regulator-fixed";
-		pinctrl-names = "default";
+		regulator-name = "vcc5v0_sys";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
-		vin-supply = <&vcc5v0_sys>;
+		regulator-boot-on;
+		vin-supply = <&vcc12v_dcin>;
 	};
 
 	vcc_gprs_en: vcc-gprs-en {
@@ -285,12 +285,13 @@
 		simple-audio-card,mclk-fs = <256>;
 		// simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		simple-audio-card,aux-devs = <&speaker_amp>;
-		simple-audio-card,pin-switches = "Speaker";
+		//simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
 			"Headphone", "Headphones",
 			"Speaker", "Speaker";
 		simple-audio-card,routing =
+			//"Mic Jack", "Bias",
 			//"MIC1", "Mic Jack",
 			"Headphones", "HPOL",
 			"Headphones", "HPOR",
@@ -314,7 +315,7 @@
 		pinctrl-0 = <&spk_ctl>;
 		enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
 		sound-name-prefix = "Speaker Amplifier";
-		vcc-supply = <&vcc5v0_sys>;
+		VCC-supply = <&vcc5v0_sys>;
 	};
 	
 	gpio-keys {
@@ -637,7 +638,7 @@
         #sound-dai-cells = <0>;
 //        pinctrl-names = "default";
 //		pinctrl-0 = <&i2s_8ch_mclk>;
-        spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
+       spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
     };
 };
 
