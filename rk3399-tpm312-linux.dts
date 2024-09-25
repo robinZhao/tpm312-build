@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
-  * Copyright (c) 2023 LunaticKochiya <125438787@qq.com>
-  */
+
 /dts-v1/;
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/input/input.h>
@@ -28,7 +25,7 @@
 		compatible = "rockchip,fiq-debugger";
 		rockchip,serial-id = <2>;
 		rockchip,wake-irq = <0>;
-		rockchip,irq-mode-enable = <0>;  /* If enable uart uses irq instead of fiq */
+		rockchip,irq-mode-enable = <1>;  /* If enable uart uses irq instead of fiq */
 		rockchip,baudrate = <1500000>;  /* Only 115200 and 1500000 */
 		pinctrl-names = "default";
 		pinctrl-0 = <&uart2c_xfer>;
@@ -86,23 +83,25 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0-sys {
+	vcc5v0_sys: vcc-sys {
 		regulator-boot-on;
-		pinctrl-0 = <&vcc5sys_gpio>;
+		pinctrl-0 = <&vcc5v0_sys_pin>;
 		gpio = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
-		regulator-name = "vcc5v0_sys_gpio";
+		regulator-name = "vcc5v0_en_pin";
 		enable-active-high;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc-4g {
+	vcc_gprs_en: vcc-gprs-en {
 		regulator-boot-on;
-		pinctrl-0 = <&vcc_4g_gpio>;
+		pinctrl-0 = <&gprs_en_pin>;
 		gpio = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
-		regulator-name = "vcc_4g";
+		regulator-name = "vcc_gprs_en";
 		enable-active-high;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -110,10 +109,10 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc-wifi {
-		pinctrl-0 = <&wifi_host_wake_l>;
+	vcc_wifi_en: vcc-wifi-en {
+		pinctrl-0 = <&wifi_en_pin>;
 		gpio = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
-		regulator-name = "vcc_wifi";
+		regulator-name = "vcc_wifi_en";
 		enable-active-high;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -121,16 +120,30 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-    leds {
+	vcc_gprs_rst: vcc-gprs-rst {
+		regulator-boot-on;
+		pinctrl-0 = <&gprs_rst_pin>;
+		gpio = <&gpio1 RK_PA4 GPIO_ACTIVE_HIGH>;
+		regulator-name = "vcc_gprs_rst";
+		enable-active-high;
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		regulator-always-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+
+    leds: leds {
 		compatible = "gpio-leds";
         pinctrl-names = "default";
 		pinctrl-0 = <&leds_pins>;
-		power5v-led {
+		power5v_led: power5v-led {
 	        gpios = <&gpio1 RK_PC7 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			label = "power_5v_run";
 		};
 	};
+
 
 //REPLACE  dc_5v
 	vcc12v_dcin: dc-12v {
@@ -149,15 +162,6 @@
 		regulator-boot-on;
 	};
 
-	vcc5v0_sys: vcc-sys {
-		compatible = "regulator-fixed";
-		regulator-name = "vcc5v0_sys";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		regulator-always-on;
-		regulator-boot-on;
-		vin-supply = <&vcc12v_dcin>;
-	};
 
 	vcc3v3_sys: vcc3v3-sys {
 		compatible = "regulator-fixed";
@@ -188,6 +192,79 @@
 		vin-supply = <&vcc1v8_s0>;
 	};
 
+	vcc_usb1_en: vcc-usb1-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb1_en_pin>;
+		regulator-name = "vcc_usb1_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+	vcc_usb2_en: vcc-usb2-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb2_en_pin>;
+		regulator-name = "vcc_usb2_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+	vcc_usb3_en: vcc5v0-usb3-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb3_en_pin>;
+		regulator-name = "vcc_usb3_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+	vcc_usb4_en: vcc5v0-usb4-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb4_en_pin>;
+		regulator-name = "vcc_usb4_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+	vcc_usb5_en: vcc5v0-usb5-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PD0 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb5_en_pin>;
+		regulator-name = "vcc_usb5_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+	vcc_usb6_en: vcc5v0-usb6-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio1 RK_PA2 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb6_en_pin>;
+		regulator-name = "vcc_usb6_en";
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+
 	vdd_log: vdd-log {
 		compatible = "pwm-regulator";
 		pwms = <&pwm3 0 25000 1>;
@@ -205,17 +282,21 @@
 		simple-audio-card,name = "rockchip,es8316-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-
+		// simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
+		simple-audio-card,aux-devs = <&speaker_amp>;
+		simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphones";
+			"Headphone", "Headphones",
+			"Speaker", "Speaker";
 		simple-audio-card,routing =
 			//"MIC1", "Mic Jack",
 			"Headphones", "HPOL",
-			"Headphones", "HPOR";
-
-		//simple-audio-card,hp-det-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
-		//simple-audio-card,pin-switches = "Speaker";
+			"Headphones", "HPOR",
+			"Speaker Amplifier INL", "HPOL",
+			"Speaker Amplifier INR", "HPOR",
+			"Speaker", "Speaker Amplifier OUTL",
+			"Speaker", "Speaker Amplifier OUTR";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
@@ -223,6 +304,44 @@
 
 		simple-audio-card,codec {
 			sound-dai = <&es8316>;
+		};
+	};
+
+	speaker_amp: speaker-amplifier {
+		compatible = "simple-audio-amplifier";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spk_ctl>;
+		enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
+		sound-name-prefix = "Speaker Amplifier";
+		vcc-supply = <&vcc5v0_sys>;
+	};
+	
+	gpio-keys {
+		compatible = "gpio-keys";
+		autorepeat;
+		pinctrl-names = "default";
+		pinctrl-0 = <&power_key>;
+
+		key-power {
+			debounce-interval = <100>;
+			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
+			label = "GPIO Key Power";
+			linux,code = <KEY_POWER>;
+			wakeup-source;
+		};
+	};
+
+	adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1750000>;
+		poll-interval = <100>;
+
+		recovery {
+			label = "Recovery";
+			linux,code = <KEY_VENDOR>;
+			press-threshold-microvolt = <0>;
 		};
 	};
 };
@@ -603,13 +722,9 @@
 	};
 
 	pmic {
-		vcc5sys_gpio: vcc5sys-gpio {
+		vcc5v0_sys_pin: vcc5v0-sys-pin {
 				rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_down>;
-			};
-
-		vcc_4g_gpio: vcc-4g-gpio {
-				rockchip,pins = <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
-			};
+		};
 
 		pmic_int_l: pmic-int-l {
 			rockchip,pins =
@@ -629,13 +744,7 @@
 		vsel2_pin: vsel2-pin {
 			rockchip,pins =
 				<1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_down>;
-		};
-
-        wk2_irq:wk2-irq {
-            rockchip,pins = <3 RK_PD4 0 &pcfg_pull_up>;
-        };
-
-
+		};	
 	};
 
 	u2phy0 {
@@ -656,11 +765,54 @@
 		};
 	};
 
+	usbext {
+		//gpio_hog replace to regulator-fixed
+		//from https://github.com/unifreq/linux-6.6.y/commit/70864f7076abaed3c3b9957c8b4f91eb9f8dc086
+		usb1_en_pin: usb1-en-pin {
+			rockchip,pins = <4 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		usb2_en_pin: usb2-en-pin {
+			rockchip,pins = <1 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		usb3_en_pin: usb3-en-pin {
+			rockchip,pins = <4 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		usb4_en_pin: usb4-en-pin {
+			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		usb5_en_pin: usb5-en-pin {
+			rockchip,pins = <4 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+		usb6_en_pin: usb6-en-pin {
+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+
 	wifi {
-		wifi_host_wake_l: wifi-host-wake-l {
+		wifi_en_pin: wifi-en-pin {
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
+	gprs {
+		gprs_en_pin: gprs-en-pin {
+			rockchip,pins = <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};		
+		gprs_rst_pin:gprs-rst-pin {
+            rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+	};
+
+
+	wk2 {
+	    wk2_irq_pin:wk2-irq-pin {
+            rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+		wk2_rst_pin:wk2-rst-pin {
+            rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+	};
+
 
 	uart1 {
 		uart1_xfer: uart1-xfer {
@@ -673,6 +825,18 @@
 	leds {
 		leds_pins: leds-pins {
 			rockchip,pins = <1 RK_PC7 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+	
+	buttons {
+		power_key: power_key {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+
+	sound-ctl {
+		spk_ctl: spk-ctl {
+			rockchip,pins = <4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>; 
 		};
 	};
 
@@ -759,9 +923,10 @@
         poll_mode = <0x00>;
         type = <0x00>;
         enable_dma = <0x00>;
-        irq-gpio = <&gpio3 RK_PD4 4>;
+        irq-gpio = <&gpio3 RK_PD4 IRQ_TYPE_EDGE_FALLING>;
+		reset-gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_HIGH>;
         pinctrl-names = "default";
-        pinctrl-0 = <&wk2_irq>;
+        pinctrl-0 = <&wk2_irq_pin &wk2_rst_pin>;
     };
 };
 
@@ -898,53 +1063,3 @@
 	dev_mode = <1>;
 	dma-coherent;
 };
-
-&gpio1 {
-	usb2_en {
-		gpio-hog;
-		gpios = <3 0>;
-		output-high;
-	};
-	usb6_en {
-		gpio-hog;
-		gpios = <2 0>;
-		output-high;
-	};
-	gprs_rst {
-		gpio-hog;
-		gpios = <4 0>;
-		output-low;
-	};
-};
-
-&gpio2 {
-	wk2_rst {
-		gpio-hog;
-		gpios = <18 0>;
-		output-low;
-	};
-};
-
-&gpio4 {
-	usb1_en {
-		gpio-hog;
-		gpios = <28 0>;
-		output-high;
-	};
-	usb3_en {
-		gpio-hog;
-		gpios = <30 0>;
-		output-high;
-	};
-	usb4_en {
-		gpio-hog;
-		gpios = <21 0>;
-		output-high;
-	};
-	usb5_en {
-		gpio-hog;
-		gpios = <24 0>;
-		output-high;
-	};
-};
-
