@@ -117,6 +117,7 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
+		regulator-boot-on;
 		vin-supply = <&vcc3v3_sys>;
 	};
 
@@ -312,8 +313,8 @@
 	speaker_amp: speaker-amplifier {
 		compatible = "simple-audio-amplifier";
 		pinctrl-names = "default";
-		pinctrl-0 = <&spk_ctl>;
-		enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
+		//pinctrl-0 = <&spk_ctl>;
+		//enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
 		sound-name-prefix = "Speaker Amplifier";
 		VCC-supply = <&vcc5v0_sys>;
 	};
@@ -386,6 +387,7 @@
 	pinctrl-0 = <&rgmii_pins>;
 	snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
+	keep-power-in-suspend;
 	snps,reset-delays-us = <0 10000 50000>;
 	tx_delay = <0x28>;
 	rx_delay = <0x11>;
@@ -836,11 +838,13 @@
 		};
 	};
 
+	/*
 	sound-ctl {
 		spk_ctl: spk-ctl {
 			rockchip,pins = <4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>; 
 		};
 	};
+	*/
 
 	i2s0 {
 		i2s0_2ch_bus: i2s0-2ch-bus {
