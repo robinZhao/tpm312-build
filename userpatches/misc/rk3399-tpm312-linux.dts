@@ -813,7 +813,7 @@
             rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
         };
 		wk2_rst_pin:wk2-rst-pin {
-            rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
+            rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;
         };
 	};
 
@@ -924,14 +924,14 @@
 	dev-port = <0>;
     spi_wk2xxx@0 {
         status = "okay";
-        compatible = "wesine,wk2124spi","wkmic,wk2124spi";
+        compatible = "wesine,wk2124spi","wkmic,wk2124_spi";
         reg = <0x00>;
         spi-max-frequency = <10000000>;
         poll_mode = <0x00>;
         type = <0x00>;
         enable_dma = <0x00>;
         irq-gpio = <&gpio3 RK_PD4 IRQ_TYPE_EDGE_FALLING>;
-		reset-gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_HIGH>;
+		reset-gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_LOW>;
         pinctrl-names = "default";
         pinctrl-0 = <&wk2_irq_pin &wk2_rst_pin>;
     };

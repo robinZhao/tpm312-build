@@ -2271,7 +2271,7 @@ index 000000000..cd572de94
 +
 +static const struct of_device_id wkmic_spi_dt_match[] = {
 +	{
-+		.compatible = "wkmic,wk2124spi",
++		.compatible = "wkmic,wk2124_spi",
 +	},
 +	{
 +		.compatible = "firefly,spi-wk2xxx",
