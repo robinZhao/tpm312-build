@@ -1654,23 +1654,23 @@ static struct spi_driver wk2xxx_driver;
 #ifdef WK_RSTGPIO_FUNCTION
 static int wk2xxx_reset(struct device *dev)
 {
-	struct gpio_desc *rst;
 
-	rst = devm_gpiod_get_optional(dev, WK2XXX_GPIO_NAME_RESET,
-				      GPIOD_OUT_LOW);
-	if (IS_ERR(rst))
-		return PTR_ERR(rst);
 
+
+
+
+
+struct wk2xxx_port *priv = dev_get_drvdata(dev);
 #ifdef WK_RST_GPIO_SLEEP
-	gpiod_set_value_cansleep(rst, 0);
+	gpio_direction_output(priv->rst_gpio_num, 1);
 	mdelay(20);
-	gpiod_set_value_cansleep(rst, 1);
+	gpio_direction_output(priv->rst_gpio_num, 0);
 	mdelay(10);
 #else
 	mutex_lock(&wk2xxxs_global_lock);
-	gpiod_set_value(rst, 0);
+	gpio_direction_output(priv->rst_gpio_num, 1);
 	mdelay(20);
-	gpiod_set_value(rst, 1);
+	gpio_direction_output(priv->rst_gpio_num, 0);
 	mdelay(10);
 	mutex_unlock(&wk2xxxs_global_lock);
 #endif
