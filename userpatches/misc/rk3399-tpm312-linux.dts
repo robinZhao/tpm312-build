@@ -121,20 +121,32 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-/**
+
 	vcc_gprs_rst: vcc-gprs-rst {
 		regulator-boot-on;
 		pinctrl-0 = <&gprs_rst_pin>;
-		gpio = <&gpio1 RK_PA4 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
 		regulator-name = "vcc_gprs_rst";
-		enable-active-high;
+		enable-active-low;
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		regulator-always-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
+/**
+	vcc_wk2_rst: vcc-wk2-rst {
+		regulator-boot-on;
+		pinctrl-0 = <&wk2_rst_pin>;
+		gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_LOW>;
+		regulator-name = "vcc_wk2_rst";
+		enable-active-low;
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
 		vin-supply = <&vcc3v3_sys>;
 	};
 */
-
     leds: leds {
 		compatible = "gpio-leds";
         pinctrl-names = "default";
@@ -218,7 +230,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc_usb3_en: vcc5v0-usb3-en {
+	vcc_usb3_en: vcc-usb3-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
@@ -230,7 +242,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc_usb4_en: vcc5v0-usb4-en {
+	vcc_usb4_en: vcc-usb4-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
@@ -242,7 +254,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc_usb5_en: vcc5v0-usb5-en {
+	vcc_usb5_en: vcc-usb5-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD0 GPIO_ACTIVE_HIGH>;
@@ -254,7 +266,7 @@
 		vin-supply = <&vcc3v3_sys>;
 	};
 
-	vcc_usb6_en: vcc5v0-usb6-en {
+	vcc_usb6_en: vcc-usb6-en {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA2 GPIO_ACTIVE_HIGH>;
@@ -813,7 +825,7 @@
             rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
         };
 		wk2_rst_pin:wk2-rst-pin {
-            rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;
+            rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
         };
 	};
 
@@ -925,13 +937,14 @@
     spi_wk2xxx@0 {
         status = "okay";
         compatible = "wesine,wk2124spi","wkmic,wk2124_spi";
-        reg = <0x00>;
+        reg = <0>;
         spi-max-frequency = <10000000>;
-        poll_mode = <0x00>;
-        type = <0x00>;
-        enable_dma = <0x00>;
-        irq-gpio = <&gpio3 RK_PD4 IRQ_TYPE_EDGE_FALLING>;
+        poll_mode = <0>;
+        type = <0>;
+        enable_dma = <0>;
+        irq-gpio = <&gpio3 RK_PD4 IRQ_TYPE_LEVEL_HIGH>;
 		reset-gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_LOW>;
+		//cs-gpios = <&gpio1 RK_PB2 GPIO_ACTIVE_LOW>;
         pinctrl-names = "default";
         pinctrl-0 = <&wk2_irq_pin &wk2_rst_pin>;
     };
