@@ -1754,7 +1754,7 @@ index 000000000..cd572de94
 +	struct gpio_desc *rst;
 +
 +	rst = devm_gpiod_get_optional(dev, WK2XXX_GPIO_NAME_RESET,
-+				      GPIOD_OUT_HIGH);
++				      GPIOD_OUT_LOW);
 +	if (IS_ERR(rst))
 +		return PTR_ERR(rst);
 +
@@ -1800,8 +1800,8 @@ index 000000000..cd572de94
 +		goto error_gpio;
 +	}
 +
-+	/* Set output with active high */
-+	gpio_direction_output(priv->rst_gpio_num, 1);
++	/* Set output with active low */
++	gpio_direction_output(priv->rst_gpio_num, 0);
 +	mdelay(50);
 +
 +	dev_dbg(dev, "%s: Using reset gpio=%d\n", __func__, priv->rst_gpio_num);
@@ -2146,7 +2146,7 @@ index 000000000..cd572de94
 +
 +	/* Setup interrupt */
 +	ret = devm_request_irq(&spi->dev, priv->irq_num, wk2xxx_irq,
-+			       IRQF_TRIGGER_FALLING, dev_name(&spi->dev), priv);
++			       IRQF_TRIGGER_RISING, dev_name(&spi->dev), priv);
 +	if (ret) {
 +		dev_err(&spi->dev, "%s: Unable to request irq=%d error=%d.\n",
 +			__func__, priv->irq_num, ret);
