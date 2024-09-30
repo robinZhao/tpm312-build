@@ -296,22 +296,14 @@
 		simple-audio-card,name = "rockchip,es8316-codec";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-		// simple-audio-card,hp-det-gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
-		simple-audio-card,aux-devs = <&speaker_amp>;
-		//simple-audio-card,pin-switches = "Speaker";
 		simple-audio-card,widgets =
 			"Microphone", "Mic Jack",
-			"Headphone", "Headphones",
-			"Speaker", "Speaker";
+			"Headphone", "Headphones";
 		simple-audio-card,routing =
 			//"Mic Jack", "Bias",
 			//"MIC1", "Mic Jack",
 			"Headphones", "HPOL",
-			"Headphones", "HPOR",
-			"Speaker Amplifier INL", "HPOL",
-			"Speaker Amplifier INR", "HPOR",
-			"Speaker", "Speaker Amplifier OUTL",
-			"Speaker", "Speaker Amplifier OUTR";
+			"Headphones", "HPOR";
 
 		simple-audio-card,cpu {
 			sound-dai = <&i2s0>;
@@ -322,15 +314,6 @@
 		};
 	};
 
-	speaker_amp: speaker-amplifier {
-		compatible = "simple-audio-amplifier";
-		pinctrl-names = "default";
-		//pinctrl-0 = <&spk_ctl>;
-		//enable-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>; // spk-con-gpio
-		sound-name-prefix = "Speaker Amplifier";
-		VCC-supply = <&vcc5v0_sys>;
-	};
-	
 	gpio-keys {
 		compatible = "gpio-keys";
 		autorepeat;
