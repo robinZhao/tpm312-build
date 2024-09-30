@@ -1314,7 +1314,7 @@ static void conf_wk2xxx_subport(struct uart_port *port)//i
 }
 
 
-static void wk2xxx_termios( struct uart_port *port, struct ktermios *termios,struct ktermios *old)
+static void wk2xxx_termios( struct uart_port *port, struct ktermios *termios,const struct ktermios *old)
 {
 
     struct wk2xxx_one *one = to_wk2xxx_one(port, port);
@@ -1730,7 +1730,12 @@ static int wk2xxx_probe(struct spi_device *spi)
 		ret = PTR_ERR(s->kworker_task);
 		goto out_clk;
 	}
-	sched_setscheduler(s->kworker_task, SCHED_FIFO, &sched_param);
+	
+	if(sched_param.sched_priority > 1)
+		sched_set_fifo(s->kworker_task);
+	else if(sched_param.sched_priority >=0)
+		sched_set_fifo_low(s->kworker_task);
+	//sched_setscheduler(s->kworker_task, SCHED_FIFO, &sched_param);
 
     /**/
     mutex_lock(&wk2xxxs_lock);
@@ -1816,7 +1821,7 @@ out_gpio:
 }
 
 
-static int wk2xxx_remove(struct spi_device *spi)
+static void wk2xxx_remove(struct spi_device *spi)
 {
 
     int i;
@@ -1865,7 +1870,7 @@ static int wk2xxx_remove(struct spi_device *spi)
     #ifdef _DEBUG_WK_FUNCTION
         printk(KERN_ALERT "%s!!--exit--\n", __func__);
 	#endif
-    return 0;
+    //return 0;
 }
 
 static const struct of_device_id wkmic_spi_dt_match[] = {
