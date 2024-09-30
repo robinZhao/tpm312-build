@@ -48,18 +48,18 @@ MODULE_LICENSE("Dual BSD/GPL");
 #define VERSION_DESC  "V2.4 On 2022.07.24"
 /*************The debug control **********************************/
 #define _DEBUG_WK_FUNCTION
-//#define _DEBUG_WK_RX
-//#define _DEBUG_WK_TX
-//#define _DEBUG_WK_IRQ
-//#define _DEBUG_WK_VALUE
-//#define _DEBUG_WK_TEST
+#define _DEBUG_WK_RX
+#define _DEBUG_WK_TX
+#define _DEBUG_WK_IRQ
+#define _DEBUG_WK_VALUE
+#define _DEBUG_WK_TEST
 
 /*************Functional control interface************************/
 #define WK_FIFO_FUNCTION
 //#define WK_FlowControl_FUNCTION
 #define WK_WORK_KTHREAD
 //#define WK_RS485_FUNCTION
-//#define WK_RSTGPIO_FUNCTION
+#define WK_RSTGPIO_FUNCTION
 //#define WK_CSGPIO_FUNCTION
 /*************SPI control interface******************************/
 #define SPI_LEN_LIMIT       30    //MAX<=255
@@ -1044,7 +1044,7 @@ static int wk2xxx_startup(struct uart_port *port)//i
             wk2xxx_write_global_reg(s->spi_wk,WK2XXX_GENA_REG,gena);
             break;
         default:
-		    printk(KERN_ALERT ":%s！！ bad iobase1: %d.\n", __func__,(uint8_t)one->port.iobase);
+		    printk(KERN_ALERT ":%s!! bad iobase1: %d.\n", __func__,(uint8_t)one->port.iobase);
             break;
     }
  
@@ -1068,7 +1068,7 @@ static int wk2xxx_startup(struct uart_port *port)//i
             wk2xxx_write_global_reg(s->spi_wk,WK2XXX_GRST_REG,grst);
             break;
         default:
-            printk(KERN_ALERT ":%s！！ bad iobase2: %d.\n", __func__,(uint8_t)one->port.iobase);
+            printk(KERN_ALERT ":%s!! bad iobase2: %d.\n", __func__,(uint8_t)one->port.iobase);
             break;
     }
 

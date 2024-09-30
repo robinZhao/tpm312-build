@@ -1,0 +1,7 @@
+spi-wk2xxx_0.c是官方驱动修改，irq触发改为上升沿，rst改为outputlow
+
+spi-wk2xxx.c是firefly驱动修改，irq触发改为上升沿，rst改为outputlow
+
+不知道为何tpm312与官方文档是反着的
+
+经测试ttysWK0和ttysWK1正常，ttysWK2,ttysWK2乱码
