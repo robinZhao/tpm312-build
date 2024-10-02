@@ -35,6 +35,9 @@ Main() {
 		focal)
 			# your code here
 			;;
+                jammy)
+                        apt-get install fcitx 
+	                ;;
 	esac
 } # Main
 
