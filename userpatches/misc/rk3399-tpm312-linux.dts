@@ -47,6 +47,8 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc5v0_sys>;
 	};
 
@@ -58,6 +60,8 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc5v0_sys>;
 	};
 
@@ -69,6 +73,8 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc5v0_sys>;
 	};
 
@@ -80,6 +86,8 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc5v0_sys>;
 	};
 
@@ -106,7 +114,9 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_wifi_en: vcc-wifi-en {
@@ -118,7 +128,9 @@
 		pinctrl-names = "default";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 
@@ -131,7 +143,7 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 /**
@@ -174,6 +186,7 @@
 		regulator-name = "vcc_phy";
 		regulator-always-on;
 		regulator-boot-on;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 
@@ -193,7 +206,7 @@
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <1800000>;
 		regulator-always-on;
-		vin-supply = <&vcc3v3_sys>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_0v9: vcc-0v9 {
@@ -203,7 +216,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <900000>;
 		regulator-max-microvolt = <900000>;
-		vin-supply = <&vcc1v8_s0>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb1_en: vcc-usb1-en {
@@ -215,7 +228,9 @@
 		regulator-name = "vcc_usb1_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb2_en: vcc-usb2-en {
@@ -227,7 +242,9 @@
 		regulator-name = "vcc_usb2_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb3_en: vcc-usb3-en {
@@ -239,7 +256,9 @@
 		regulator-name = "vcc_usb3_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb4_en: vcc-usb4-en {
@@ -251,7 +270,9 @@
 		regulator-name = "vcc_usb4_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb5_en: vcc-usb5-en {
@@ -263,7 +284,9 @@
 		regulator-name = "vcc_usb5_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	vcc_usb6_en: vcc-usb6-en {
@@ -275,18 +298,21 @@
 		regulator-name = "vcc_usb6_en";
 		regulator-always-on;
 		regulator-boot-on;
-		vin-supply = <&vcc3v3_sys>;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 
 	vdd_log: vdd-log {
 		compatible = "pwm-regulator";
 		pwms = <&pwm3 0 25000 1>;
-		rockchip,pwm_voltage = <900000>;
+		rockchip,pwm_voltage = <950000>;
 		pwm-supply = <&vcc5v0_sys>;
 		regulator-name = "vdd_log";
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1400000>;
+		regulator-init-microvolt = <950000>;
 		regulator-always-on;
 		regulator-boot-on;
 	};
@@ -313,7 +339,7 @@
 			sound-dai = <&es8316>;
 		};
 	};
-
+	
 	gpio-keys {
 		compatible = "gpio-keys";
 		autorepeat;
@@ -1040,6 +1066,8 @@
     pinctrl-names = "default";
     ddc-i2c-bus = <&i2c3>;
     pinctrl-0 = <&hdmi_cec>;
+	avdd-0v9-supply = <&vcc1v8_s0>;
+	avdd-1v8-supply = <&vcc_0v9>;
 };
 &hdmi_sound {
     status = "okay";
