@@ -36,7 +36,11 @@ Main() {
 			# your code here
 			;;
                 jammy)
-                        apt-get install fcitx 
+                        apt-get install -y chromium \
+			fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
+                        fcitx5-frontend-qt5 gnome-tweaks \
+			gnome-shell-extension-prefs \
+                        chrome-gnome-shell gnome-shell-extension-manager
 	                ;;
 	esac
 } # Main
