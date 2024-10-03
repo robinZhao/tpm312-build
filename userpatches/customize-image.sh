@@ -36,12 +36,13 @@ Main() {
 			# your code here
 			;;
                 jammy)
-		        mv /etc/apt/sources.list.d/armbian.list.disabled /etc/apt/sources.list.d/armbian.list
+		        mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled  "${SDCARD}"/etc/apt/sources.list.d/armbian.list
                         apt-get update
-			apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
+			apt-get install -yy chromium fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
                         fcitx5-frontend-qt5 gnome-tweaks \
 			gnome-shell-extension-prefs \
                         chrome-gnome-shell gnome-shell-extension-manager
+			mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list  "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled
 	                ;;
 	esac
 } # Main
