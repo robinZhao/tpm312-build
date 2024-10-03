@@ -43,6 +43,8 @@ Main() {
 			gnome-shell-extension-prefs \
                         chrome-gnome-shell gnome-shell-extension-manager
 			mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list  "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled
+                        systemctl mask hibernate.target
+			systemctl mask suspend.target
 	                ;;
 	esac
 } # Main
