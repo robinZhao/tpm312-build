@@ -36,6 +36,7 @@ Main() {
 			# your code here
 			;;
                 jammy)
+		        mv /etc/apt/sources.list.d/armbian.list.disabled /etc/apt/sources.list.d/armbian.list
                         apt-get update
 			apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
                         fcitx5-frontend-qt5 gnome-tweaks \
