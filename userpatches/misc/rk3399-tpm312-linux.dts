@@ -308,7 +308,7 @@
 		compatible = "pwm-regulator";
 		pwms = <&pwm3 0 25000 1>;
 		rockchip,pwm_voltage = <950000>;
-		pwm-supply = <&vcc5v0_sys>;
+		pwm-supply = <&vcc3v3_sys>;
 		regulator-name = "vdd_log";
 		regulator-min-microvolt = <800000>;
 		regulator-max-microvolt = <1400000>;
@@ -893,6 +893,14 @@
 	};
 
 };
+&power {
+	power-domain@RK3399_PD_PERIHP {
+				reg = <RK3399_PD_PERIHP>;
+				clocks = <&cru ACLK_PERIHP>;
+				#power-domain-cells = <0>;
+				pm_qos = <&qos_perihp &qos_pcie &qos_usb_host0 &qos_usb_host1>;
+			};
+};
 
 &pwm0 {
 	status = "okay";
@@ -1010,18 +1018,22 @@
 };
 
 &usb_host0_ehci {
+	power-domains = <&power RK3399_PD_PERIHP>;
 	status = "okay";
 };
 
 &usb_host0_ohci {
+	power-domains = <&power RK3399_PD_PERIHP>;
 	status = "okay";
 };
 
 &usb_host1_ehci {
+	power-domains = <&power RK3399_PD_PERIHP>;
 	status = "okay";
 };
 
 &usb_host1_ohci {
+	power-domains = <&power RK3399_PD_PERIHP>;
 	status = "okay";
 };
 
