@@ -983,7 +983,7 @@
 
 &u2phy0 {
 	status = "okay";
-
+	power-domains = <&power RK3399_PD_PERIHP>;
 	u2phy0_otg: otg-port {
 		phy-supply = <&vcc5v0_otg0>;
 		status = "okay";
@@ -997,7 +997,7 @@
 
 &u2phy1 {
 	status = "okay";
-
+	power-domains = <&power RK3399_PD_PERIHP>;
 	u2phy1_otg: otg-port {
 		phy-supply = <&vcc5v0_otg1>;
 		status = "okay";
