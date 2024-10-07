@@ -45,7 +45,7 @@ function post_family_tweaks__preset_configs() {
 	echo "PRESET_USER_NAME=armbian" >> "${SDCARD}"/root/.not_logged_in_yet
 
 	# Preset user password
-	echo "PRESET_USER_PASSWORD=123" >> "${SDCARD}"/root/.not_logged_in_yet
+	echo "PRESET_USER_PASSWORD=1234" >> "${SDCARD}"/root/.not_logged_in_yet
 
 	# Preset user default realname
 	echo "PRESET_DEFAULT_REALNAME=Armbian" >> "${SDCARD}"/root/.not_logged_in_yet
