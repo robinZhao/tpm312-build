@@ -36,16 +36,19 @@ Main() {
 			# your code here
 			;;
                 jammy)
-		        mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled  "${SDCARD}"/etc/apt/sources.list.d/armbian.list
-                        apt-get update
-			#apt-get install -yy chromium
-			apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
-                        fcitx5-frontend-qt5 fcitx5-config-qt fcitx5-modules 
-			if [[ "${DESKTOP_ENVIRONMENT}" == "gnome" ]];then
-			    apt-get install -y gnome-tweaks  gnome-shell-extension-prefs  chrome-gnome-shell gnome-shell-extension-manager
-   			fi
-			mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list  "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled
-                        systemctl mask hibernate.target
+			if [[ "${BUILD_DESKTOP}" == "yes" ]];then
+		            mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled  "${SDCARD}"/etc/apt/sources.list.d/armbian.list
+                            apt-get update
+			    if 
+			    #apt-get install -yy chromium
+			    apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
+                            fcitx5-frontend-qt5 fcitx5-config-qt fcitx5-modules 
+			    if [[ "${DESKTOP_ENVIRONMENT}" == "gnome" ]];then
+			        apt-get install -y gnome-tweaks  gnome-shell-extension-prefs  chrome-gnome-shell gnome-shell-extension-manager
+   			    fi
+			    mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list  "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled
+                        fi
+			systemctl mask hibernate.target
 			systemctl mask suspend.target
                         cp --parents /usr/share/applications/org.fcitx.Fcitx5.desktop /etc/xdg/autostart/
 	                ;;
