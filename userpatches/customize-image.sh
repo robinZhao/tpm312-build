@@ -42,9 +42,9 @@ Main() {
 			    if [[ "${ENABLE_EXTENSIONS}" =~ "mesa-vpu" ]];then
        			       echo "mesa-vpu contains chromium"
 			    else
-       		               apt-get install -yy chromium
+       		               apt-get install -y chromium
        			    fi
-			    apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
+			    apt-get install -y fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
                             fcitx5-frontend-qt5 fcitx5-config-qt fcitx5-modules 
 			    if [[ "${DESKTOP_ENVIRONMENT}" == "gnome" ]];then
 			        apt-get install -y gnome-tweaks  gnome-shell-extension-prefs  chrome-gnome-shell gnome-shell-extension-manager
