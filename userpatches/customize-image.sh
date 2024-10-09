@@ -46,6 +46,7 @@ Main() {
        			    fi
 			    apt-get install -y fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
                             fcitx5-frontend-qt5 fcitx5-config-qt fcitx5-modules 
+			    cp --parents /usr/share/applications/org.fcitx.Fcitx5.desktop /etc/xdg/autostart/
 			    if [[ "${DESKTOP_ENVIRONMENT}" == "gnome" ]];then
 			        apt-get install -y gnome-tweaks  gnome-shell-extension-prefs  chrome-gnome-shell gnome-shell-extension-manager
    			    fi
@@ -53,7 +54,7 @@ Main() {
                         fi
 			systemctl mask hibernate.target
 			systemctl mask suspend.target
-                        cp --parents /usr/share/applications/org.fcitx.Fcitx5.desktop /etc/xdg/autostart/
+                        
 	                ;;
 	esac
 } # Main
