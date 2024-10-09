@@ -39,8 +39,11 @@ Main() {
 			if [[ "${BUILD_DESKTOP}" == "yes" ]];then
 		            mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled  "${SDCARD}"/etc/apt/sources.list.d/armbian.list
                             apt-get update
-			    if 
-			    #apt-get install -yy chromium
+			    if [[ "${ENABLE_EXTENSIONS}" =~ "mesa-vpu" ]];then
+       			       echo "mesa-vpu contains chromium"
+			    else
+       		               apt-get install -yy chromium
+       			    fi
 			    apt-get install -yy fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \
                             fcitx5-frontend-qt5 fcitx5-config-qt fcitx5-modules 
 			    if [[ "${DESKTOP_ENVIRONMENT}" == "gnome" ]];then
