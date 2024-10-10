@@ -317,7 +317,7 @@
 		regulator-boot-on;
 	};
 
-	sound {
+	es8316_sound: sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "rockchip,es8316-codec";
 		simple-audio-card,format = "i2s";
@@ -340,7 +340,7 @@
 		};
 	};
 
-	adc-keys {
+	adc_keys: adc-keys {
 		compatible = "adc-keys";
 		io-channels = <&saradc 1>;
 		io-channel-names = "buttons";
@@ -353,6 +353,22 @@
 			press-threshold-microvolt = <0>;
 		};
 	};
+
+	gpio_keys: gpio-keys {
+			compatible = "gpio-keys";
+			autorepeat;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwrbtn>;
+
+			power {
+					debounce-interval = <100>;
+					gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+					label = "GPIO Key Power";
+					linux,code = <KEY_POWER>;
+					wakeup-source;
+			};
+	};
+
 };
 
 &cpu_l0 {
@@ -843,6 +859,12 @@
 			rockchip,pins = <0 RK_PA5 1 &pcfg_pull_up>;
 		};
 	}; 
+
+	buttons {
+		pwrbtn: pwrbtn {
+				rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+    };
 
 	/*
 	sound-ctl {
