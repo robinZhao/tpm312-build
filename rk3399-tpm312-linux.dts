@@ -340,21 +340,6 @@
 		};
 	};
 	
-	gpio-keys {
-		compatible = "gpio-keys";
-		autorepeat;
-		pinctrl-names = "default";
-		pinctrl-0 = <&power_key>;
-
-		key-power {
-			debounce-interval = <100>;
-			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
-			label = "GPIO Key Power";
-			linux,code = <KEY_POWER>;
-			wakeup-source;
-		};
-	};
-
 	adc-keys {
 		compatible = "adc-keys";
 		io-channels = <&saradc 1>;
@@ -853,8 +838,8 @@
 		};
 	};
 	
-	buttons {
-		power_key: power-key {
+	emmc {
+		emmc-pwr {
 			rockchip,pins = <0 RK_PA5 1 &pcfg_pull_up>;
 		};
 	};
