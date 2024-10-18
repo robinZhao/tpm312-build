@@ -1147,7 +1147,7 @@
 };
 
 
-&soc_thermal {
+&cpu_thermal {
         trips {
                 cpu_warm: cpu_warm {
                         temperature = <55000>;
