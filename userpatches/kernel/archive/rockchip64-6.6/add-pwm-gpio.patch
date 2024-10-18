@@ -1,57 +1,3 @@
-From 7f61257cd6e1ad4769b4b819668cab00f68f2556 Mon Sep 17 00:00:00 2001
-From: Vincent Whitchurch <vincent.whitchurch@axis.com>
-Date: Tue, 4 Jun 2024 23:00:41 +0200
-Subject: [PATCH] pwm: Add GPIO PWM driver
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Add a software PWM which toggles a GPIO from a high-resolution timer.
-
-This will naturally not be as accurate or as efficient as a hardware
-PWM, but it is useful in some cases.  I have for example used it for
-evaluating LED brightness handling (via leds-pwm) on a board where the
-LED was just hooked up to a GPIO, and for a simple verification of the
-timer frequency on another platform.
-
-Since high-resolution timers are used, sleeping GPIO chips are not
-supported and are rejected in the probe function.
-
-Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
-Co-developed-by: Stefan Wahren <wahrenst@gmx.net>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Co-developed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Dhruva Gole <d-gole@ti.com>
-Link: https://lore.kernel.org/r/20240604-pwm-gpio-v7-2-6b67cf60db92@linaro.org
-Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
----
- .../driver-api/gpio/drivers-on-gpio.rst       |   7 +-
- drivers/pwm/Kconfig                           |  11 +
- drivers/pwm/Makefile                          |   1 +
- drivers/pwm/pwm-gpio.c                        | 241 ++++++++++++++++++
- 4 files changed, 259 insertions(+), 1 deletion(-)
- create mode 100644 drivers/pwm/pwm-gpio.c
-
-diff --git a/Documentation/driver-api/gpio/drivers-on-gpio.rst b/Documentation/driver-api/gpio/drivers-on-gpio.rst
-index af632d764ac6af..95572d2a94ce0e 100644
---- a/Documentation/driver-api/gpio/drivers-on-gpio.rst
-+++ b/Documentation/driver-api/gpio/drivers-on-gpio.rst
-@@ -27,7 +27,12 @@ hardware descriptions such as device tree or ACPI:
-   to the lines for a more permanent solution of this type.
- 
- - gpio-beeper: drivers/input/misc/gpio-beeper.c is used to provide a beep from
--  an external speaker connected to a GPIO line.
-+  an external speaker connected to a GPIO line. (If the beep is controlled by
-+  off/on, for an actual PWM waveform, see pwm-gpio below.)
-+
-+- pwm-gpio: drivers/pwm/pwm-gpio.c is used to toggle a GPIO with a high
-+  resolution timer producing a PWM waveform on the GPIO line, as well as
-+  Linux high resolution timers can do.
- 
- - extcon-gpio: drivers/extcon/extcon-gpio.c is used when you need to read an
-   external connector status, such as a headset line for an audio driver or an
 diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
 index 00a543de8f829d..3e53838990f5b8 100644
 --- a/drivers/pwm/Kconfig
@@ -333,3 +279,4 @@ index 00000000000000..9f8884ac75047f
 +MODULE_DESCRIPTION("PWM GPIO driver");
 +MODULE_AUTHOR("Vincent Whitchurch");
 +MODULE_LICENSE("GPL");
+

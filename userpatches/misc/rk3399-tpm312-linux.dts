@@ -27,8 +27,8 @@
 		#cooling-cells = <2>;
 		cooling-min-state = <0>;
 		cooling-max-state = <5>;
-		//PWM_POLARITY_NORMAL PWM_POLARITY_INVERTED
-		pwms = <&gpio_pwm0 0 2000000 PWM_POLARITY_NORMAL>;
+		//PWM_POLARITY_INVERTED
+		pwms = <&gpio_pwm0 0 2000000 0>;
 		status = "okay";
 	};
 
