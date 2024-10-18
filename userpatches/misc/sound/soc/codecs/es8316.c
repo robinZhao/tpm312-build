@@ -555,7 +555,7 @@ static int es8316_set_dai_sysclk(struct snd_soc_dai *codec_dai,
 {
 	struct snd_soc_component *codec = codec_dai->component;
 	struct es8316_priv *es8316 = snd_soc_component_get_drvdata(codec);
-	
+
 	switch (freq) {
 	case 0:
 		return 0;
@@ -1158,7 +1158,7 @@ static int es8316_i2c_probe(struct i2c_client *i2c)
 		dev_info(&i2c->dev, "Can not read property spk_ctl_gpio\n");
 		es8316->spk_ctl_gpio = INVALID_GPIO;
 	} else {
-		es8316->spk_active_level = !(GPIOF_ACTIVE_LOW);
+		es8316->spk_active_level = !gpiod_is_active_low(gpio_to_desc(es8316->spk_ctl_gpio));
 		ret = devm_gpio_request_one(&i2c->dev, es8316->spk_ctl_gpio,
 					    GPIOF_DIR_OUT, NULL);
 		if (ret) {
@@ -1176,7 +1176,7 @@ static int es8316_i2c_probe(struct i2c_client *i2c)
 		es8316->hp_det_gpio = INVALID_GPIO;
 	} else {
 		INIT_DELAYED_WORK(&es8316->work, hp_work);
-		es8316->hp_det_invert = !!(GPIOF_ACTIVE_LOW);
+		es8316->hp_det_invert = gpiod_is_active_low(gpio_to_desc(es8316->hp_det_gpio));
 		ret = devm_gpio_request_one(&i2c->dev, es8316->hp_det_gpio,
 					    GPIOF_IN, "hp det");
 		if (ret < 0)
@@ -1250,3 +1250,4 @@ module_i2c_driver(es8316_i2c_driver);
 MODULE_DESCRIPTION("ASoC es8316 driver");
 MODULE_AUTHOR("Will <will@everset-semi.com>");
 MODULE_LICENSE("GPL");
+
