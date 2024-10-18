@@ -660,7 +660,7 @@
         clocks = <&cru SCLK_I2S_8CH_OUT>;
         clock-names = "mclk";
         #sound-dai-cells = <0>;
-//        pinctrl-names = "default";
+//      pinctrl-names = "default";
 //		pinctrl-0 = <&i2s_8ch_mclk>;
        spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
     };
@@ -739,13 +739,6 @@
 };
 
 &pinctrl {
-
-	gmac {
-		rgmii_sleep_pins: rgmii-sleep-pins {
-			rockchip,pins =
-				<3 RK_PB7 RK_FUNC_GPIO &pcfg_output_low>;
-		};
-	};
 
 	pmic {
 		vcc5v0_sys_pin: vcc5v0-sys-pin {
