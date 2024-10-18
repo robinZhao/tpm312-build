@@ -21,6 +21,39 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		cooling-levels = <0 160 170 192 255>;
+		#cooling-cells = <2>;
+		cooling-min-state = <0>;
+		cooling-max-state = <5>;
+		//PWM_POLARITY_NORMAL PWM_POLARITY_INVERTED
+		pwms = <&gpio_pwm0 0 2000000 PWM_POLARITY_NORMAL>;
+		status = "okay";
+	};
+
+	 gpio_pwm0: pwm-gpio {
+		compatible = "pwm-gpio";
+		#pwm-cells = <3>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_pwm0_pin>;
+		pwm-gpio = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+     };
+
+	gpio_keys: gpio-keys {
+		compatible = "gpio-keys";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		//autorepeat;
+		power-key {
+			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
+			linux,code = <116>;
+			label = "power";
+			gpio-key,wakeup;
+			wakeup-source;
+		};
+	};
+
 	fiq_debugger: fiq-debugger {
 		compatible = "rockchip,fiq-debugger";
 		rockchip,serial-id = <2>;
@@ -892,6 +925,12 @@
 //		};
 	};
 
+	gpio-pwms{
+	    gpio_pwm0_pin: gpio-pwm-pin{
+			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_down>;
+	    };
+	};
+
 };
 &power {
 	power-domain@RK3399_PD_PERIHP {
@@ -1105,4 +1144,37 @@
 	status = "okay";
 	dev_mode = <1>;
 	dma-coherent;
+};
+
+
+&soc_thermal {
+        trips {
+                cpu_warm: cpu_warm {
+                        temperature = <55000>;
+                        hysteresis = <2000>;
+                        type = "active";
+						status = "okay";
+                };
+
+                cpu_hot: cpu_hot {
+                        temperature = <65000>;
+                        hysteresis = <2000>;
+                        type = "active";
+						status = "okay";
+                };
+        };
+
+        cooling-maps {
+                map3 {
+                        trip = <&cpu_warm>;
+                        cooling-device = <&fan0 1 2>;
+						status = "okay";
+                };
+
+                map4 {
+                        trip = <&cpu_hot>;
+                        cooling-device = <&fan0 3 5>;
+						status = "okay";
+                };
+        };
 };
