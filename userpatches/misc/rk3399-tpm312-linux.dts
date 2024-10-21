@@ -37,7 +37,7 @@
 		#pwm-cells = <3>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&gpio_pwm0_pin>;
-		pwm-gpio = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
      };
 
 	gpio_keys: gpio-keys {
