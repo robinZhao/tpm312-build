@@ -27,31 +27,71 @@
 		#cooling-cells = <2>;
 		cooling-min-state = <0>;
 		cooling-max-state = <5>;
-		//PWM_POLARITY_INVERTED
+		//PWM_POLARITY_NORMAL PWM_POLARITY_INVERTED
 		pwms = <&gpio_pwm0 0 2000000 0>;
 		status = "okay";
 	};
 
-	 gpio_pwm0: pwm-gpio {
+	gpio_pwm0: pwm-gpio {
 		compatible = "pwm-gpio";
 		#pwm-cells = <3>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&gpio_pwm0_pin>;
-		gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+		pwm-gpio = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
      };
 
 	gpio_keys: gpio-keys {
 		compatible = "gpio-keys";
 		#address-cells = <1>;
 		#size-cells = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pwm_button1 &pwrbtn>;
 		//autorepeat;
 		power-key {
-			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
-			linux,code = <116>;
+			gpios = <&gpio4 RK_PA6 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_POWER>;
 			label = "power";
 			gpio-key,wakeup;
 			wakeup-source;
 		};
+
+		power {
+			debounce-interval = <100>;
+			gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+			label = "GPIO Key Power";
+			linux,code = <KEY_POWER>;
+			gpio-key,wakeup;
+			wakeup-source;
+		};
+	};
+
+	adc_keys: adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1750000>;
+		poll-interval = <100>;
+
+		recovery {
+			label = "Recovery";
+			linux,code = <KEY_VENDOR>;
+			press-threshold-microvolt = <0>;
+		};
+	};
+
+	gpio_keys: gpio-keys {
+			compatible = "gpio-keys";
+			autorepeat;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwrbtn>;
+
+			power {
+					debounce-interval = <100>;
+					gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+					label = "GPIO Key Power";
+					linux,code = <KEY_POWER>;
+					wakeup-source;
+			};
 	};
 
 	fiq_debugger: fiq-debugger {
@@ -373,34 +413,7 @@
 		};
 	};
 
-	adc_keys: adc-keys {
-		compatible = "adc-keys";
-		io-channels = <&saradc 1>;
-		io-channel-names = "buttons";
-		keyup-threshold-microvolt = <1750000>;
-		poll-interval = <100>;
 
-		recovery {
-			label = "Recovery";
-			linux,code = <KEY_VENDOR>;
-			press-threshold-microvolt = <0>;
-		};
-	};
-
-	gpio_keys: gpio-keys {
-			compatible = "gpio-keys";
-			autorepeat;
-			pinctrl-names = "default";
-			pinctrl-0 = <&pwrbtn>;
-
-			power {
-					debounce-interval = <100>;
-					gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
-					label = "GPIO Key Power";
-					linux,code = <KEY_POWER>;
-					wakeup-source;
-			};
-	};
 
 };
 
@@ -886,12 +899,6 @@
 		};
 	}; 
 
-	buttons {
-		pwrbtn: pwrbtn {
-				rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
-		};
-    };
-
 	/*
 	sound-ctl {
 		spk_ctl: spk-ctl {
@@ -927,10 +934,18 @@
 
 	gpio-pwms{
 	    gpio_pwm0_pin: gpio-pwm-pin{
-			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_down>;
+			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
 	    };
 	};
 
+	gpio-buttons{
+		pwrbtn: pwrbtn {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	    pwm_button1: pwm-button1{
+			rockchip,pins = <4 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+	    };
+	};
 };
 &power {
 	power-domain@RK3399_PD_PERIHP {
