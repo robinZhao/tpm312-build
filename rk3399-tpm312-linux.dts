@@ -21,6 +21,79 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		cooling-levels = <0 63 79 95 111 127 159 191 223 255>;
+		#cooling-cells = <2>;
+		cooling-min-state = <0>;
+		cooling-max-state = <9>;
+		//PWM_POLARITY_NORMAL PWM_POLARITY_INVERTED
+		pwms = <&gpio_pwm0 0 128000 0>;
+		status = "okay";
+	};
+
+	gpio_pwm0: pwm-gpio {
+		compatible = "pwm-gpio";
+		#pwm-cells = <3>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_pwm0_pin>;
+		gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+     };
+
+	gpio_keys: gpio-keys {
+		compatible = "gpio-keys";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pwm_button1 &pwrbtn>;
+		//autorepeat;
+		power-key {
+			gpios = <&gpio4 RK_PA6 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_POWER>;
+			label = "power";
+			gpio-key,wakeup;
+			wakeup-source;
+		};
+
+		power {
+			debounce-interval = <100>;
+			gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+			label = "GPIO Key Power";
+			linux,code = <KEY_POWER>;
+			gpio-key,wakeup;
+			wakeup-source;
+		};
+	};
+
+	adc_keys: adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1750000>;
+		poll-interval = <100>;
+
+		recovery {
+			label = "Recovery";
+			linux,code = <KEY_VENDOR>;
+			press-threshold-microvolt = <0>;
+		};
+	};
+
+	gpio_keys: gpio-keys {
+			compatible = "gpio-keys";
+			autorepeat;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwrbtn>;
+
+			power {
+					debounce-interval = <100>;
+					gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+					label = "GPIO Key Power";
+					linux,code = <KEY_POWER>;
+					wakeup-source;
+			};
+	};
+
 	fiq_debugger: fiq-debugger {
 		compatible = "rockchip,fiq-debugger";
 		rockchip,serial-id = <2>;
@@ -339,35 +412,8 @@
 			sound-dai = <&es8316>;
 		};
 	};
-	
-	adc_keys: adc-keys {
-		compatible = "adc-keys";
-		io-channels = <&saradc 1>;
-		io-channel-names = "buttons";
-		keyup-threshold-microvolt = <1750000>;
-		poll-interval = <100>;
 
-		recovery {
-			label = "Recovery";
-			linux,code = <KEY_VENDOR>;
-			press-threshold-microvolt = <0>;
-		};
-	};
 
-	gpio_keys: gpio-keys {
-			compatible = "gpio-keys";
-			autorepeat;
-			pinctrl-names = "default";
-			pinctrl-0 = <&pwrbtn>;
-
-			power {
-					debounce-interval = <100>;
-					gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
-					label = "GPIO Key Power";
-					linux,code = <KEY_POWER>;
-					wakeup-source;
-			};
-	};
 
 };
 
@@ -660,7 +706,7 @@
         clocks = <&cru SCLK_I2S_8CH_OUT>;
         clock-names = "mclk";
         #sound-dai-cells = <0>;
-//        pinctrl-names = "default";
+//      pinctrl-names = "default";
 //		pinctrl-0 = <&i2s_8ch_mclk>;
        spk-con-gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
     };
@@ -739,13 +785,6 @@
 };
 
 &pinctrl {
-
-	gmac {
-		rgmii_sleep_pins: rgmii-sleep-pins {
-			rockchip,pins =
-				<3 RK_PB7 RK_FUNC_GPIO &pcfg_output_low>;
-		};
-	};
 
 	pmic {
 		vcc5v0_sys_pin: vcc5v0-sys-pin {
@@ -832,7 +871,7 @@
 
 	wk2 {
 	    wk2_irq_pin:wk2-irq-pin {
-            rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+            rockchip,pins = <3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_up>;
         };
 		wk2_rst_pin:wk2-rst-pin {
             rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
@@ -859,12 +898,6 @@
 			rockchip,pins = <0 RK_PA5 1 &pcfg_pull_up>;
 		};
 	}; 
-
-	buttons {
-		pwrbtn: pwrbtn {
-				rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
-		};
-	};
 
 	/*
 	sound-ctl {
@@ -899,6 +932,20 @@
 //		};
 	};
 
+	gpio-pwms{
+	    gpio_pwm0_pin: gpio-pwm-pin{
+			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
+	    };
+	};
+
+	gpio-buttons{
+		pwrbtn: pwrbtn {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	    pwm_button1: pwm-button1{
+			rockchip,pins = <4 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+	    };
+	};
 };
 &power {
 	power-domain@RK3399_PD_PERIHP {
@@ -1112,4 +1159,37 @@
 	status = "okay";
 	dev_mode = <1>;
 	dma-coherent;
+};
+
+
+&cpu_thermal {
+        trips {
+                cpu_warm: cpu_warm {
+                        temperature = <60000>;
+                        hysteresis = <2000>;
+                        type = "active";
+						status = "okay";
+                };
+
+                cpu_hot: cpu_hot {
+                        temperature = <75000>;
+                        hysteresis = <2000>;
+                        type = "active";
+						status = "okay";
+                };
+        };
+
+        cooling-maps {
+                map3 {
+                        trip = <&cpu_warm>;
+                        cooling-device = <&fan0 1 5>;
+						status = "okay";
+                };
+
+                map4 {
+                        trip = <&cpu_hot>;
+                        cooling-device = <&fan0 6 9>;
+						status = "okay";
+                };
+        };
 };
