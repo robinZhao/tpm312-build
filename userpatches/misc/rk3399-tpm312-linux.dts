@@ -23,12 +23,12 @@
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
-		cooling-levels = <0 160 170 192 255>;
+		cooling-levels = <0 63 79 95 111 127 159 191 223 255>;
 		#cooling-cells = <2>;
 		cooling-min-state = <0>;
-		cooling-max-state = <5>;
+		cooling-max-state = <9>;
 		//PWM_POLARITY_NORMAL PWM_POLARITY_INVERTED
-		pwms = <&gpio_pwm0 0 2000000 0>;
+		pwms = <&gpio_pwm0 0 128000 0>;
 		status = "okay";
 	};
 
@@ -37,7 +37,7 @@
 		#pwm-cells = <3>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&gpio_pwm0_pin>;
-		pwm-gpio = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
      };
 
 	gpio_keys: gpio-keys {
@@ -1165,14 +1165,14 @@
 &cpu_thermal {
         trips {
                 cpu_warm: cpu_warm {
-                        temperature = <55000>;
+                        temperature = <60000>;
                         hysteresis = <2000>;
                         type = "active";
 						status = "okay";
                 };
 
                 cpu_hot: cpu_hot {
-                        temperature = <65000>;
+                        temperature = <75000>;
                         hysteresis = <2000>;
                         type = "active";
 						status = "okay";
@@ -1182,13 +1182,13 @@
         cooling-maps {
                 map3 {
                         trip = <&cpu_warm>;
-                        cooling-device = <&fan0 1 2>;
+                        cooling-device = <&fan0 1 5>;
 						status = "okay";
                 };
 
                 map4 {
                         trip = <&cpu_hot>;
-                        cooling-device = <&fan0 3 5>;
+                        cooling-device = <&fan0 6 9>;
 						status = "okay";
                 };
         };
