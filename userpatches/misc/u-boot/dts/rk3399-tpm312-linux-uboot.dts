@@ -1108,7 +1108,10 @@
 	dr_mode = "host";
 	status = "okay";
 };
-
+&display-subsystem {
+		compatible = "rockchip,display-subsystem";
+		ports = <&vopl_out>;
+};
 &vopb {
     status = "disabled";
     rockchip,grf = <&grf>;
@@ -1138,16 +1141,19 @@
 &hdmi_sound {
     status = "okay";
 };
-&hdmi_in_vopb{
-    status = "disabled";
+
+&hdmi_in {
+	/delete-node/ endpoint@1;
+	hdmi_in_vopl: endpoint@0 {
+		reg = <0>;
+		remote-endpoint = <&vopl_out_hdmi>;
+	};
 };
-&hdmi_in_vopl{
-    status = "okay";
-};
+
 &gpu{
 	mali-supply = <&vdd_gpu>;
     power-off-delay-ms = <200>;
-    status = "okay";
+    status = "disabled";
 };
 &saradc {
 	status = "okay";
