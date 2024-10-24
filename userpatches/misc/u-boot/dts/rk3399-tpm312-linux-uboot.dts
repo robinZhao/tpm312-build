@@ -1110,14 +1110,19 @@
 };
 
 &vopb {
-    status = "disabled";
+	assigned-clocks = <&cru DCLK_VOP0>;
+	assigned-clock-parents = <&cru PLL_CPLL>;
+    status = "disable";
     rockchip,grf = <&grf>;
 };
 
 &vopl {
+	assigned-clocks = <&cru DCLK_VOP1>;
+	assigned-clock-parents = <&cru PLL_VPLL>;
     status = "okay";
     rockchip,grf = <&grf>;
 };
+
 
 &vopb_mmu {
     status = "disabled";
