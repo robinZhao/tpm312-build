@@ -412,14 +412,6 @@
 			sound-dai = <&es8316>;
 		};
 	};
-
-	display-subsystem {
-		compatible = "rockchip,display-subsystem";
-		ports = <&vopl_out>;
-	};
-
-
-
 };
 
 &cpu_l0 {
@@ -962,19 +954,19 @@
 };
 
 &pwm0 {
-	status = "disabled";
+	status = "ok";
 };
 
 &pwm1 {
-	status = "disabled";
+	status = "ok";
 };
 
 &pwm2 {
-	status = "disabled";
+	status = "ok";
 };
 
 &pwm3 {
-	status = "disabled";
+	status = "ok";
 };
 
 &saradc {
@@ -1115,21 +1107,23 @@
 };
 
 &vopb {
-    status = "disabled";
+    status = "okay";
+	/delete-property/ assigned-clocks;
+	/delete-property/ assigned-clock-rates;
     rockchip,grf = <&grf>;
 };
 
 &vopl {
-    status = "okay";
+    status = "disabled";
     rockchip,grf = <&grf>;
 };
 
 &vopb_mmu {
-    status = "disabled";
+    status = "okay";
 };
 
 &vopl_mmu {
-    status = "okay";
+    status = "disabled";
 };
 
 &hdmi {
@@ -1144,12 +1138,12 @@
     status = "okay";
 };
 
-&hdmi_in {
-	/delete-node/ endpoint@1;
-	hdmi_in_vopl: endpoint@0 {
-		reg = <0>;
-		remote-endpoint = <&vopl_out_hdmi>;
-	};
+&hdmi_in_vopl {
+ 	status = "disabled";
+};
+
+&hdmi_in_vopb {
+	status = "okay";
 };
 
 &gpu{
