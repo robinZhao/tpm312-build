@@ -716,7 +716,7 @@
 &i2c3 {
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
-	status = "okay";
+	status = "disabled";
 };
 
 &i2c4 {
@@ -1133,10 +1133,16 @@
 };
 
 &hdmi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&hdmi_i2c_xfer>, <&hdmi_cec>;
+	status = "okay";
+	rockchip,phy-table =
+		<74250000 0x8009 0x0004 0x0272>,
+		<165000000 0x802b 0x0004 0x0209>,
+		<297000000 0x8039 0x0005 0x028d>,
+		<594000000 0x8039 0x0000 0x019d>,
+		<000000000 0x0000 0x0000 0x0000>;
     status = "okay";
-    pinctrl-names = "default";
-    ddc-i2c-bus = <&i2c3>;
-    pinctrl-0 = <&hdmi_cec>;
 	avdd-0v9-supply = <&vcc1v8_s0>;
 	avdd-1v8-supply = <&vcc_0v9>;
 };
