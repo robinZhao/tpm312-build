@@ -413,6 +413,11 @@
 		};
 	};
 
+	display-subsystem {
+		compatible = "rockchip,display-subsystem";
+		ports = <&vopl_out>;
+	};
+
 
 
 };
@@ -1108,10 +1113,7 @@
 	dr_mode = "host";
 	status = "okay";
 };
-&display-subsystem {
-		compatible = "rockchip,display-subsystem";
-		ports = <&vopl_out>;
-};
+
 &vopb {
     status = "disabled";
     rockchip,grf = <&grf>;
