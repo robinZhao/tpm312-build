@@ -957,19 +957,19 @@
 };
 
 &pwm0 {
-	status = "okay";
+	status = "disabled";
 };
 
 &pwm1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &pwm2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &pwm3 {
-	status = "okay";
+	status = "disabled";
 };
 
 &saradc {
@@ -1110,19 +1110,14 @@
 };
 
 &vopb {
-	assigned-clocks = <&cru DCLK_VOP0>;
-	assigned-clock-parents = <&cru PLL_CPLL>;
-    status = "disable";
+    status = "disabled";
     rockchip,grf = <&grf>;
 };
 
 &vopl {
-	assigned-clocks = <&cru DCLK_VOP1>;
-	assigned-clock-parents = <&cru PLL_VPLL>;
     status = "okay";
     rockchip,grf = <&grf>;
 };
-
 
 &vopb_mmu {
     status = "disabled";
@@ -1133,16 +1128,10 @@
 };
 
 &hdmi {
+    status = "okay";
 	pinctrl-names = "default";
-	pinctrl-0 = <&hdmi_cec>;
-	status = "okay";
-	rockchip,phy-table =
-		<74250000 0x8009 0x0004 0x0272>,
-		<165000000 0x802b 0x0004 0x0209>,
-		<297000000 0x8039 0x0005 0x028d>,
-		<594000000 0x8039 0x0000 0x019d>,
-		<000000000 0x0000 0x0000 0x0000>;
     ddc-i2c-bus = <&i2c3>;
+	pinctrl-0 = <&hdmi_cec>;
 	avdd-0v9-supply = <&vcc1v8_s0>;
 	avdd-1v8-supply = <&vcc_0v9>;
 };
