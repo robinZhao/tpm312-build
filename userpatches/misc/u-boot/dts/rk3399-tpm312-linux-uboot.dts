@@ -1127,7 +1127,7 @@
 };
 
 &hdmi {
-    status = "okay";
+    status = "disabled";
 	pinctrl-names = "default";
     ddc-i2c-bus = <&i2c3>;
 	pinctrl-0 = <&hdmi_cec>;
