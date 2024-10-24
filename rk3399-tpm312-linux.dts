@@ -1115,7 +1115,7 @@
 };
 
 &vopl {
-    status = "okay";
+    status = "disabled";
     rockchip,grf = <&grf>;
 };
 
@@ -1124,7 +1124,7 @@
 };
 
 &vopl_mmu {
-    status = "okay";
+    status = "disabled";
 };
 
 &hdmi {
@@ -1142,7 +1142,7 @@
     status = "okay";
 };
 &hdmi_in_vopl{
-    status = "okay";
+    status="disabled";
 };
 &gpu{
 	mali-supply = <&vdd_gpu>;
