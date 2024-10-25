@@ -873,7 +873,6 @@
 		};
 	};
 
-
 	wifi {
 		wifi_en_pin: wifi-en-pin {
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
