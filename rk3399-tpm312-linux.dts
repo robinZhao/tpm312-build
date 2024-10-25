@@ -48,6 +48,7 @@
 		pinctrl-0 = <&pwm_button1 &pwrbtn>;
 		//autorepeat;
 		power-key {
+			debounce-interval = <150>;
 			gpios = <&gpio4 RK_PA6 GPIO_ACTIVE_HIGH>;
 			linux,code = <KEY_POWER>;
 			label = "power";
