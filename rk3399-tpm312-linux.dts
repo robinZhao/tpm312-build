@@ -388,6 +388,7 @@
 		regulator-min-microvolt = <1200000>;
 		regulator-max-microvolt = <1200000>;
 		vin-supply = <&vcc12v_dcin>;
+		status = "disabled";
 	};
 
 
@@ -971,22 +972,22 @@
 		};
 
 		isp_dvp_d0d7: isp-dvp-d0d7 {
-			rockchip,pins = <2 RK_PA0 3 &pcfg_pull_none 
-			2  RK_PA1 3 &pcfg_pull_none 
-			2  RK_PA2 3 &pcfg_pull_none
-			2  RK_PA3 3 &pcfg_pull_none
-			2  RK_PA4 3 &pcfg_pull_none 
-			2  RK_PA5 3 &pcfg_pull_none 
-			2  RK_PA6 3 &pcfg_pull_none 
-			2  RK_PA7 3 &pcfg_pull_none 
-			2  RK_PB0 3 &pcfg_pull_none 
-			2  RK_PB1 3 &pcfg_pull_none 
-			2  RK_PB2 3 &pcfg_pull_none>;
+			rockchip,pins = <2 RK_PA0 3 &pcfg_pull_none>,
+			<2  RK_PA1 3 &pcfg_pull_none>,
+			<2  RK_PA2 3 &pcfg_pull_none>,
+			<2  RK_PA3 3 &pcfg_pull_none>,
+			<2  RK_PA4 3 &pcfg_pull_none>,
+			<2  RK_PA5 3 &pcfg_pull_none>, 
+			<2  RK_PA6 3 &pcfg_pull_none>, 
+			<2  RK_PA7 3 &pcfg_pull_none>, 
+			<2  RK_PB0 3 &pcfg_pull_none>, 
+			<2  RK_PB1 3 &pcfg_pull_none>,
+			<2  RK_PB2 3 &pcfg_pull_none>;
 		};
 
 		isp_shutter: isp-shutter {
-			rockchip,pins = <1 RK_PA1 1 &pcfg_pull_none 
-							1 RK_PA0 1 &pcfg_pull_none>;
+			rockchip,pins = <1 RK_PA1 1 &pcfg_pull_none>, 
+							<1 RK_PA0 1 &pcfg_pull_none>;
 		};
 
 		isp_flash_trigger: isp-flash-trigger {
@@ -1004,14 +1005,20 @@
 
 	dsi {
 		wesine_dsi_pin:wesine-dsi-pin {
-			rockchip,pins = <2 RK_PA6 RK_FUNC_GPIO  &pcfg_pull_down
-							2 RK_PB4 RK_FUNC_GPIO &pcfg_pull_down>;
+			rockchip,pins = <2 RK_PA6 RK_FUNC_GPIO  &pcfg_pull_down>,
+							<2 RK_PB4 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
 	};
 
 	mipi {
 		mipi_en_pin: vcc-mipi-en {
 			rockchip,pins = <2 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	backlight {
+		backlight_pin: backlight-pin {
+			rockchip,pins = <4 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 };
