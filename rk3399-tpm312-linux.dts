@@ -1073,6 +1073,7 @@
 	supports-emmc;
 	non-removable;
 	keep-power-in-suspend;
+	assigned-clock-parents = <&cru PLL_GPLL>;
 	status = "okay";
 };
 
