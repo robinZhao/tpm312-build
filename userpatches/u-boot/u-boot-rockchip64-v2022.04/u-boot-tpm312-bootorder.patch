@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: John Doe <john.doe@somewhere.on.planet>
+Date: Wed, 13 Nov 2024 18:38:35 +0800
+Subject: Patching u-boot rockchip64 files include/configs/rockchip-common.h
+
+Signed-off-by: John Doe <john.doe@somewhere.on.planet>
+---
+ include/configs/rockchip-common.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/include/configs/rockchip-common.h b/include/configs/rockchip-common.h
+index 5dc92373b2..a583f9cd4b 100644
+--- a/include/configs/rockchip-common.h
++++ b/include/configs/rockchip-common.h
+@@ -15,12 +15,12 @@
+ #ifndef CONFIG_SPL_BUILD
+ 
+ /* First try to boot from SD (index 1), then eMMC (index 0) */
+ #if CONFIG_IS_ENABLED(CMD_MMC)
+ 	#define BOOT_TARGET_MMC(func) \
+-		func(MMC, mmc, 1) \
+-		func(MMC, mmc, 0)
++		func(MMC, mmc, 0) \
++		func(MMC, mmc, 1)
+ #else
+ 	#define BOOT_TARGET_MMC(func)
+ #endif
+ 
+ #if CONFIG_IS_ENABLED(CMD_NVME)
+@@ -53,13 +53,13 @@
+ 	#define BOOT_TARGET_SF(func)
+ #endif
+ 
+ #ifdef CONFIG_ROCKCHIP_RK3399
+ #define BOOT_TARGET_DEVICES(func) \
+-	BOOT_TARGET_USB(func) \
+ 	BOOT_TARGET_MMC(func) \
+ 	BOOT_TARGET_NVME(func) \
++	BOOT_TARGET_USB(func) \
+ 	BOOT_TARGET_PXE(func) \
+ 	BOOT_TARGET_DHCP(func) \
+ 	BOOT_TARGET_SF(func)
+ #else
+ #define BOOT_TARGET_DEVICES(func) \
+-- 
+Created with Armbian build tools https://github.com/armbian/build
+
