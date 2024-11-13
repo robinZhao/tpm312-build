@@ -1160,7 +1160,7 @@ static int es8316_i2c_probe(struct i2c_client *i2c)
 	} else {
 		es8316->spk_active_level = !gpiod_is_active_low(gpio_to_desc(es8316->spk_ctl_gpio));
 		ret = devm_gpio_request_one(&i2c->dev, es8316->spk_ctl_gpio,
-					    GPIOF_DIR_OUT, NULL);
+					  GPIOF_OUT_INIT_LOW, NULL);
 		if (ret) {
 			dev_err(&i2c->dev, "Failed to request spk_ctl_gpio\n");
 			return ret;
