@@ -799,7 +799,7 @@ out:
 
 	if (((fsr & WK2XXX_FSR_TDAT_BIT) == 0) &&
 	    ((fsr & WK2XXX_FSR_TBUSY_BIT) == 0)) {
-		if (uart_circ_chars_pending(&one->port.state->xmit) <
+		if (kfifo_len(&one->port.state->port->xmit_fifo)) <
 		    WAKEUP_CHARS) {
 			uart_write_wakeup(&one->port);
 		}
@@ -1247,7 +1247,7 @@ static int wk2xxx_startup(struct uart_port *port) //i
 	/**********************************************************************/
 
 	mutex_unlock(&wk2xxxs_global_lock);
-	uart_circ_clear(&one->port.state->xmit);
+	kfifo_reset(&one->port.state->port.xmit_fifo);
 	wk2xxx_enable_ms(&one->port);
 
 	dev_dbg(&spi->dev, "%s: exit port:%ld\n", __func__, one->port.iobase);
