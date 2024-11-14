@@ -697,7 +697,7 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 	struct wk2xxx_port *priv = dev_get_drvdata(port->dev);
 	struct spi_device *spi = priv->spi_wk;
 	struct wk2xxx_one *one = to_wk2xxx_one(port, port);
-	uint8_t fsr, tfcnt, dat[1], txbuf[256] = { 0 },temptxbuf[200]={0};
+	uint8_t fsr, tfcnt, dat[1], txbuf[256] = { 0 };
 	unsigned long data_count;
 
 	int count, tx_count, i;
