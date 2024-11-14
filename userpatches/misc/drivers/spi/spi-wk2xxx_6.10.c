@@ -697,7 +697,9 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 	struct wk2xxx_port *priv = dev_get_drvdata(port->dev);
 	struct spi_device *spi = priv->spi_wk;
 	struct wk2xxx_one *one = to_wk2xxx_one(port, port);
-	uint8_t fsr, tfcnt, dat[1], txbuf[256] = { 0 };
+	uint8_t fsr, tfcnt, dat[1], txbuf[256] = { 0 },temptxbuf[200]={0}
+	unsigned long data_count;
+
 	int count, tx_count, i;
 	int len_tfcnt, len_limit, len_p = 0;
 	len_limit = SPI_LEN_LIMIT;
@@ -749,22 +751,9 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 	}
 
 	i = 0;
-	count = tx_count;
-	while (count) {
-		if (kfifo_is_empty(&one->port.state->port.xmit_fifo))
-			break;
-		txbuf[i] =
-			one->port.state->port.xmit_buf[one->port.state->xmit.tail];
-		one->port.state->xmit.tail =
-			(one->port.state->xmit.tail + 1) & (UART_XMIT_SIZE - 1);
-		one->port.icount.tx++;
-		i++;
-		count = count - 1;
-#ifdef _DEBUG_WK_TX
-		dev_dbg(&spi->dev, "%s: tx_chars=0x%x\n", __func__,
-			txbuf[i - 1]);
-#endif
-	};
+	data_count = kfifo_out_peek(&one->port.state->port.xmit_fifo, txbuf,
+			tx_count);
+	one->port.icount.tx+=data_count;
 
 #ifdef WK_FIFO_FUNCTION
 	len_tfcnt = i;
