@@ -799,7 +799,7 @@ out:
 
 	if (((fsr & WK2XXX_FSR_TDAT_BIT) == 0) &&
 	    ((fsr & WK2XXX_FSR_TBUSY_BIT) == 0)) {
-		if (kfifo_len(&one->port.state->port->xmit_fifo)<
+		if (kfifo_len(&one->port.state->port.xmit_fifo)<
 		    WAKEUP_CHARS) {
 			uart_write_wakeup(&one->port);
 		}
