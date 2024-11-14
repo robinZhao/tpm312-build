@@ -754,7 +754,7 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 		if (kfifo_is_empty(&one->port.state->port.xmit_fifo))
 			break;
 		txbuf[i] =
-			one->port.state->xmit.buf[one->port.state->xmit.tail];
+			one->port.state->port.xmit_buf[one->port.state->xmit.tail];
 		one->port.state->xmit.tail =
 			(one->port.state->xmit.tail + 1) & (UART_XMIT_SIZE - 1);
 		one->port.icount.tx++;
