@@ -698,6 +698,8 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 	struct spi_device *spi = priv->spi_wk;
 	struct wk2xxx_one *one = to_wk2xxx_one(port, port);
 	uint8_t fsr, tfcnt, dat[1], txbuf[256] = { 0 };
+	unsigned long data_count;
+
 	int count, tx_count, i;
 	int len_tfcnt, len_limit, len_p = 0;
 	len_limit = SPI_LEN_LIMIT;
@@ -749,22 +751,9 @@ static void wk2xxx_tx_chars(struct uart_port *port)
 	}
 
 	i = 0;
-	count = tx_count;
-	while (count) {
-		if (kfifo_is_empty(&one->port.state->port.xmit_fifo))
-			break;
-		txbuf[i] =
-			one->port.state->xmit.buf[one->port.state->xmit.tail];
-		one->port.state->xmit.tail =
-			(one->port.state->xmit.tail + 1) & (UART_XMIT_SIZE - 1);
-		one->port.icount.tx++;
-		i++;
-		count = count - 1;
-#ifdef _DEBUG_WK_TX
-		dev_dbg(&spi->dev, "%s: tx_chars=0x%x\n", __func__,
-			txbuf[i - 1]);
-#endif
-	};
+	data_count = kfifo_out_peek(&one->port.state->port.xmit_fifo, txbuf,
+			tx_count);
+	one->port.icount.tx+=data_count;
 
 #ifdef WK_FIFO_FUNCTION
 	len_tfcnt = i;
@@ -799,7 +788,7 @@ out:
 
 	if (((fsr & WK2XXX_FSR_TDAT_BIT) == 0) &&
 	    ((fsr & WK2XXX_FSR_TBUSY_BIT) == 0)) {
-		if (uart_circ_chars_pending(&one->port.state->xmit) <
+		if (kfifo_len(&one->port.state->port.xmit_fifo)<
 		    WAKEUP_CHARS) {
 			uart_write_wakeup(&one->port);
 		}
@@ -1247,7 +1236,7 @@ static int wk2xxx_startup(struct uart_port *port) //i
 	/**********************************************************************/
 
 	mutex_unlock(&wk2xxxs_global_lock);
-	uart_circ_clear(&one->port.state->xmit);
+	kfifo_reset(&one->port.state->port.xmit_fifo);
 	wk2xxx_enable_ms(&one->port);
 
 	dev_dbg(&spi->dev, "%s: exit port:%ld\n", __func__, one->port.iobase);
