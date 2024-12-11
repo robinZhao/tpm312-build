@@ -1,3 +1,4 @@
 {
-    "remote.SSH.remoteServerListenOnSocket": true
+    "remote.SSH.remoteServerListenOnSocket": true,
+    "devicetree.zephyr": "./"
 }
