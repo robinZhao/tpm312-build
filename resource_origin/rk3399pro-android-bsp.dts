@@ -63,7 +63,6 @@
 		emmc_phy = "/syscon@ff770000/phy@f780";
 		emmc_pwr = "/pinctrl/emmc/emmc-pwr";
 		fiq_debugger = "/fiq-debugger";
-		firmware_android = "/firmware/android";
 		fusb0 = "/i2c@ff3e0000/fusb30x@22";
 		fusb0_int = "/pinctrl/fusb30x/fusb0-int";
 		gic = "/interrupt-controller@fee00000";
@@ -805,7 +804,7 @@
 		reset-names = "spdif\0dptx\0apb\0core";
 		resets = <0x08 0x103 0x08 0x148 0x08 0x14a 0x08 0xfd>;
 		rockchip,grf = <0x17>;
-		status = "okay";
+		status = "disabled";
 
 		ports {
 			#address-cells = <0x01>;
@@ -993,7 +992,7 @@
 		reset-names = "dp";
 		resets = <0x08 0x11d>;
 		rockchip,grf = <0x17>;
-		status = "okay";
+		status = "disabled";
 
 		ports {
 			#address-cells = <0x01>;
@@ -1153,32 +1152,6 @@
 		rockchip,irq-mode-enable = <0x00>;
 		rockchip,serial-id = <0x02>;
 		rockchip,wake-irq = <0x00>;
-	};
-
-	firmware {
-
-		android {
-			boot_devices = "fe330000.sdhci";
-			compatible = "android,firmware";
-			phandle = <0x188>;
-
-			fstab {
-				compatible = "android,fstab";
-
-				vendor {
-					compatible = "android,vendor";
-					dev = "/dev/block/by-name/vendor";
-					fsmgr_flags = "wait,avb";
-					mnt_flags = "ro,barrier=1,inode_readahead_blks=8";
-					type = "ext4";
-				};
-			};
-
-			vbmeta {
-				compatible = "android,vbmeta";
-				parts = "vbmeta,boot,system,vendor,dtbo";
-			};
-		};
 	};
 
 	gpu@ff9a0000 {
@@ -2055,7 +2028,7 @@
 		rockchip,isp,dsiphy,reg = <0xff968000 0x8000>;
 		rockchip,isp,iommu-enable = <0x01>;
 		rockchip,isp,mipiphy = <0x02>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	isp@ff920000 {
@@ -2081,7 +2054,7 @@
 		rockchip,isp,dsiphy,reg = <0xff968000 0x8000>;
 		rockchip,isp,iommu-enable = <0x01>;
 		rockchip,isp,mipiphy = <0x02>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	mipi-dphy-tx1rx1@ff968000 {
@@ -4549,12 +4522,6 @@
 		status = "okay";
 	};
 
-	uboot-charge {
-		compatible = "rockchip,uboot-charge";
-		rockchip,android-charge-on = <0x00>;
-		rockchip,uboot-charge-on = <0x01>;
-	};
-
 	usb0 {
 		#address-cells = <0x02>;
 		#size-cells = <0x02>;
@@ -4719,7 +4686,7 @@
 		reg-names = "regs\0cabc_lut\0gamma_lut";
 		reset-names = "axi\0ahb\0dclk";
 		resets = <0x08 0x113 0x08 0x117 0x08 0x119>;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			#address-cells = <0x01>;
