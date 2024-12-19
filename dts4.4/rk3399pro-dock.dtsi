@@ -169,7 +169,7 @@
 		rockchip,grf = <&grf>;
 		sdio_vref = <1800>;
 		status = "okay";
-		wifi_chip_type = "ap6398s";
+		wifi_chip_type = "ap6354";
 	};
 
 	wireless-bluetooth {
@@ -295,7 +295,7 @@
 
 &uart2 {
 	pinctrl-0 = <&uart2a_xfer>;
-	status = "okay";
+	status = "disabled";
 };
 
 &i2c0 {
@@ -672,6 +672,12 @@
 	};
 };
 
+&i2c3 {
+	i2c-scl-rising-time-ns = <450>;
+	i2c-scl-falling-time-ns = <15>;
+	status = "okay";
+};
+
 &i2c4 {
 	status = "okay";
 	i2c-scl-falling-time-ns = <11>;
@@ -1000,8 +1006,10 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	#sound-dai-cells = <0>;
-	ddc-i2c-scl-high-time-ns = <9625>;
-	ddc-i2c-scl-low-time-ns = <10000>;
+	ddc-i2c-bus = <&i2c3>;
+	pinctrl-0 = <&hdmi_cec>;
+	//ddc-i2c-scl-high-time-ns = <9625>;
+	//ddc-i2c-scl-low-time-ns = <10000>;
 //	rockchip,phy-table =
 //		<74250000  0x8009 0x0004 0x0272>,
 //		<165000000 0x802b 0x0004 0x0209>,
