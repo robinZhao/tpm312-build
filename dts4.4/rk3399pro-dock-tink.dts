@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+// Copyright (c) 2018 Fuzhou Rockchip Electronics Co., Ltd
+
+/dts-v1/;
+
+#include "rk3399pro.dtsi"
+#include "rk3399-opp.dtsi"
+#include "rk3399-linux.dtsi"
+#include "rk3399pro-dock-v.dtsi"
+
+/ {
+	compatible = "rockchip,rk3399pro-evb-v11-linux\0rockchip,rk3399pro";
+	model = "ASUS Tinker Edge R";
+
+	ADC5-BOARD-ID {
+		boardver = "-1";
+		compatible = "ADC5-BOARD-ID";
+	};
+
+	chosen {
+		bootargs = "earlycon=uart8250,mmio32,0xff1a0000 swiotlb=1 coherent_pool=1m console=ttyFIQ0 console=tty0 rw rootfstype=ext4 rootwait root=/dev/mmcblk1p8";
+		//bootargs = "earlycon=uart8250,mmio32,0xff1a0000 swiotlb=1 coherent_pool=1m";
+		//stdout-path = "serial2:1500000n8";
+	};
+};
+&i2c1 {
+	status = "okay";
+	m24c08@50 {
+		compatible = "at,24c08";
+		reg = <0x50>;
+	};
+};
+&dmc_opp_table {
+	opp-200000000 {
+		opp-hz = <0 200000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-300000000 {
+		opp-hz = <0 300000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-300000000 {
+		opp-hz = <0 400000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-528000000 {
+		opp-hz = <0 528000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-600000000 {
+		opp-hz = <0 600000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-800000000 {
+		opp-hz = <0 800000000>;
+		opp-microvolt = <900000>;
+	};
+};
+
+

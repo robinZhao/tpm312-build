@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+// Copyright (c) 2018 Fuzhou Rockchip Electronics Co., Ltd
+
+/dts-v1/;
+
+#include "rk3399pro.dtsi"
+#include "rk3399-opp.dtsi"
+#include "rk3399-linux.dtsi"
+#include "rk3399pro-dock-v.dtsi"
+
+/ {
+	model = "RK3399PRO-DOCK";
+	compatible = "rockchip,rk3399pro-dock", "rockchip,rk3399pro";
+
+	chosen {
+		bootargs = "earlycon=uart8250,mmio32,0xff1a0000 swiotlb=1 coherent_pool=1m";
+		//stdout-path = "serial2:1500000n8";
+	};
+};
+
+&dmc_opp_table {
+	opp-200000000 {
+		opp-hz = <0 200000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-300000000 {
+		opp-hz = <0 300000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-300000000 {
+		opp-hz = <0 400000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-528000000 {
+		opp-hz = <0 528000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-600000000 {
+		opp-hz = <0 600000000>;
+		opp-microvolt = <900000>;
+	};
+
+	opp-800000000 {
+		opp-hz = <0 800000000>;
+		opp-microvolt = <900000>;
+	};
+};
+
+
