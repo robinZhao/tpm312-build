@@ -134,7 +134,7 @@ function post_install_kernel_debs__3d() {
 
 	# This library gets downgraded
 	if [[ "${BUILD_DESKTOP}" == "yes" ]]; then
-		if [[ "${RELEASE}" =~ ^(oracular|noble|jammy)$ && "${ARCH}" == arm* ]]; then
+		if [[ "${RELEASE}" =~ ^(oracular|noble)$ && "${ARCH}" == arm* ]]; then
 			do_with_retries 3 chroot_sdcard apt-mark hold libdav1d7
 		fi
 	fi
@@ -146,7 +146,7 @@ function post_install_kernel_debs__3d() {
 	do_with_retries 3 chroot_sdcard apt-mark unhold base-files
 
 	if [[ "${BUILD_DESKTOP}" == "yes" ]]; then
-		if [[ "${RELEASE}" =~ ^(oracular|noble|jammy)$ && "${ARCH}" == arm* ]]; then
+		if [[ "${RELEASE}" =~ ^(oracular|noble)$ && "${ARCH}" == arm* ]]; then
 			do_with_retries 3 chroot_sdcard apt-mark unhold libdav1d7
 		fi
 	fi
