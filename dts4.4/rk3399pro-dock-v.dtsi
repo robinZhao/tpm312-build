@@ -262,7 +262,7 @@
 };
 
 &dmc {
-	status = "okay";
+	status = "disabled";
 	//pvtm = <&pvtm>;
 	center-supply = <&vdd_log>;
 };
@@ -395,7 +395,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <925000>;
 				regulator-max-microvolt = <1350000>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vdd_log";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -409,7 +409,7 @@
 				regulator-min-microvolt = <925000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vdd_cpu_l";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -420,7 +420,7 @@
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-name = "vcc_ddr";
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-state-mem {
 					regulator-on-in-suspend;
 				};
@@ -431,7 +431,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vcc3v3_sys";
 				regulator-state-mem {
 					regulator-on-in-suspend;
@@ -563,8 +563,8 @@
 			vcc5v0_usb: SWITCH_REG1 {
 				regulator-min-microvolt = <5000000>;
 				regulator-max-microvolt = <5000000>;
-				//regulator-boot-on;
-				//regulator-always-on;
+				regulator-boot-on;
+				regulator-always-on;
 				regulator-name = "vcc5v0_usb";
 				regulator-state-mem {
 					regulator-on-in-suspend;
@@ -806,13 +806,11 @@
 		| RKPM_USB_LINESTATE_WKUP_EN
 		)
 	>;
-	/* 
 	rockchip,pwm-regulator-config = <
 		(0
 		| PWM2_REGULATOR_EN
 		)
 	>;
-	*/
 	rockchip,power-ctrl =
 		<&gpio1 RK_PC1 GPIO_ACTIVE_HIGH>,
 		<&gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;

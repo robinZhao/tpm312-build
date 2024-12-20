@@ -395,7 +395,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <750000>;
 				regulator-max-microvolt = <1350000>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vdd_log";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -409,7 +409,7 @@
 				regulator-min-microvolt = <750000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vdd_cpu_l";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -420,7 +420,7 @@
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-name = "vcc_ddr";
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-state-mem {
 					regulator-on-in-suspend;
 				};
@@ -431,7 +431,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-initial-mode = <0x2>;
+				regulator-initial-mode = <1>;
 				regulator-name = "vcc3v3_sys";
 				regulator-state-mem {
 					regulator-on-in-suspend;
