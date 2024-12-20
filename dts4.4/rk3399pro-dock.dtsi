@@ -216,7 +216,7 @@
 
 	rockchip_system_monitor: rockchip-system-monitor {
 		compatible = "rockchip,system-monitor";
-		rockchip,polling-delay = <0xc8>;
+		rockchip,polling-delay = <200>;
 		rockchip,thermal-zone = "soc-thermal";
 	};
 
@@ -563,7 +563,8 @@
 			vcc5v0_usb: SWITCH_REG1 {
 				regulator-min-microvolt = <5000000>;
 				regulator-max-microvolt = <5000000>;
-
+				//regulator-always-on;
+				//regulator-boot-on;
 				regulator-name = "vcc5v0_usb";
 				regulator-state-mem {
 					regulator-on-in-suspend;
@@ -1120,6 +1121,10 @@
 };
 
 &dfi {
+	status = "okay";
+};
+
+&rng {
 	status = "okay";
 };
 
