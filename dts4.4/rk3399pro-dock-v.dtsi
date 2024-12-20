@@ -262,7 +262,7 @@
 };
 
 &dmc {
-	status = "disabled";
+	status = "okay";
 	//pvtm = <&pvtm>;
 	center-supply = <&vdd_log>;
 };
