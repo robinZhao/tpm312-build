@@ -89,9 +89,9 @@ function post_install_kernel_debs__3d() {
 		EOF
 
 		# Add chromium if building a desktop
-		if [[ "${BUILD_DESKTOP}" == "yes" ]]; then
-			pkgs+=("chromium")
-		fi
+		#if [[ "${BUILD_DESKTOP}" == "yes" ]]; then
+		#	pkgs+=("chromium")
+		#fi
 	fi
 
 	if [[ "${BUILD_DESKTOP}" == "yes" ]]; then # if desktop, add amazingfated's multimedia PPAs and rockchip-multimedia-config utility, chromium, gstreamer, etc
