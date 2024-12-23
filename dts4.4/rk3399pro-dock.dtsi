@@ -11,6 +11,44 @@
 
 / {
 
+	adc_keys: adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 2>;
+		io-channel-names = "buttons";
+		poll-interval = <100>;
+		keyup-threshold-microvolt = <1800000>;
+
+		esc-key {
+			linux,code = <KEY_ESC>;
+			label = "esc";
+			press-threshold-microvolt = <1310000>;
+		};
+
+		menu-key {
+			linux,code = <KEY_MENU>;
+			label = "menu";
+			press-threshold-microvolt = <987000>;
+		};
+
+		home-key {
+			linux,code = <KEY_HOME>;
+			label = "home";
+			press-threshold-microvolt = <624000>;
+		};
+
+		vol-down-key {
+			linux,code = <KEY_VOLUMEDOWN>;
+			label = "volume down";
+			press-threshold-microvolt = <300000>;
+		};
+
+		vol-up-key {
+			linux,code = <KEY_VOLUMEUP>;
+			label = "volume up";
+			press-threshold-microvolt = <17000>;
+		};
+	};
+
 	backlight: backlight {
 		status = "disabled";
 		compatible = "pwm-backlight";
@@ -119,7 +157,6 @@
 	};
 
 	rk809_sound: rk809-sound {
-		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,name = "rockchip,rk809-codec";
@@ -230,6 +267,16 @@
 		regulator-always-on;
 		regulator-boot-on;
 		vin-supply = <&vcc5v0_sys>;
+	};
+
+	rng: rng@ff8b8000 {
+		compatible = "rockchip,cryptov1-rng";
+		reg = <0x0 0xff8b8000 0x0 0x1000>;
+		clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
+		clock-names = "clk_crypto", "hclk_crypto";
+		assigned-clocks = <&cru SCLK_CRYPTO1>, <&cru HCLK_S_CRYPTO1>;
+		assigned-clock-rates = <150000000>, <100000000>;
+		status = "disabled";
 	};
 
 	test-power {
@@ -395,7 +442,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <750000>;
 				regulator-max-microvolt = <1350000>;
-				regulator-initial-mode = <1>;
+				regulator-initial-mode = <2>;
 				regulator-name = "vdd_log";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -409,7 +456,7 @@
 				regulator-min-microvolt = <750000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
-				regulator-initial-mode = <1>;
+				regulator-initial-mode = <2>;
 				regulator-name = "vdd_cpu_l";
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -420,7 +467,7 @@
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-name = "vcc_ddr";
-				regulator-initial-mode = <1>;
+				regulator-initial-mode = <2>;
 				regulator-state-mem {
 					regulator-on-in-suspend;
 				};
@@ -431,7 +478,7 @@
 				regulator-boot-on;
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-initial-mode = <1>;
+				regulator-initial-mode = <2>;
 				regulator-name = "vcc3v3_sys";
 				regulator-state-mem {
 					regulator-on-in-suspend;
@@ -563,8 +610,8 @@
 			vcc5v0_usb: SWITCH_REG1 {
 				regulator-min-microvolt = <5000000>;
 				regulator-max-microvolt = <5000000>;
-				//regulator-always-on;
-				//regulator-boot-on;
+				regulator-always-on;
+				regulator-boot-on;
 				regulator-name = "vcc5v0_usb";
 				regulator-state-mem {
 					regulator-on-in-suspend;
@@ -594,13 +641,15 @@
 			pinctrl-0 = <&i2s_8ch_mclk>;
 			hp-volume = <20>;
 			spk-volume = <3>;
+			capture-volume = <0>;
+			//mic-in-differential;
 			status = "okay";
 		};
 	};
 
 	vdd_gpu: syr828@41 {
 		compatible = "silergy,syr828";
-		fcs,suspend-voltage-selector = <0x01>;
+		fcs,suspend-voltage-selector = <1>;
 		//phandle = <0xa4>;
 		pinctrl-0 = <&vsel2_gpio>;
 		reg = <0x41>;
@@ -622,7 +671,7 @@
 
 	vdd_cpu_b: syr837@40 {
 		compatible = "silergy,syr827";
-		fcs,suspend-voltage-selector = <0x01>;
+		fcs,suspend-voltage-selector = <1>;
 		//phandle = <0x12>;
 		pinctrl-0 = <&vsel1_gpio>;
 		reg = <0x40>;
@@ -676,7 +725,7 @@
 &i2c3 {
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
-	status = "okay";
+	status = "disabled";
 };
 
 &i2c4 {
@@ -805,13 +854,12 @@
 		| RKPM_USB_LINESTATE_WKUP_EN
 		)
 	>;
-	/* 
+
 	rockchip,pwm-regulator-config = <
 		(0
 		| PWM2_REGULATOR_EN
 		)
-	>;
-	*/
+	>;	
 	rockchip,power-ctrl =
 		<&gpio1 RK_PC1 GPIO_ACTIVE_HIGH>,
 		<&gpio1 RK_PB6 GPIO_ACTIVE_HIGH>;
@@ -819,6 +867,8 @@
 
 &spi1 {
 	status = "okay";
+	dma-names = "tx", "rx";
+	dmas = <&dmac_peri 12>, <&dmac_peri 13>;
 	max-freq = <48000000>; /* spi internal clk, don't modify */
 	spi_dev@0 {
 		compatible = "rockchip,spidev";
@@ -1006,16 +1056,16 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	#sound-dai-cells = <0>;
-	ddc-i2c-bus = <&i2c3>;
-	pinctrl-0 = <&hdmi_cec>;
-	//ddc-i2c-scl-high-time-ns = <9625>;
-	//ddc-i2c-scl-low-time-ns = <10000>;
-//	rockchip,phy-table =
-//		<74250000  0x8009 0x0004 0x0272>,
-//		<165000000 0x802b 0x0004 0x0209>,
-//		<297000000 0x8039 0x0005 0x028d>,
-//		<594000000 0x8039 0x0000 0x00f6>,
-//		<000000000 0x0000 0x0000 0x0000>;
+	//ddc-i2c-bus = <&i2c3>;
+	//pinctrl-0 = <&hdmi_cec>;
+	ddc-i2c-scl-high-time-ns = <9625>;
+	ddc-i2c-scl-low-time-ns = <10000>;
+	rockchip,phy-table =
+		<74250000  0x8009 0x0004 0x0272>,
+		<165000000 0x802b 0x0004 0x0209>,
+		<297000000 0x8039 0x0005 0x028d>,
+		<594000000 0x8039 0x0000 0x00f6>,
+		<000000000 0x0000 0x0000 0x0000>;
 };
 
 &hdmi_in_vopb {
@@ -1049,6 +1099,11 @@
 };
 
 &route_edp {
+	connect = <&vopl_out_edp>;
+	status = "disabled";
+};
+&route_dsi {
+	connect = <&vopl_out_dsi>;
 	status = "disabled";
 };
 
