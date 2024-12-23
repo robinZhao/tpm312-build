@@ -1027,10 +1027,6 @@
 	};
 };
 
-&edp_in_vopb {
-	status = "disabled";
-};
-
 &vopb {
 	status = "okay";
 	assigned-clocks = <&cru DCLK_VOP0_DIV>;
@@ -1059,7 +1055,7 @@
 	#size-cells = <0>;
 	#sound-dai-cells = <0>;
 	//ddc-i2c-bus = <&i2c3>;
-	//pinctrl-0 = <&hdmi_cec>;
+	pinctrl-0 = <&hdmi_i2c_xfer &hdmi_cec>;
 	ddc-i2c-scl-high-time-ns = <9625>;
 	ddc-i2c-scl-low-time-ns = <10000>;
 	rockchip,phy-table =
@@ -1122,6 +1118,10 @@
 };
 
 &dp_in_vopb {
+	status = "disabled";
+};
+
+&edp_in_vopb {
 	status = "disabled";
 };
 

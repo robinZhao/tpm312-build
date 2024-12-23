@@ -6,7 +6,8 @@
 #include "rk3399pro.dtsi"
 #include "rk3399-opp.dtsi"
 #include "rk3399-linux.dtsi"
-#include "rk3399pro-tinker-edge-r.dtsi"
+#include "rk3399pro-tinker_edge_r.dtsi"
+
 
 / {
 	compatible = "rockchip,rk3399pro-evb-v11-linux", "rockchip,rk3399pro";
@@ -21,6 +22,11 @@
 		bootargs = "earlycon=uart8250,mmio32,0xff1a0000 swiotlb=1 coherent_pool=1m console=ttyFIQ0 console=tty0 rw rootfstype=ext4 rootwait root=/dev/mmcblk1p8";
 	};
 	
+};
+
+&usbdrd_dwc3_0 {
+	dr_mode = "host";
+	status = "okay";
 };
 
 &i2c1 {
