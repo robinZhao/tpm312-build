@@ -311,7 +311,7 @@
 &dmc {
 	status = "okay";
 	//pvtm = <&pvtm>;
-	center-supply = <&vdd_log>;
+	center-supply = <&vdd_center>;
 };
 
 &emmc_phy {
@@ -437,13 +437,13 @@
 		};
 
 		regulators {
-			vdd_log: DCDC_REG1 {
+			vdd_center: DCDC_REG1 {
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-min-microvolt = <750000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-initial-mode = <2>;
-				regulator-name = "vdd_log";
+				regulator-name = "vdd_center";
 				regulator-state-mem {
 					regulator-off-in-suspend;
 					regulator-suspend-microvolt = <900000>;
@@ -821,14 +821,14 @@
 &vpu {
 	status = "okay";
 	allocator = <1>;
-	//vcodec-supply = <&vdd_log>;
+	//vcodec-supply = <&vdd_center>;
 	/* 0 means ion, 1 means drm */
 	//allocator = <0>;
 };
 
 &rkvdec {
 	status = "okay";
-	//vcodec-supply = <&vdd_log>;
+	//vcodec-supply = <&vdd_center>;
 	/* 0 means ion, 1 means drm */
 	//allocator = <0>;
 };
@@ -991,13 +991,13 @@
 };
 /*
 &power {
-	pd_vi-supply = <&vdd_log>;
-	pd_vpu-supply = <&vdd_log>;
-	pd_gpu-supply = <&vdd_log>;
+	pd_vi-supply = <&vdd_center>;
+	pd_vpu-supply = <&vdd_center>;
+	pd_gpu-supply = <&vdd_center>;
 	pd_usb-supply = <&vcc5v0_usb>;
-	pd_vo-supply = <&vdd_log>;
-	pd_vopb-supply = <&vdd_log>;
-	pd_vopl-supply = <&vdd_log>;
+	pd_vo-supply = <&vdd_center>;
+	pd_vopb-supply = <&vdd_center>;
+	pd_vopl-supply = <&vdd_center>;
 };
  */
 
