@@ -58,6 +58,7 @@ PostProcess()
 	    mv "${SDCARD}"/etc/apt/sources.list.d/armbian.list  "${SDCARD}"/etc/apt/sources.list.d/armbian.list.disabled
 	fi
 	apt-get install -y vim
+ 	apt-get clean
 	systemctl mask hibernate.target
 	systemctl mask suspend.target
 }
