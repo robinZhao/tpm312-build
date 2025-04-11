@@ -132,19 +132,22 @@ runs:
         repository: armbian/build
         fetch-depth: 0
         clean: false
-        path: /mnt/build
+        path: build
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         clean: false
-        path: /mnt/custom
+        path: custom
 
     - name: merge patches
       shell: bash
       run: |
         #cd /mnt/build ; git apply ../custom/aptutils.patch;cd - 
+        chmod 777 /mnt
+        mv -r -p build /mnt/
+        mv -r -p custom /mnt/
         cd /mnt/
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
         # read version from upstream Armbian OS
