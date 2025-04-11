@@ -145,7 +145,7 @@ runs:
       shell: bash
       run: |
         #cd /mnt/build ; git apply ../custom/aptutils.patch;cd - 
-        chmod 777 /mnt
+        sudo chown runner /mnt
         mv -r -p build /mnt/
         mv -r -p custom /mnt/
         cd /mnt/
