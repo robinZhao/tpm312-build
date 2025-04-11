@@ -193,7 +193,6 @@ runs:
         fi
         
         # execute build command
-        cd /mnt
         ./compile.sh "${{ inputs.armbian_target }}" \
         REVISION="${{ env.ARMBIAN_VERSION }}${{ inputs.armbian_version_suffix }}" \
         BOARD="${{ inputs.armbian_board }}" \
