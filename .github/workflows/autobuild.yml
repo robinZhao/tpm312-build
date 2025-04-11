@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check disk space
         run: df -h
+      - name: 调试会话
+        uses: csexton/debugger-action@master
       - uses: robinZhao/tpm312-build@main
         with:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
