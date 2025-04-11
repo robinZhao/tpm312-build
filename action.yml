@@ -146,8 +146,8 @@ runs:
       run: |
         #cd /mnt/build ; git apply ../custom/aptutils.patch;cd - 
         sudo chown runner /mnt
-        mv -r -p build /mnt/
-        mv -r -p custom /mnt/
+        mv build /mnt/
+        mv custom /mnt/
         cd /mnt/
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
         # read version from upstream Armbian OS
