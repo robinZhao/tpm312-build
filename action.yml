@@ -20,7 +20,7 @@ inputs:
   armbian_artifacts:
     descriptions: "Upload PATH"
     required: false
-    default: "build/output/images/"
+    default: "/mnt/build/output/images/"
 
   armbian_target:
     description: "Build image or kernel"
@@ -132,19 +132,20 @@ runs:
         repository: armbian/build
         fetch-depth: 0
         clean: false
-        path: build
+        path: /mnt/build
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         clean: false
-        path: custom
+        path: /mnt/custom
 
     - name: merge patches
       shell: bash
       run: |
-        #cd build ; git apply ../custom/aptutils.patch;cd - 
+        #cd /mnt/build ; git apply ../custom/aptutils.patch;cd - 
+        cd /mnt/
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
         # read version from upstream Armbian OS
         cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION_REAL=/' >> $GITHUB_ENV
@@ -176,7 +177,7 @@ runs:
         fi
 
         # go to build folder and checkout
-        cd build
+        cd /mnt/build
         if [[ "${{ inputs.armbian_branch }}" != '' ]]; then
           git checkout ${{ inputs.armbian_branch }}
         elif [[ "${{ inputs.build_type }}" == 'stable' ]]; then
@@ -188,6 +189,7 @@ runs:
         fi
         
         # execute build command
+        cd /mnt
         ./compile.sh "${{ inputs.armbian_target }}" \
         REVISION="${{ env.ARMBIAN_VERSION }}${{ inputs.armbian_version_suffix }}" \
         BOARD="${{ inputs.armbian_board }}" \
@@ -210,12 +212,14 @@ runs:
     - name: debs
       shell: bash
       run: |
+        cd /mnt
         tar -cvf ${{inputs.armbian_artifacts}}debs.tar build/output/debs
 
     - name: Sign
       shell: bash
       if: ${{ inputs.armbian_pgp_password != '' }}
       run: |
+        cd /mnt
         echo ${{ inputs.armbian_pgp_password }} | \
         gpg --passphrase-fd 0 --armor --detach-sign --pinentry-mode loopback --batch --yes \
         build/output/images/*.img*.xz
