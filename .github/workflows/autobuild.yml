@@ -12,6 +12,8 @@ jobs:
   build-armbian:
     runs-on: ubuntu-22.04
     steps:
+      - name: Check disk space
+        run: df -h
       - uses: robinZhao/tpm312-build@main
         with:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
@@ -21,3 +23,4 @@ jobs:
           armbian_ui: "gnome"
           armbian_kernel_branch: "current"
           build_type: "nightly"
+
