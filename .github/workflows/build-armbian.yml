@@ -59,14 +59,20 @@ on:
         description: "Set version suffix"
         required: false
         default: ""
-
-
 env:
   TZ: Asia/Shanghai
+  PREFER_DOCKER: yes
+defaults:
+  run:
+    working-directory: /mnt  # 全局工作目录声明
 jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
+      - name: Change owner to runner
+        run: sudo chown -R runner:runner /mnt
+        working-directory: /  # 强制在根目录执行
+
       - uses: robinZhao/tpm312-build@main
         with:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
