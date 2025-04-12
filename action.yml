@@ -146,6 +146,7 @@ runs:
       run: |
         #cd build ; git apply ../custom/aptutils.patch;cd - 
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
+        sed -i 's/oracular|noble|jammy/oracular|noble/' build/extensions/mesa-vpu.sh
         # read version from upstream Armbian OS
         cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION_REAL=/' >> $GITHUB_ENV
         cat os/${{ inputs.build_type }}.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
