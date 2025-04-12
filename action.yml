@@ -113,7 +113,7 @@ runs:
         repository: armbian/os
         fetch-depth: 0
         clean: false
-        path: /mnt/os
+        path: os
 
     - name: "Checkout Armbian build framework"
       uses: actions/checkout@v4
@@ -121,20 +121,19 @@ runs:
         repository: armbian/build
         fetch-depth: 0
         clean: false
-        path: /mnt/build
+        path: build
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         clean: false
-        path: /mnt/custom
+        path: custom
 
     - name: merge patches
       shell: bash
-      working-directory: /mnt
       run: |
-        pwd
+        ls /mnt
         #cd build ; git apply ../custom/aptutils.patch;cd - 
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
         sed -i 's/oracular|noble|jammy/oracular|noble/' build/extensions/mesa-vpu.sh
@@ -150,7 +149,6 @@ runs:
     
     - name: execute compile armbian
       shell: bash
-      working-directory: /mnt
       run: |
 
         # userspace decode
@@ -202,13 +200,11 @@ runs:
 
     - name: debs
       shell: bash  
-      working-directory: /mnt
       run: |
         tar -cvf ${{inputs.armbian_artifacts}}debs.tar build/output/debs
 
     - name: Sign
       shell: bash
-      working-directory: /mnt
       if: ${{ inputs.armbian_pgp_password != '' }}
       run: |
         echo ${{ inputs.armbian_pgp_password }} | \
@@ -220,7 +216,7 @@ runs:
       with:
         tag: "${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
         name: "${{ inputs.armbian_release_tittle }} ${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
-        artifacts: "/mnt/${{ inputs.armbian_artifacts }}*"
+        artifacts: "${{ inputs.armbian_artifacts }}*"
         allowUpdates: true
         removeArtifacts: false
         replacesArtifacts: true
