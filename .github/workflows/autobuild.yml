@@ -16,7 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Change owner to runner
-        run: sudo chown -R runner:runner /mnt
+        run: |
+          sudo chown -R runner:runner /mnt
+          mv $GITHUB_WORKSPACE/* /mnt/
+          sudo mount --bind /mnt $GITHUB_WORKSPACE
         working-directory: /  # 强制在根目录执行
         
       - uses: robinZhao/tpm312-build@main
