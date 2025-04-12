@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo chown -R runner:runner /mnt
           mkdir -p $GITHUB_WORKSPACE
-          mv $GITHUB_WORKSPACE/* /mnt/
+          #mv $GITHUB_WORKSPACE/* /mnt/
           sudo mount --bind /mnt $GITHUB_WORKSPACE
         working-directory: /  # 强制在根目录执行
         
