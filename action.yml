@@ -100,17 +100,6 @@ runs:
 
   steps:
 
-    - name: Free Github Runner
-      if: ${{ inputs.armbian_runner_clean != '' }}
-      uses: descriptinc/free-disk-space@main
-      with:
-        android: true
-        dotnet: true
-        haskell: true
-        large-packages: true
-        docker-images: true
-        swap-storage: true
-
     - name: "Import GPG key"
       if: ${{ inputs.armbian_pgp_key != '' }}
       uses: crazy-max/ghaction-import-gpg@v6
@@ -144,6 +133,7 @@ runs:
     - name: merge patches
       shell: bash
       run: |
+        pwd
         #cd build ; git apply ../custom/aptutils.patch;cd - 
         sed -i 's/pkgs+=("chromium")/echo nochrome/' build/extensions/mesa-vpu.sh
         sed -i 's/oracular|noble|jammy/oracular|noble/' build/extensions/mesa-vpu.sh
