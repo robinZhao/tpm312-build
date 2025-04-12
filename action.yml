@@ -113,7 +113,7 @@ runs:
         repository: armbian/os
         fetch-depth: 0
         clean: false
-        path: os
+        path: /mnt/os
 
     - name: "Checkout Armbian build framework"
       uses: actions/checkout@v4
@@ -121,14 +121,14 @@ runs:
         repository: armbian/build
         fetch-depth: 0
         clean: false
-        path: build
+        path: /mnt/build
 
     - name: "Checkout customisations"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         clean: false
-        path: custom
+        path: /mnt/custom
 
     - name: merge patches
       shell: bash
@@ -213,6 +213,7 @@ runs:
 
     - name: replaces Artifacts
       uses: ncipollo/release-action@v1
+      working-directory: /mnt
       with:
         tag: "${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
         name: "${{ inputs.armbian_release_tittle }} ${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
