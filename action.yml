@@ -132,6 +132,7 @@ runs:
 
     - name: merge patches
       shell: bash
+      working-directory: /mnt
       run: |
         pwd
         #cd build ; git apply ../custom/aptutils.patch;cd - 
@@ -149,6 +150,7 @@ runs:
     
     - name: execute compile armbian
       shell: bash
+      working-directory: /mnt
       run: |
 
         # userspace decode
@@ -199,12 +201,14 @@ runs:
         EXPERT="no"
 
     - name: debs
-      shell: bash
+      shell: bash  
+      working-directory: /mnt
       run: |
         tar -cvf ${{inputs.armbian_artifacts}}debs.tar build/output/debs
 
     - name: Sign
       shell: bash
+      working-directory: /mnt
       if: ${{ inputs.armbian_pgp_password != '' }}
       run: |
         echo ${{ inputs.armbian_pgp_password }} | \
@@ -213,11 +217,10 @@ runs:
 
     - name: replaces Artifacts
       uses: ncipollo/release-action@v1
-      working-directory: /mnt
       with:
         tag: "${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
         name: "${{ inputs.armbian_release_tittle }} ${{ env.ARMBIAN_VERSION }}-${{ inputs.armbian_ui }}-${{ inputs.armbian_target }}"
-        artifacts: "${{ inputs.armbian_artifacts }}*"
+        artifacts: "/mnt/${{ inputs.armbian_artifacts }}*"
         allowUpdates: true
         removeArtifacts: false
         replacesArtifacts: true
