@@ -20,7 +20,6 @@ jobs:
         working-directory: /  # 强制在根目录执行
         
       - uses: robinZhao/tpm312-build@main
-        working-directory: /mnt
         with:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
           armbian_release: "jammy"                        # userspace
