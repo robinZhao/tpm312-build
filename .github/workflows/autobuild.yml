@@ -11,6 +11,13 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
+      - name: Change owner to runner
+        run: |
+          sudo chown -R runner:runner /mnt
+          mkdir -p $GITHUB_WORKSPACE
+          sudo mount --bind /mnt $GITHUB_WORKSPACE
+        working-directory: /  # 强制在根目录执行
+
       - uses: robinZhao/tpm312-build@main
         with:
           armbian_token: "${{secrets.GITHUB_TOKEN }}"  # GitHub token
