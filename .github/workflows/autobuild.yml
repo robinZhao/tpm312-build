@@ -1,7 +1,7 @@
 name: "autobuild"
 on:
   schedule:
-    - cron: '0 17 * * *'
+    #- cron: '0 17 * * *'
   repository_dispatch:
   workflow_dispatch:
 
