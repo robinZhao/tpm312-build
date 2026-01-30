@@ -66,6 +66,18 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
+      - name: 最大化磁盘空间
+        uses: easimon/maximize-build-space@master
+        with:
+          swap-size-mb: 1024
+          temp-reserve-mb: 100
+          root-reserve-mb: 2048
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+          
       - name: Change owner to runner
         run: |
           sudo chown -R runner:runner /mnt
@@ -85,3 +97,4 @@ jobs:
           armbian_version: "${{inputs.set_armbian_version}}"
           armbian_version_suffix: "${{inputs.set_armbian_version_suffix}}"
           build_type: "${{inputs.set_build_type}}"
+
